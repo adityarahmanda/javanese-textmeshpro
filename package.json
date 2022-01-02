@@ -1,0 +1,24 @@
+{
+  "name": "com.adityarahmanda.javanese-toolkit",
+  "version": "0.0.1",
+  "displayName": "Javanese Toolkit",
+  "description": "Toolkit to help create javanese based game in Unity",
+  "unity": "2019.1",
+  "unityRelease": "0b5",
+  "documentationUrl": "https://adityarahmanda.com/javanese-toolkit",
+  "changelogUrl": "https://adityarahmanda.com/javanese-toolkit/changelog.html",
+  "licensesUrl": "https://adityarahmanda.com/javanese-toolkit/licensing.html",
+  "keywords": [
+    "javanese",
+    "javanese script",
+    "language",
+    "tool",
+    "utility"
+  ],
+  "author": {
+    "name": "Aditya Rahmanda",
+    "email": "arahmanda21@gmail.com",
+    "url": "https://adityarahmanda.com"
+  },
+  "type": "tool"
+}
