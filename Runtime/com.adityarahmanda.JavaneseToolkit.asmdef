@@ -1,3 +1,13 @@
-﻿{
-	"name": "com.adityarahmanda.javanese-toolkit"
+{
+    "name": "com.adityarahmanda.JavaneseToolkit",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
