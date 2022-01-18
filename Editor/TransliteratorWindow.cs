@@ -61,9 +61,9 @@ namespace JavaneseToolkit
 
             if(GUILayout.Button("Transliterate")) {
                 if(method == Methods.LatinToJava) {
-                    // outputText = transliterator.LatinToJava(inputText);
+                    outputText = inputText.LatinToJava();
                 } else if(method == Methods.JavaToLatin) {
-                    outputText = Transliterator.JavaToLatin(inputText);
+                    outputText = inputText.JavaToLatin();
                 }
             }
         }

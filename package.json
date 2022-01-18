@@ -1,6 +1,6 @@
 {
   "name": "com.adityarahmanda.javanese-toolkit",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "displayName": "Javanese Toolkit",
   "description": "Toolkit to help create javanese based game in Unity",
   "unity": "2019.1",

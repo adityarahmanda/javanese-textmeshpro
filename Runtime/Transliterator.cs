@@ -4,9 +4,441 @@ using UnityEngine;
 
 namespace JavaneseToolkit 
 {
-    public class Transliterator
+    public static class Transliterator
     {
-        #region ANSI Based Transliterator
+        
+        #region Latin To Java
+        public static Dictionary<string, string> consonants = new Dictionary<string, string>() {
+            { "b", "b" },       // ba
+            { "c", "c" },       // ca
+            { "d", "f" },       // da
+            { "dz", "f+" },     // dza rekan
+            { "f", "p+" },      // fa rekan
+            { "g", "g" },       // ga
+            { "gh", "g+" },     // gha rekan
+            { "h", "a" },       // ha
+            { "j", "j" },       // ja
+            { "k", "k" },       // ka
+            { "kh", "k+" },     // kha rekan
+            { "l", "l" },       // la
+            { "m", "m" },       // ma
+            { "n", "n" },       // na
+            { "ṇ", "!" },       // na murda
+            { "ng", "z" },      // nga
+            { "ny", "v" },       // nya
+            { "p", "p" },       // pa
+            // { "q", "꧀" },
+            { "r", "r" },       // ra
+            { "s", "s" },       // sa
+            { "ś", "$" },       // sa murda
+            { "ṣ", "Ȱ" },       // sa mahaprana
+            { "t", "t" },       // ta
+            { "v", "w+" },      // va rekan
+            { "w", "w" },       // wa
+            // { "x", "ꦲꦼ" },
+            { "y", "y" },       // ya
+            { "z", "j+" },      // za rekan
+            { "ñ", "v" },       // nya
+            { "ḍ", "d" },       // dha
+            { "ṭ", "q" },       // tha
+            // { "ṛ", "ꦽ" }
+            { "A", "A" },       // aksara swara a
+            { "I", "I" },       // aksara swara i
+            { "U", "U" },       // aksara swara u
+            { "E", "E" },       // aksara swara e
+            { "È", "E" },       // aksara swara e
+            { "É", "E" },       // aksara swara e
+            { "Ê", "Ee" },      // aksara swara ê
+            { "Ě", "Ee" },      // aksara swara ê
+            { "O", "O" },       // aksara swara o
+        };
+
+        public static Dictionary<string, string> consonantPasangan = new Dictionary<string, string>() {
+            { "b", "B" },       // ba
+            { "c", "C" },       // ca
+            { "d", "F" },       // da
+            { "dz", "F+" },     // dza rekan
+            { "f", "P+" },      // fa rekan
+            { "g", "G" },       // ga
+            { "gh", "G+" },     // gha rekan
+            { "h", "H" },       // ha
+            { "j", "J" },       // ja
+            { "k", "K" },       // ka
+            { "kh", "K+" },     // kha rekan
+            { "l", "L" },       // la
+            { "m", "M" },       // ma
+            { "n", "N" },       // na
+            { "ṇ", "!" },       // na murda
+            { "ng", "Z" },      // nga
+            { "ny", "V" },       // nya
+            { "p", "P" },       // pa
+            // { "q", "꧀" },
+            { "r", "R" },       // ra
+            { "s", "S" },       // sa
+            { "ś", "$" },       // sa murda
+            { "ṣ", "Ȱ" },       // sa mahaprana
+            { "t", "T" },       // ta
+            { "v", "W+" },      // va rekan
+            { "w", "W" },       // wa
+            // { "x", "ꦲꦼ" },
+            { "y", "Y" },       // ya
+            { "z", "J+" },      // za rekan
+            { "ñ", "V" },       // nya
+            { "ḍ", "D" },       // dha
+            { "ṭ", "Q" },       // tha
+            // { "ṛ", "ꦽ" }
+            { "A", "¶" },       // aksara swara a
+            { "I", "·" },       // aksara swara i
+            { "U", "¸" },       // aksara swara u
+            { "E", "¹" },       // aksara swara e
+            { "È", "¹" },       // aksara swara e
+            { "É", "¹" },       // aksara swara e
+            { "Ê", "¹e" },      // aksara swara ê
+            { "Ě", "¹e" },      // aksara swara ê
+            { "O", "º" },       // aksara swara o
+        };
+
+        public static Dictionary<string, string> consonantSandhanganWyanjana = new Dictionary<string, string>() {
+            { "r", "]" },
+            { "y", "-" },
+            { "ṛ", "}" },
+        };
+
+        public static Dictionary<string, string> consonantSandhanganPanyigeg = new Dictionary<string, string>() {
+            { "r", "/" },
+            { "h", "h" }, 
+            { "ng", "=" },
+        };
+
+        public static Dictionary<string, string> vowels = new Dictionary<string, string>() {
+            { "a", "" },
+            { "ô", "" },
+            { "i", "i" },
+            { "u", "u" },
+            { "e", "[" },
+            { "è", "[" },
+            { "é", "[" },
+            { "ê", "e" },
+            { "ě", "e" },
+            { "o", "[o" },
+        };
+
+        public static Dictionary<string, string> punctuations = new Dictionary<string, string>() {
+            { " ", "​" },
+        };
+
+        public static string LatinToJava(this string input) {
+            bool isConsonant = false;
+            bool isPasangan = false;
+
+            string output = "";
+            for (int i = 0; i < input.Length; i++) {
+                if (input[i] == 'g') {
+                    if(i + 1 < input.Length) {
+                        if(input[i + 1] == 'h') {
+                            if(isConsonant) {
+                                output += consonantPasangan["gh"];
+                                isConsonant = true;
+                                isPasangan = true;
+                            } else {
+                                output += consonants["gh"];
+    
+                                if(i == input.Length - 2) {
+                                    output += "\\";
+                                }
+
+                                isConsonant = true;
+                                isPasangan = false;
+                            }
+                            i++;
+                        } else {
+                            if(isConsonant) {
+                                output += consonantPasangan["g"];
+                                isConsonant = true;
+                                isPasangan = true;
+                            } else {
+                                output += consonants["g"];
+                                
+                                if(i == input.Length - 1) {
+                                    output += "\\";
+                                }
+
+                                isConsonant = true;
+                                isPasangan = false;
+                            }
+                        }
+                    } else {
+                        if(isConsonant) {
+                            output += consonantPasangan["g"];
+                            isConsonant = true;
+                            isPasangan = true;
+                        } else {
+                            output += consonants["g"];
+
+                            if(i == input.Length - 1) {
+                                output += "\\";
+                            }
+
+                            isConsonant = true;
+                            isPasangan = false;
+                        }
+                    }
+                } else if (input[i] == 'k') {
+                    if(i + 1 < input.Length) {
+                        if(input[i + 1] == 'h') {
+                            if(isConsonant) {
+                                output += consonantPasangan["kh"];
+                                isConsonant = true;
+                                isPasangan = true;
+                            } else {
+                                output += consonants["kh"];
+                                
+                                if(i == input.Length - 2) {
+                                    output += "\\";
+                                }
+
+                                isConsonant = true;
+                                isPasangan = false;
+                            }
+                            i++;
+                        } else {
+                            if(isConsonant) {
+                                output += consonantPasangan["k"];
+                                isConsonant = true;
+                                isPasangan = true;
+                            } else {
+                                output += consonants["k"];
+                                
+                                if(i == input.Length - 1) {
+                                    output += "\\";
+                                }
+
+                                isConsonant = true;
+                                isPasangan = false;
+                            }
+                        }
+                    } else {
+                        if(isConsonant) {
+                            output += consonantPasangan["k"];
+                            isConsonant = true;
+                            isPasangan = true;
+                        } else {
+                            output += consonants["k"];
+                            
+                            if(i == input.Length - 1) {
+                                output += "\\";
+                            }
+
+                            isConsonant = true;
+                            isPasangan = false;
+                        }
+                    }
+                } else if (input[i] == 'n') {
+                    if(i + 1 < input.Length) {
+                        if(input[i + 1] == 'g') {
+                            if(isConsonant) {
+                                output += consonantPasangan["ng"];
+                                isConsonant = true;
+                                isPasangan = true;
+                            } else {
+                                output += consonants["ng"];
+                                
+                                if(i == input.Length - 2) {
+                                    output += "\\";
+                                }
+
+                                isConsonant = true;
+                                isPasangan = false;
+                            }
+                            i++;
+                        } else if(input[i + 1] == 'y') {
+                            if(isConsonant) {
+                                output += consonantPasangan["ny"];
+                                isConsonant = true;
+                                isPasangan = true;
+                            } else {
+                                output += consonants["ny"];
+                                
+                                if(i == input.Length - 2) {
+                                    output += "\\";
+                                }
+
+                                isConsonant = true;
+                                isPasangan = false;
+                            }
+                            i++;
+                        } else {
+                            if(isConsonant) {
+                                output += consonantPasangan["n"];
+                                isConsonant = true;
+                                isPasangan = true;
+                            } else {
+                                output += consonants["n"];
+                                
+                                if(i == input.Length - 1) {
+                                    output += "\\";
+                                }
+
+                                isConsonant = true;
+                                isPasangan = false;
+                            }
+                        }
+                    } else {
+                        if(isConsonant) {
+                            output += consonantPasangan["n"];
+                            isConsonant = true;
+                            isPasangan = true;
+                        } else {
+                            output += consonants["n"];
+
+                            if(i == input.Length - 1) {
+                                output += "\\";
+                            }
+
+                            isConsonant = true;
+                            isPasangan = false;
+                        }
+                    }
+                } else if(input[i] == 'r') {
+                    if(i + 1 < input.Length) {
+                        if(input[i + 1] == 'a' || input[i + 1] == 'i' || input[i + 1] == 'u' || input[i + 1] == 'e' || input[i + 1] == 'ê' || input[i + 1] == 'o') {
+                            if(isConsonant) {
+                                output += consonantSandhanganWyanjana["r"];
+                                isConsonant = true;
+                                isPasangan = false;
+                            } else {
+                                output += consonants["r"];
+                                isConsonant = true;
+                                isPasangan = false;
+                            }
+                        } else {
+                            if(isConsonant) {
+                                output += consonantSandhanganWyanjana["r"];
+                                isConsonant = true;
+                                isPasangan = false;
+                            } else {
+                                output += consonantSandhanganPanyigeg["r"];
+                                isConsonant = false;
+                                isPasangan = false;
+                            }
+                        } 
+                    } else {
+                        if(isConsonant) {
+                            output += consonantSandhanganWyanjana["r"];
+                            isConsonant = true;
+                            isPasangan = false;
+                        } else {
+                            output += consonantSandhanganPanyigeg["r"];
+                            isConsonant = false;
+                            isPasangan = false;
+                        }
+                    }
+                } else if(input[i] == 'y') {
+                    if(i + 1 < input.Length) {
+                        if(input[i + 1] == 'a' || input[i + 1] == 'i' || input[i + 1] == 'u' || input[i + 1] == 'e' || input[i + 1] == 'ê' || input[i + 1] == 'o') {
+                            if(isConsonant) {
+                                output += consonantPasangan["y"];
+                                isConsonant = true;
+                                isPasangan = true;
+                            } else {
+                                output += consonants["y"];
+                                isConsonant = true;
+                            isPasangan = false;
+                            }
+                        } else {
+                            output += consonantSandhanganWyanjana["y"];
+                            isConsonant = true;
+                            isPasangan = false;
+                        } 
+                    } else {
+                        output += consonantSandhanganWyanjana["y"];
+                        isConsonant = true;
+                        isPasangan = false;
+                    }
+                } else if(consonantSandhanganWyanjana.ContainsKey(input[i].ToString())) {
+                    output += consonantSandhanganWyanjana[input[i].ToString()];
+                    isConsonant = true;
+                    isPasangan = false;
+                } else if(consonants.ContainsKey(input[i].ToString())) {
+                    if(isConsonant) {
+                        output += consonantPasangan[input[i].ToString()];
+                        isConsonant = true;
+                        isPasangan = true;
+                    } else {
+                        output += consonants[input[i].ToString()];
+                        
+                        if(i == input.Length - 1) {
+                            output += "\\";
+                        }
+
+                        isConsonant = true;
+                        isPasangan = false;
+                    }
+                } else if(vowels.ContainsKey(input[i].ToString())) {
+                    if(isConsonant) {
+                        if(input[i] == 'o') {
+                            if(isPasangan) {
+                                output = output.Substring(0, output.Length - 3) + "[" + output.Substring(output.Length - 3) + "o";
+                            } else {
+                                output = output.Substring(0, output.Length - 1) + "[" + output.Substring(output.Length - 1) + "o";
+                            }
+                            isConsonant = false;
+                            isPasangan = false;
+                        } else if(input[i] == 'e' || input[i] == 'è' || input[i] == 'é') {
+                            if(i == 1) {
+                                output = "[" + output;
+                            } else {
+                                if(isPasangan) {
+                                    output = output.Substring(0, output.Length - 3) + "[" + output.Substring(output.Length - 3);
+                                } else {
+                                    output = output.Substring(0, output.Length - 1) + "[" + output.Substring(output.Length - 1);
+                                }
+                            }
+                            isConsonant = false;
+                            isPasangan = false;
+                        } else {
+                            output += vowels[input[i].ToString()];
+                            isConsonant = false;
+                            isPasangan = false;
+                        }
+                    } else {
+                        output += 'a' + vowels[input[i].ToString()];
+                        isConsonant = false;
+                        isPasangan = false;
+                    }
+
+                    if(i + 2 < input.Length && consonantSandhanganPanyigeg.ContainsKey(input[i + 1].ToString()) && !IsVowels(input[i + 2])) {
+                        output += consonantSandhanganPanyigeg[input[i + 1].ToString()];
+                        isConsonant = false;
+                        isPasangan = false;
+                        i++;
+                    } else if(i + 2 < input.Length && input[i + 1] == 'n' && input[i + 2] == 'g') {
+                        output += consonantSandhanganPanyigeg["ng"];
+                        isConsonant = false;
+                        isPasangan = false;
+                        i += 2;
+                    }
+
+                    if(i + 1 < input.Length && input[i] == 'i' && IsVowels(input[i + 1])) {
+                        input = input.Substring(0, i + 1) + "y" + input.Substring(i + 1);
+                    } else if (i + 1 < input.Length && input[i] == 'u' && IsVowels(input[i + 1])) {
+                        input = input.Substring(0, i + 1) + "w" + input.Substring(i + 1);
+                    }
+                } else if (punctuations.ContainsKey(input[i].ToString())) {
+                    output += punctuations[input[i].ToString()];
+                } else {
+                    output += input[i].ToString();
+                }
+            }
+            return output;
+        }
+
+        private static bool IsVowels(char value) {
+            return value == 'a' || value == 'u' || value == 'e' || value == 'ê' || value == 'o';
+        }
+        #endregion
+
+        #region Java To Latin
         public static Dictionary<string, string> aksaraWyanjana = new Dictionary<string, string>() {
             { "a", "ha" },      // ha 
             { "n", "na" },      // na
@@ -180,6 +612,7 @@ namespace JavaneseToolkit
             { "¿", "?" },        // question mark
             { "À", "(" },        // left parenthesis
             { "Á", ")" },        // right parenthesis
+            { "︀", " "},
         };
 
         public static Dictionary<string, string> angka = new Dictionary<string, string> {
@@ -195,7 +628,7 @@ namespace JavaneseToolkit
             { "0", "0" },        // angka 0
         };
 
-        public static string JavaToLatin(string input) {
+        public static string JavaToLatin(this string input) {
             bool isWyanjana = false;
             int talingValuePos = -1;
             string output = "";
@@ -237,16 +670,16 @@ namespace JavaneseToolkit
                     isWyanjana = false;
                 } else if(aksaraWyanjana.ContainsKey(input[i].ToString())) {
                     if(talingValuePos == i) {
-                        output = output.Substring(0, output.Length) + aksaraWyanjana[input[i].ToString()].Substring(0, aksaraWyanjana[input[i].ToString()].Length - 1) + "e";
+                        output += aksaraWyanjana[input[i].ToString()].Substring(0, aksaraWyanjana[input[i].ToString()].Length - 1) + "e";
                         isWyanjana = false;
                     } else {
-                        output = output.Substring(0, output.Length) + aksaraWyanjana[input[i].ToString()];
+                        output += aksaraWyanjana[input[i].ToString()];
                         isWyanjana = true;
                     }
                 } else if(pada.ContainsKey(input[i].ToString())) {
-                    output = output.Substring(0, output.Length) + pada[input[i].ToString()];
+                    output += pada[input[i].ToString()];
                 } else {
-                    output = output.Substring(0, output.Length) + input[i].ToString();
+                    output += input[i].ToString();
                 }
                 Debug.Log(output);
             }
@@ -254,249 +687,201 @@ namespace JavaneseToolkit
         }
         #endregion
 
-        #region Unicode Based Transliterator
-        public static Dictionary<string, string> letters = new Dictionary<string, string>() {
-            { "ꦲ", "ha"},
-            { "ꦤ", "na"},
-            { "ꦟ", "na" },     // na murda
-            { "ꦕ", "ca"},
-            { "ꦖ", "ca" },     // ca murda
-            { "ꦫ", "ra"},
-            { "ꦬ", "ra" },     // ra Agung
-            { "ꦏ", "ka"},
-            { "ꦑ", "ka" },     // ka murda
-            { "ꦢ", "da"},
-            { "ꦣ", "da" },     // da murda
-            { "ꦠ", "ta"},
-            { "ꦡ", "ta" },     // ta murda
-            { "ꦱ", "sa"},
-            { "ꦯ", "sa" },     // sa murda
-            { "ꦰ", "ṣa" },     // sa mahaprana
-            { "ꦮ", "wa"},
-            { "ꦭ", "la"},
-            { "ꦥ", "pa"},
-            { "ꦦ", "pa" },     // pa murda
-            { "ꦝ", "dha"},     // dha/ḍa
-            { "ꦞ", "dha" },    // dha/ḍa Murda
-            { "ꦗ", "ja"},
-            { "ꦙ", "ja" },    // ja Mahaprana
-            { "ꦪ", "ya"},
-            { "ꦚ", "nya"},    // nya/ña
-            { "ꦘ", "nya" },    // ja Sasak, nya/ña Murda
-            { "ꦩ", "ma"},
-            { "ꦒ", "ga"},
-            { "ꦓ", "ga" },    // ga murda
-            { "ꦧ", "ba"},
-            { "ꦨ", "bʰa" },    // ba murda
-            { "ꦛ", "tha"},     // tha/ṭa 
-            { "ꦜ", "ṭʰa" },    // tha/ṭa murda
-            { "ꦔ", "nga"},     // nga/ŋa
-            { "ꦉ", "rê" },     // pa cêrêk
-            { "ꦊ", "lê" },     // nga lêlêt
-            { "ꦋ", "lêu" },    // nga lêlêt raswadi -- archaic
-            { "ꦐ", "qa" },     // ka sasak
+        // conjunct
+        public static Dictionary<string, string> UNICODEWyanjana = new Dictionary<string, string>() {
+            { "ꦲ", "h" },      // ha 
+            { "ꦤ", "n" },      // na
+            { "ꦕ", "c" },      // ca
+            { "ꦫ", "r" },      // ra
+            { "ꦏ", "k" },      // ka
+            { "ꦢ", "f" },      // da
+            { "ꦠ", "t" },      // ta
+            { "ꦱ", "s" },      // sa
+            { "ꦮ", "w" },      // wa
+            { "ꦭ", "l" },      // la
+            { "ꦥ", "p" },      // pa
+            { "ꦝ", "d"},      // dha
+            { "ꦗ", "j" },      // ja
+            { "ꦪ", "y" },      // ya
+            { "ꦚ", "v" },     // nya
+            { "ꦩ", "m" },      // sa
+            { "ꦒ", "g" },      // ga
+            { "ꦧ", "b" },      // ba
+            { "ꦛ", "q" },      // tha
+            { "ꦔ", "z" },     // nga
+            { "ꦟ", "na" },      // na murda
+            { "ꦑ", "ka" },       // ka murda
+            { "ꦡ", "ta" },       // ta murda
+            { "ꦯ", "sa" },      // sa murda
+            { "ꦦ", "pa" },       // pa murda
+            { "ꦘ", "nya" },      // nya murda
+            { "ꦓ", "ga" },      // ga murda
+            { "ꦨ", "ba" },       // ba murda
+            { "ꦰ", "sa" },       // sa mahaprana
+            { "ꦖ", "cha" },      // cha mahaprana
+            { "ꦣ", "da" },       // da mahaprana
+            { "ꦞ", "dha" },      // dha mahaprana
+            { "ꦜ", "tha" },      // tha mahaprana
+            { "ꦙ", "ja "},      // ja mahaprana
+            { "ꦉ", "rê" },       // pa cêrêk
+            { "ꦊ", "lê" },       // nga lêlêt
+            { "ꦋ", "lêu" },      // nga lêlêt raswadi
+            { "ꦐ", "qa" },       // ka sasak
+            { "ꦬ", "ra" },       // ra agung
         };
 
-        public static Dictionary<string, string> letterRekans = new Dictionary<string, string> {
-            { "ꦲ꦳", "ḥa" },
-            { "ꦏ꦳", "kha" },
-            { "ꦢ꦳", "dza" },
-            { "ꦱ꦳", "sya" },
-            { "ꦥ꦳", "fa" },
-            { "ꦗ꦳", "za" },
-            { "ꦒ꦳", "gha" },
-            { "ꦔ꦳", "'a" },
+        public static Dictionary<string, string> UNICODEPasanganWyanjana = new Dictionary<string, string>() {
+            { "ꦲ", "H" },      // ha 
+            { "ꦤ", "N" },      // na
+            { "ꦕ", "C" },      // ca
+            { "ꦫ", "R" },      // ra
+            { "ꦏ", "K" },      // ka
+            { "ꦢ", "F" },      // da
+            { "ꦠ", "T" },      // ta
+            { "ꦱ", "S" },      // sa
+            { "ꦮ", "W" },      // wa
+            { "ꦭ", "L" },      // la
+            { "ꦥ", "P" },      // pa
+            { "ꦝ", "D"},      // dha
+            { "ꦗ", "J" },      // ja
+            { "ꦪ", "Y" },      // ya
+            { "ꦚ", "V" },     // nya
+            { "ꦩ", "M" },      // sa
+            { "ꦒ", "G" },      // ga
+            { "ꦧ", "B" },      // ba
+            { "ꦛ", "Q" },      // tha
+            { "ꦔ", "Z" },     // nga
+            { "ꦟ", "!" },      // na murda
+            { "ꦑ", "@" },       // ka murda
+            { "ꦡ", "#" },       // ta murda
+            { "ꦯ", "$" },      // sa murda
+            { "ꦦ", "%" },       // pa murda
+            { "ꦘ", "^" },      // nya murda
+            { "ꦓ", "&" },      // ga murda
+            { "ꦨ", "*" },       // ba murda
+            { "ꦰ", "Ȱ" },       // sa mahaprana
+            { "ꦖ", "¬" },      // cha mahaprana
+            // { "ꦣ", "da" },       // da mahaprana
+            { "ꦞ", "Û" },      // dha mahaprana
+            { "ꦜ", "æ" },      // tha mahaprana
+            // { "ꦙ", "ja "},      // ja mahaprana
+            { "ꦉ", "x" },       // pa cêrêk
+            { "ꦊ", "X" },       // nga lêlêt
+            { "ꦋ", "Ü" },      // nga lêlêt raswadi
+            { "ꦐ", "è" },       // ka sasak
+            { "ꦬ", "Ì" },       // ra agung
         };
 
-        public static Dictionary<string, string> letterSwara = new Dictionary<string, string> {
-            { "ꦄ", "A" },      //swara-A
-            { "ꦅ", "I" },      //I-Kawi -- archaic
-            { "ꦆ", "I" },      //I
-            { "ꦇ", "I" },     //Ii -- archaic
-            { "ꦈ", "U" },      //U
-            { "ꦌ", "E" },      //E
-            { "ꦍ", "Ai" },     //Ai
-            { "ꦎ", "O" },      //O
+        public static Dictionary<string, string> UNICODESwara = new Dictionary<string, string> {
+            { "ꦄ", "A" },        // a
+            { "ꦆ", "I" },        // i 
+            { "ꦈ", "U" },        // u 
+            { "ꦌ", "E" },        // e 
+            { "ꦎ", "O" },        // o 
         };
 
-        public static Dictionary<string, string> diacriticsWyanjana = new Dictionary<string, string>() {
-            { "ꦿ", "ra"},
-            { "ꦾ", "ya"},
-            { "ꦽ", "rê"},
+        // diacritics swara
+        public static Dictionary<string, string> UNICODEsandhanganSwara = new Dictionary<string, string> {
+            { "ꦶ", "i" },        // i
+            { "ꦸ", "u" },        // u
+            { "ꦼ", "ê" },        // e
+            { "ꦷ", "»" },       // dirga melik, long i
+            { "ꦹ", "×" },       // dirga mendut, long u
         };
 
-        public static Dictionary<string, string> diacriticsSwara = new Dictionary<string, string>() {
-            { "ꦴ", "aa"},
-            { "ꦶ", "i"},
-            { "ꦷ", "ii" }, 
-            { "ꦸ", "u"},
-            { "ꦹ", "uu" }, 
-            { "ꦺ", "e"},
-            { "ꦼ", "ê"},
-            { "ꦻ", "ai" }, 
+        // diacritics swara
+        public static Dictionary<string, string> UNICODEsandhanganWyanjana = new Dictionary<string, string> {
+            { "ꦿ", "]" },       // cakra
+            { "ꦽ", "}" },       // cakra kêrêt
+            { "ꦾ", "-" },      // pengkal
         };
 
-        public static Dictionary<string, string> diacriticsSigeg = new Dictionary<string, string>() {
-            { "ꦀ", "m"},
-            { "ꦁ", "ng"},    // sigeg ng/ŋ
-            { "ꦂ", "r"},
-            { "ꦃ", "h"}
+        public static Dictionary<string, string> UNICODEsandhanganPanyigegingWanda = new Dictionary<string, string> {
+            { "ꦀ", "" },        // panyangga
+            { "ꦂ", "/" },         // layar (r)
+            { "ꦁ", "=" },        // cecak (ng)
+            { "ꦃ", "h" },        // wigyan (h)
         };
 
-        public static Dictionary<string, string> numbers = new Dictionary<string, string> {
-            { "꧐", "0" }, 
-            { "꧑", "1" }, 
-            { "꧒", "2" }, 
-            { "꧓", "3" }, 
-            { "꧔", "4" }, 
-            { "꧕", "5" }, 
-            { "꧖", "6" }, 
-            { "꧗", "7" }, 
-            { "꧘", "8" }, 
-            { "꧙", "9" }
+        // punctuations
+        public static Dictionary<string, string> UNICODEpada = new Dictionary<string, string> {
+            { "꧌", "" },           // left pada piseleh
+            { "꧍", "" },           // right pada piseleh
+            { "꧊", "" },           // adeg
+            { "꧋", "" },           // adeg-adeg
+            { "꧈", "," },          // pada lingsa
+            { "꧉", "." },          // pada lungsi
+            { "꧇", "" },           // pada pangkat
+            { "꧆", "" },           // pada windu
+            { "꧅", "" },        // pada luhur
+            { "꧄", "" },        // pada madya
+            { "꧃", "" },        // pada andhap
+            { "꧞", "" },           // pada tirta tumetes
+            { "꧟", "" },           // pada isen-isen
+            { "꧁", "" },        // left rerengengan
+            { "꧂", "" },        // right rerengengan
+            { "︀", " "},
         };
 
-        public static Dictionary<string, string> specialCharacters = new Dictionary<string, string>() {
-            { "꧁", "—" }, 
-            { "꧂", "—" }, 
-            { "꧃", "—" }, 
-            { "꧄", "—" }, 
-            { "꧅", "—" },
-            { "꧊", "" },
-            { "꧋", "" },
-            { "꧌", "(" },
-            { "꧍", ")" },
-            { "꧞", "—" }, 
-            { "꧟", "—" },
-            { "꧆", "" }, 
-            { "꧇", "" },
-            { "꧈", "," }, 
-            { "꧉", "." },  
-            { "​", " " }    // zero-width space
+        public static Dictionary<string, string> UNICODEangka = new Dictionary<string, string> {
+            { "ꧏ", "" },           // pararangkep
+            { "꧑", "1" },        // angka 1
+            { "꧒", "2" },        // angka 2
+            { "꧓", "3" },        // angka 3
+            { "꧔", "4" },        // angka 4
+            { "꧕", "5" },        // angka 5
+            { "꧖", "6" },        // angka 6
+            { "꧗", "7" },        // angka 7
+            { "꧘", "8" },        // angka 8
+            { "꧙", "9" },        // angka 9
+            { "꧐", "0" },        // angka 0
         };
 
-        public static string UnicodeJavaToLatin(string input) {
+        public static string JavaUnicodeToASCII(this string input) {
             string output = "";
             for (int i = 0; i < input.Length; i++) {
-                if(letters.ContainsKey(input[i].ToString())) {
-                    if(i + 1 < input.Length && input[i + 1] == '꦳') {
-                        output = output.Substring(0, output.Length) + letterRekans[input[i].ToString() + "꦳"];
+                if(UNICODEsandhanganWyanjana.ContainsKey(input[i].ToString())) {
+                    output += UNICODEsandhanganWyanjana[input[i].ToString()];
+                } else if(UNICODEsandhanganSwara.ContainsKey(input[i].ToString())) {
+                    output += UNICODEsandhanganSwara[input[i].ToString()];
+                } else if(UNICODEsandhanganPanyigegingWanda.ContainsKey(input[i].ToString())) {
+                    output += UNICODEsandhanganPanyigegingWanda[input[i].ToString()];
+                } else if(input[i] == '꧀') {
+                    if(i + 1 < input.Length && UNICODEPasanganWyanjana.ContainsKey(input[i + 1].ToString())) {
+                        output += UNICODEPasanganWyanjana[input[i + 1].ToString()];
+                        i++;
+
+                        if(i + 1 < input.Length && input[i + 1] == 'ꦺ') {
+                            if(i + 2 < input.Length && input[i + 2] == 'ꦴ') {
+                                output = output.Substring(0, output.Length - 2) + "[" + output.Substring(output.Length - 2) + "o";
+                                i += 2;
+                            } else {
+                                output = output.Substring(0, output.Length - 2) + "[" + output.Substring(output.Length - 2);
+                                i++;
+                            }
+                        }
+                    }
+                } else if(UNICODEWyanjana.ContainsKey(input[i].ToString())) {
+                    output += UNICODEWyanjana[input[i].ToString()];
+                } else if(input[i] == 'ꦺ') {
+                    if(i + 1 < input.Length && input[i + 1] == 'ꦴ') {
+                        output = output.Substring(0, output.Length - 1) + "[" + output.Substring(output.Length - 1) + "o";
                         i++;
                     } else {
-                        output = output.Substring(0, output.Length) + letters[input[i].ToString()];
+                        output = output.Substring(0, output.Length - 1) + "[" + output.Substring(output.Length - 1);
                     }
-                } else if(letterSwara.ContainsKey(input[i].ToString())) {
-                    output = output.Substring(0, output.Length) + letterSwara[input[i].ToString()];
-                } else if(i - 1 > 0 && input[i] == '꧀' && letters.ContainsKey(input[i - 1].ToString())) {
-                    output = output.Substring(0, output.Length - 1);
-                } else if(diacriticsWyanjana.ContainsKey(input[i].ToString())) {
-                    output = output.Substring(0, output.Length - 1) + diacriticsWyanjana[input[i].ToString()];
-                } else if(diacriticsSwara.ContainsKey(input[i].ToString())) {
-                    if(i + 1 < input.Length && input[i] == 'ꦺ' && input[i + 1] == 'ꦴ') {
-                        output = output.Substring(0, output.Length - 1) + "o";
-                        i++;
-                    } else {
-                        output = output.Substring(0, output.Length - 1) + diacriticsSwara[input[i].ToString()];
-                    }
-                } else if(diacriticsSigeg.ContainsKey(input[i].ToString())) {
-                    output = output.Substring(0, output.Length) + diacriticsSigeg[input[i].ToString()];
-                } else if(numbers.ContainsKey(input[i].ToString())) {
-                    output = output.Substring(0, output.Length) + numbers[input[i].ToString()];
-                } else if(specialCharacters.ContainsKey(input[i].ToString())) {
-                    output = output.Substring(0, output.Length) + specialCharacters[input[i].ToString()];
+                } else if(UNICODESwara.ContainsKey(input[i].ToString())) {
+                    output += UNICODESwara[input[i].ToString()];
+                } else if(UNICODEpada.ContainsKey(input[i].ToString())) {
+                    output += UNICODEpada[input[i].ToString()];
+                } else if(UNICODEangka.ContainsKey(input[i].ToString())) {
+                    output += UNICODEangka[input[i].ToString()];
                 } else {
-                    output = output.Substring(0, output.Length) + input[i].ToString();
+                    output += input[i].ToString();
                 }
+                Debug.Log(output);
             }
             return output;
         }
-
-        public static Dictionary<string, string> oneLetterConsonant = new Dictionary<string, string>() {
-            { "b", "ꦧ" },
-            { "c", "ꦕ" },
-            { "d", "ꦢ" },
-            { "f", "ꦥ꦳" },
-            { "g", "ꦒ" },
-            { "h", "ꦲ" },
-            { "j", "ꦗ" },
-            { "k", "ꦏ" },
-            { "l", "ꦭ" },
-            { "m", "ꦩ" },
-            { "n", "ꦤ" },
-            { "ṇ", "ꦟ" },
-            { "p", "ꦥ" },
-            // { "q", "꧀" },
-            { "r", "ꦫ" },
-            { "s", "ꦱ" },
-            { "ś", "ꦯ" },
-            { "ṣ", "ꦰ" },
-            { "t", "ꦠ" },
-            { "v", "ꦮ꦳" },
-            { "w", "ꦮ" },
-            // { "x", "ꦲꦼ" },
-            { "y", "ꦪ" },
-            { "z", "ꦗ꦳" },
-            { "ñ", "ꦚ" }, //ny
-            { "ḍ", "ꦝ" },
-            { "ṭ", "ꦛ" },
-            // { "ṛ", "ꦽ" }
-            { "A", "ꦄ" },
-            { "I", "ꦆ" },
-            { "U", "ꦈ" },
-            { "E", "ꦌ" },
-            { "È", "ꦌ" },
-            { "É", "ꦌ" },
-            { "Ê", "ꦄꦼ" },
-            { "Ě", "ꦄꦼ" },
-            { "O", "ꦎ" },
-        };
-
-        public static Dictionary<string, string> twoLettersConsonants = new Dictionary<string, string>() {
-            { "dz", "ꦢ꦳" },
-            { "gh", "ꦒ꦳" },
-            { "kh", "ꦏ꦳" },
-            { "ng", "ꦔ" },
-            { "ny", "ꦚ" }
-        };
-
-        public static Dictionary<string, string> diacriticsConsonant = new Dictionary<string, string>() {
-            { "h", "ꦃ" },
-            { "r", "ꦿ" },
-            { "y", "ꦾ" },
-            { "ṛ", "ꦽ" },
-        };
-
-        public static Dictionary<string, string> vowels = new Dictionary<string, string>() {
-            { "a", "" },
-            { "i", "ꦶ" },
-            { "u", "ꦸ" },
-            { "e", "ꦺ" },
-            { "è", "ꦺ" },
-            { "é", "ꦺ" },
-            { "ê", "ꦼ" },
-            { "ě", "ꦼ" },
-            { "o", "ꦺꦴ" },
-            { "ô", "" },
-        };
-        
-        public static string UnicodeLatinToJava(string input) {
-            string output = "";
-            // bool isConsonant = false;
-            // bool isVowel = false;
-            for (int i = 0; i < input.Length; i++) {
-                if(i + 1 < input.Length && twoLettersConsonants.ContainsKey(input[i].ToString() + input[i + 1].ToString())) {
-                    output = output.Substring(0, output.Length) + twoLettersConsonants[input[i].ToString() + input[i + 1].ToString()];
-                    i++;
-                } else if(oneLetterConsonant.ContainsKey(input[i].ToString())) {
-                    output = output.Substring(0, output.Length) + oneLetterConsonant[input[i].ToString()];
-                } else if(diacriticsConsonant.ContainsKey(input[i].ToString())) {
-                    output = output.Substring(0, output.Length) + diacriticsConsonant[input[i].ToString()];
-                } else if(vowels.ContainsKey(input[i].ToString())) {
-                    output = output.Substring(0, output.Length) + vowels[input[i].ToString()];
-                }
-            }
-            return output;
-        }
-        #endregion
     }
 }
