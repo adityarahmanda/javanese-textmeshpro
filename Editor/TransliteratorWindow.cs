@@ -1,6 +1,4 @@
-﻿#if UNITY_EDITOR
-using System.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
 namespace JavaneseToolkit
@@ -13,11 +11,13 @@ namespace JavaneseToolkit
         bool useJavaneseFont = true;
 
         public enum Methods {
-            LatinToJava,
-            JavaToLatin
+            LatinToJavaUnicode,
+            JavaToLatinUnicode,
+            LatinToJavaANSI,
+            JavaToLatinANSI
         }
 
-        Methods method = Methods.LatinToJava;
+        Methods method = Methods.LatinToJavaUnicode;
 
         [MenuItem("Window/Javanese Toolkit/Transliterator")]
         public static void Open()
@@ -26,13 +26,8 @@ namespace JavaneseToolkit
         }
 
         public void OnGUI() {
-            GUIStyle javaneseTextAreaStyle = new GUIStyle(EditorStyles.textArea);
-            javaneseTextAreaStyle.font = (Font)EditorGUIUtility.Load("Packages/com.adityarahmanda.javanese-toolkit/Editor/Fonts/Ndomblong.fontsettings");
-            javaneseTextAreaStyle.fontSize = 0;
-            javaneseTextAreaStyle.padding.top = 12;
-            javaneseTextAreaStyle.padding.bottom = 12;
-
             EditorGUILayout.Space(); 
+            
             EditorGUI.BeginChangeCheck();
             method = (Methods)EditorGUILayout.EnumPopup("Method", method);
             if (EditorGUI.EndChangeCheck())
@@ -40,33 +35,44 @@ namespace JavaneseToolkit
                 inputText = "";
                 outputText = "";
             }
-            useJavaneseFont = EditorGUILayout.Toggle("Javanese Font", useJavaneseFont);
             EditorGUILayout.Space(); 
 
-            GUILayout.Label("Input", EditorStyles.boldLabel);
-            if(method == Methods.JavaToLatin && useJavaneseFont) {
-                inputText = EditorGUILayout.TextArea(inputText, javaneseTextAreaStyle, GUILayout.MinHeight(60));
-            } else {
-                inputText = EditorGUILayout.TextArea(inputText, EditorStyles.textArea, GUILayout.MinHeight(60));
-            }
-            EditorGUILayout.Space(); 
+            if(method == Methods.JavaToLatinANSI || method == Methods.LatinToJavaANSI) {
+                useJavaneseFont = EditorGUILayout.Toggle("Javanese Font", useJavaneseFont);
+                EditorGUILayout.Space();
 
-            GUILayout.Label("Output", EditorStyles.boldLabel);
-            if(method == Methods.LatinToJava && useJavaneseFont) {
-                outputText = EditorGUILayout.TextArea(outputText, javaneseTextAreaStyle, GUILayout.MinHeight(60));
+                GUILayout.Label("Input", EditorStyles.boldLabel);
+                if(useJavaneseFont && method == Methods.JavaToLatinANSI) {
+                    inputText = EditorGUILayout.TextArea(inputText, UIStyleManager.javaANSITextArea, GUILayout.MinHeight(60));
+                } else {
+                    inputText = EditorGUILayout.TextArea(inputText, UIStyleManager.textArea, GUILayout.MinHeight(60));
+                }
+                EditorGUILayout.Space();
+
+                GUILayout.Label("Output", EditorStyles.boldLabel);
+                if(useJavaneseFont && method == Methods.LatinToJavaANSI) {
+                    outputText = EditorGUILayout.TextArea(outputText, UIStyleManager.javaANSITextArea, GUILayout.MinHeight(60));
+                } else {
+                    outputText = EditorGUILayout.TextArea(outputText, UIStyleManager.textArea, GUILayout.MinHeight(60));
+                }
+                EditorGUILayout.Space();
             } else {
-                outputText = EditorGUILayout.TextArea(outputText, EditorStyles.textArea, GUILayout.MinHeight(60));
+                GUILayout.Label("Input", EditorStyles.boldLabel);
+                inputText = EditorGUILayout.TextArea(inputText, UIStyleManager.textArea, GUILayout.MinHeight(60));
+                EditorGUILayout.Space();
+
+                GUILayout.Label("Output", EditorStyles.boldLabel);
+                outputText = EditorGUILayout.TextArea(outputText, UIStyleManager.textArea, GUILayout.MinHeight(60));
+                EditorGUILayout.Space();
             }
-            EditorGUILayout.Space();
 
             if(GUILayout.Button("Transliterate")) {
-                if(method == Methods.LatinToJava) {
+                if(method == Methods.LatinToJavaANSI) {
                     outputText = inputText.LatinToJava();
-                } else if(method == Methods.JavaToLatin) {
+                } else if(method == Methods.JavaToLatinANSI) {
                     outputText = inputText.JavaToLatin();
                 }
             }
         }
     }
 }
-#endif

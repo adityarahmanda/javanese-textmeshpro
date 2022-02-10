@@ -20,5 +20,8 @@
     "email": "arahmanda21@gmail.com",
     "url": "https://adityarahmanda.com"
   },
-  "type": "tool"
+  "type": "tool",
+  "dependencies": {
+    "com.unity.textmeshpro": ""
+  }
 }

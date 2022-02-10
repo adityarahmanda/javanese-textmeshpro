@@ -361,7 +361,9 @@ namespace JavaneseToolkit
                     }
                 } else if (punctuations.ContainsKey(input[i].ToString())) {
                     if(i - 1 > 0 && consonants.ContainsKey(input[i - 1].ToString())) {
-                        output += "\\";
+                        if(!consonantSandhanganPanyigeg.ContainsKey(input[i - 1].ToString()) && i - 2 > 0 && input[i - 2].ToString() + input[i - 1].ToString() != "ng") {
+                            output += "\\";
+                        }
                     }
 
                     output += punctuations[input[i].ToString()];
@@ -370,6 +372,7 @@ namespace JavaneseToolkit
                 } else {
                     output += input[i].ToString();
                 }
+                // Debug.Log(output);
             }
             return output;
         }
@@ -622,7 +625,7 @@ namespace JavaneseToolkit
                 } else {
                     output += input[i].ToString();
                 }
-                Debug.Log(output);
+                // Debug.Log(output);
             }
             return output;
         }
@@ -631,7 +634,7 @@ namespace JavaneseToolkit
         #region Java Unicode to ASCII
         // conjunct
         public static Dictionary<string, string> UNICODEWyanjana = new Dictionary<string, string>() {
-            { "ꦲ", "h" },      // ha 
+            { "ꦲ", "a" },      // ha 
             { "ꦤ", "n" },      // na
             { "ꦕ", "c" },      // ca
             { "ꦫ", "r" },      // ra
@@ -824,7 +827,7 @@ namespace JavaneseToolkit
                 } else {
                     output += input[i].ToString();
                 }
-                Debug.Log(output);
+                // Debug.Log(output);
             }
             return output;
         }
