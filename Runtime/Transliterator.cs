@@ -12,20 +12,15 @@ namespace JavaneseToolkit
             { "b", "b" },       // ba
             { "c", "c" },       // ca
             { "d", "f" },       // da
-            { "dz", "f+" },     // dza rekan
             { "f", "p+" },      // fa rekan
             { "g", "g" },       // ga
-            { "gh", "g+" },     // gha rekan
             { "h", "a" },       // ha
             { "j", "j" },       // ja
             { "k", "k" },       // ka
-            { "kh", "k+" },     // kha rekan
             { "l", "l" },       // la
             { "m", "m" },       // ma
             { "n", "n" },       // na
             { "ṇ", "!" },       // na murda
-            { "ng", "z" },      // nga
-            { "ny", "v" },       // nya
             { "p", "p" },       // pa
             // { "q", "꧀" },
             { "r", "r" },       // ra
@@ -53,24 +48,28 @@ namespace JavaneseToolkit
             { "O", "O" },       // aksara swara o
         };
 
+        public static Dictionary<string, string> consonants2 = new Dictionary<string, string>() {
+            { "gh", "g+" },     // gha rekan
+            { "kh", "k+" },     // kha rekan
+            { "dh", "d" },       // dha
+            { "dz", "f+" },     // dza rekan
+            { "ng", "z" },      // nga
+            { "ny", "v" },       // nya
+        };
+
         public static Dictionary<string, string> consonantPasangan = new Dictionary<string, string>() {
             { "b", "B" },       // ba
             { "c", "C" },       // ca
             { "d", "F" },       // da
-            { "dz", "F+" },     // dza rekan
             { "f", "P+" },      // fa rekan
             { "g", "G" },       // ga
-            { "gh", "G+" },     // gha rekan
             { "h", "H" },       // ha
             { "j", "J" },       // ja
             { "k", "K" },       // ka
-            { "kh", "K+" },     // kha rekan
             { "l", "L" },       // la
             { "m", "M" },       // ma
             { "n", "N" },       // na
             { "ṇ", "!" },       // na murda
-            { "ng", "Z" },      // nga
-            { "ny", "V" },       // nya
             { "p", "P" },       // pa
             // { "q", "꧀" },
             { "r", "R" },       // ra
@@ -98,6 +97,15 @@ namespace JavaneseToolkit
             { "O", "º" },       // aksara swara o
         };
 
+        public static Dictionary<string, string> consonantPasangan2 = new Dictionary<string, string>() {
+            { "dh", "D" },       // dha
+            { "dz", "F+" },     // dza rekan
+            { "gh", "G+" },     // gha rekan
+            { "kh", "K+" },     // kha rekan
+            { "ng", "Z" },      // nga
+            { "ny", "V" },       // nya
+        };
+
         public static Dictionary<string, string> consonantSandhanganWyanjana = new Dictionary<string, string>() {
             { "r", "]" },
             { "y", "-" },
@@ -120,135 +128,28 @@ namespace JavaneseToolkit
             { "é", "[" },
             { "ê", "e" },
             { "ě", "e" },
-            { "o", "[o" },
+            { "o", "o" },
         };
 
         public static Dictionary<string, string> punctuations = new Dictionary<string, string>() {
             { " ", "​" },
+            { ".", "." },
+            { ",", "," }
         };
 
-        public static string LatinToJava(this string input) {
+        public static string LatinToJavaANSI(this string input) {
             bool isConsonant = false;
             bool isPasangan = false;
+            bool isSandhanganPanyigeg = false;
+            bool htmlTag = false;
+            int inputTagStart = 0;
+            int inputTagEnd = 0;
+            int outputTagStart = 0;
+            int outputTagEnd = 0;
 
             string output = "";
             for (int i = 0; i < input.Length; i++) {
-                if (input[i] == 'g') {
-                    if(i + 1 < input.Length && input[i + 1] == 'h') {
-                        if(isConsonant) {
-                            output += consonantPasangan["gh"];
-                            isConsonant = true;
-                            isPasangan = true;
-                        } else {
-                            output += consonants["gh"];
-
-                            if(i == input.Length - 2) {
-                                output += "\\";
-                            }
-
-                            isConsonant = true;
-                            isPasangan = false;
-                        }
-                        i++;
-                    } else {
-                        if(isConsonant) {
-                            output += consonantPasangan["g"];
-                            isConsonant = true;
-                            isPasangan = true;
-                        } else {
-                            output += consonants["g"];
-                            
-                            if(i == input.Length - 1) {
-                                output += "\\";
-                            }
-
-                            isConsonant = true;
-                            isPasangan = false;
-                        }
-                    }
-                } else if (input[i] == 'k') {
-                    if(i + 1 < input.Length && input[i + 1] == 'h') {
-                            if(isConsonant) {
-                                output += consonantPasangan["kh"];
-                                isConsonant = true;
-                                isPasangan = true;
-                            } else {
-                                output += consonants["kh"];
-                                
-                                if(i == input.Length - 2) {
-                                    output += "\\";
-                                }
-
-                                isConsonant = true;
-                                isPasangan = false;
-                            }
-                            i++;
-                    } else {
-                        if(isConsonant) {
-                            output += consonantPasangan["k"];
-                            isConsonant = true;
-                            isPasangan = true;
-                        } else {
-                            output += consonants["k"];
-                            
-                            if(i == input.Length - 1) {
-                                output += "\\";
-                            }
-
-                            isConsonant = true;
-                            isPasangan = false;
-                        }
-                    }
-                } else if (input[i] == 'n') {
-                    if(i + 1 < input.Length && input[i + 1] == 'g') {
-                        if(isConsonant) {
-                            output += consonantPasangan["ng"];
-                            isConsonant = true;
-                            isPasangan = true;
-                        } else {
-                            output += consonants["ng"];
-                            
-                            if(i == input.Length - 2) {
-                                output += "\\";
-                            }
-
-                            isConsonant = true;
-                            isPasangan = false;
-                        }
-                        i++;
-                    } else if(i + 1 < input.Length && input[i + 1] == 'y') {
-                        if(isConsonant) {
-                            output += consonantPasangan["ny"];
-                            isConsonant = true;
-                            isPasangan = true;
-                        } else {
-                            output += consonants["ny"];
-                            
-                            if(i == input.Length - 2) {
-                                output += "\\";
-                            }
-
-                            isConsonant = true;
-                            isPasangan = false;
-                        }
-                        i++;
-                    } else {
-                        if(isConsonant) {
-                            output += consonantPasangan["n"];
-                            isConsonant = true;
-                            isPasangan = true;
-                        } else {
-                            output += consonants["n"];
-                            
-                            if(i == input.Length - 1) {
-                                output += "\\";
-                            }
-
-                            isConsonant = true;
-                            isPasangan = false;
-                        }
-                    }
-                } else if(input[i] == 'r') {
+                if(input[i] == 'r') {
                     if(i + 1 < input.Length && IsVowels(input[i + 1])) {
                         if(isConsonant) {
                             output += consonantSandhanganWyanjana["r"];
@@ -256,23 +157,21 @@ namespace JavaneseToolkit
                             isPasangan = false;
                         } else {
                             output += consonants["r"];
-                            
-                            if(i == input.Length - 1) {
-                                output += "\\";
-                            }
-
                             isConsonant = true;
                             isPasangan = false;
                         }
+                        isSandhanganPanyigeg = false;
                     } else {
                         if(isConsonant) {
                             output += consonantSandhanganWyanjana["r"];
                             isConsonant = true;
                             isPasangan = false;
+                            isSandhanganPanyigeg = false;
                         } else {
                             output += consonantSandhanganPanyigeg["r"];
                             isConsonant = false;
                             isPasangan = false;
+                            isSandhanganPanyigeg = true;
                         }
                     }
                 } else if(input[i] == 'y') {
@@ -282,18 +181,55 @@ namespace JavaneseToolkit
                         isPasangan = false;
                     } else {
                         output += consonants["y"];
-                        
-                        if(i == input.Length - 1) {
-                            output += "\\";
-                        }
-
                         isConsonant = true;
                         isPasangan = false;
+                    }
+                    isSandhanganPanyigeg = false;
+                } else if(i + 1 < input.Length && input[i].ToString() + input[i + 1].ToString() == "ng") {
+                    if(i + 2 < input.Length && IsVowels(input[i + 2])) {
+                        output += consonants2["ng"];
+                        isConsonant = true;
+                        isPasangan = false;
+                        isSandhanganPanyigeg = false;
+                    } else {
+                        output += consonantSandhanganPanyigeg["ng"];
+                        isConsonant = false;
+                        isPasangan = false;
+                        isSandhanganPanyigeg = true;
+                    }
+                    i++;
+                } else if(i - 1 > 0 && IsVowels(input[i - 1]) && consonantSandhanganPanyigeg.ContainsKey(input[i].ToString())) {
+                    if(i + 1 < input.Length && IsVowels(input[i + 1])) {
+                        output += consonants[input[i].ToString()];
+                        isConsonant = true;
+                        isPasangan = false;
+                        isSandhanganPanyigeg = false;
+                    } else {
+                        output += consonantSandhanganPanyigeg[input[i].ToString()];
+                        isConsonant = false;
+                        isPasangan = false;
+                        isSandhanganPanyigeg = true;
                     }
                 } else if(consonantSandhanganWyanjana.ContainsKey(input[i].ToString())) {
                     output += consonantSandhanganWyanjana[input[i].ToString()];
                     isConsonant = true;
                     isPasangan = false;
+                    isSandhanganPanyigeg = false;
+                } else if(i + 1 < input.Length && consonants2.ContainsKey(input[i].ToString() + input[i + 1].ToString())) {
+                    string key = input[i].ToString() + input[i + 1].ToString();   
+                
+                    if(isConsonant) {
+                        output += consonantPasangan2[key];
+                        isConsonant = true;
+                        isPasangan = true;
+                    } else {
+                        output += consonants2[key];
+                        isConsonant = true;
+                        isPasangan = false;
+                    }
+
+                    isSandhanganPanyigeg = false;
+                    i++;
                 } else if(consonants.ContainsKey(input[i].ToString())) {
                     if(isConsonant) {
                         output += consonantPasangan[input[i].ToString()];
@@ -301,32 +237,41 @@ namespace JavaneseToolkit
                         isPasangan = true;
                     } else {
                         output += consonants[input[i].ToString()];
-                        
-                        if(i == input.Length - 1) {
-                            output += "\\";
-                        }
-
                         isConsonant = true;
                         isPasangan = false;
                     }
+                    
+                    isSandhanganPanyigeg = false;
                 } else if(vowels.ContainsKey(input[i].ToString())) {
                     if(isConsonant) {
                         if(input[i] == 'o') {
                             if(isPasangan) {
-                                output = output.Substring(0, output.Length - 3) + "[" + output.Substring(output.Length - 3) + "o";
+                                if(i - 2 > 0 && input[i - 2] == ' ') {
+                                    output = output.Substring(0, output.Length - 3) + vowels["e"] + output.Substring(output.Length - 3) + vowels[input[i].ToString()];
+                                } else {
+                                    output = output.Substring(0, output.Length - 2) + vowels["e"] + output.Substring(output.Length - 2) + vowels[input[i].ToString()];
+                                }
                             } else {
-                                output = output.Substring(0, output.Length - 1) + "[" + output.Substring(output.Length - 1) + "o";
+                                if(i - 1 > 0 && input[i - 1] == ' ') {
+                                    output = output.Substring(0, output.Length - 2) + vowels["e"] + output.Substring(output.Length - 2) + vowels[input[i].ToString()];
+                                } else {
+                                    output = output.Substring(0, output.Length - 1) + vowels["e"] + output.Substring(output.Length - 1) + vowels[input[i].ToString()];
+                                }
                             }
                             isConsonant = false;
                             isPasangan = false;
                         } else if(input[i] == 'e' || input[i] == 'è' || input[i] == 'é') {
-                            if(i == 1) {
-                                output = "[" + output;
-                            } else {
-                                if(isPasangan) {
-                                    output = output.Substring(0, output.Length - 3) + "[" + output.Substring(output.Length - 3);
+                            if(isPasangan) {
+                                if(i - 2 > 0 && input[i - 2] == ' ') {
+                                    output = output.Substring(0, output.Length - 3) + vowels[input[i].ToString()] + output.Substring(output.Length - 3);
                                 } else {
-                                    output = output.Substring(0, output.Length - 1) + "[" + output.Substring(output.Length - 1);
+                                    output = output.Substring(0, output.Length - 2) + vowels[input[i].ToString()] + output.Substring(output.Length - 2);
+                                }
+                            } else {
+                                if(i - 1 > 0 && input[i - 1] == ' ') {
+                                    output = output.Substring(0, output.Length - 2) + vowels[input[i].ToString()] + output.Substring(output.Length - 2);
+                                } else {
+                                    output = output.Substring(0, output.Length - 1) + vowels[input[i].ToString()] + output.Substring(output.Length - 1);
                                 }
                             }
                             isConsonant = false;
@@ -337,21 +282,19 @@ namespace JavaneseToolkit
                             isPasangan = false;
                         }
                     } else {
-                        output += 'a' + vowels[input[i].ToString()];
-                        isConsonant = false;
-                        isPasangan = false;
-                    }
-
-                    if(i + 2 < input.Length && consonantSandhanganPanyigeg.ContainsKey(input[i + 1].ToString()) && !IsVowels(input[i + 2])) {
-                        output += consonantSandhanganPanyigeg[input[i + 1].ToString()];
-                        isConsonant = false;
-                        isPasangan = false;
-                        i++;
-                    } else if(i + 2 < input.Length && input[i + 1] == 'n' && input[i + 2] == 'g') {
-                        output += consonantSandhanganPanyigeg["ng"];
-                        isConsonant = false;
-                        isPasangan = false;
-                        i += 2;
+                        if(input[i] == 'o') {
+                            output += vowels["e"] + "a" + vowels[input[i].ToString()];
+                            isConsonant = false;
+                            isPasangan = false;
+                        } else if(input[i] == 'e' || input[i] == 'è' || input[i] == 'é') {
+                            output += vowels[input[i].ToString()] + 'a';
+                            isConsonant = false;
+                            isPasangan = false;
+                        } else {
+                            output += 'a' + vowels[input[i].ToString()];
+                            isConsonant = false;
+                            isPasangan = false;
+                        }
                     }
 
                     if(i + 1 < input.Length && input[i] == 'i' && IsVowels(input[i + 1])) {
@@ -359,26 +302,50 @@ namespace JavaneseToolkit
                     } else if (i + 1 < input.Length && input[i] == 'u' && IsVowels(input[i + 1])) {
                         input = input.Substring(0, i + 1) + "w" + input.Substring(i + 1);
                     }
+                    
+                    isSandhanganPanyigeg = false;
                 } else if (punctuations.ContainsKey(input[i].ToString())) {
-                    if(i - 1 > 0 && consonants.ContainsKey(input[i - 1].ToString())) {
-                        if(!consonantSandhanganPanyigeg.ContainsKey(input[i - 1].ToString()) && i - 2 > 0 && input[i - 2].ToString() + input[i - 1].ToString() != "ng") {
-                            output += "\\";
-                        }
-                    }
-
                     output += punctuations[input[i].ToString()];
-                    isConsonant = false;
-                    isPasangan = false;
+                    if(input[i] != ' ') {
+                        isConsonant = false;
+                        isPasangan = false;
+                        isSandhanganPanyigeg = false;
+                    }
                 } else {
                     output += input[i].ToString();
+                    isConsonant = false;
+                    isPasangan = false;
+                    isSandhanganPanyigeg = false;
                 }
+       
+                if(i == input.Length - 1) {
+                    if(isConsonant && !isPasangan && !isSandhanganPanyigeg) {
+                        output += "\\";
+                    }
+                }
+
+                // check html tag
+                if(input[i] == '<') {
+                    htmlTag = true;
+                    inputTagStart = i;
+                    outputTagStart = output.Length - 1;
+                }
+                
+                if(htmlTag && input[i] == '>') {
+                    htmlTag = false;
+                    inputTagEnd = i;
+                    outputTagEnd = output.Length - 1;
+
+                    output = output.Remove(outputTagStart, outputTagEnd - outputTagStart).Insert(outputTagStart, input.Substring(inputTagStart, inputTagEnd - inputTagStart));
+                }
+
                 // Debug.Log(output);
             }
             return output;
         }
 
         private static bool IsVowels(char value) {
-            return value == 'a' || value == 'u' || value == 'e' || value == 'ê' || value == 'o';
+            return value == 'a' || value == 'i' || value == 'u' || value == 'e' || value == 'ê' || value == 'o';
         }
         #endregion
 
@@ -572,7 +539,7 @@ namespace JavaneseToolkit
             { "0", "0" },        // angka 0
         };
 
-        public static string JavaToLatin(this string input) {
+        public static string JavaANSIToLatin(this string input) {
             bool isWyanjana = false;
             int talingValuePos = -1;
             string output = "";
@@ -631,7 +598,7 @@ namespace JavaneseToolkit
         }
         #endregion
 
-        #region Java Unicode to ASCII
+        #region Java Unicode to ANSI
         // conjunct
         public static Dictionary<string, string> UNICODEWyanjana = new Dictionary<string, string>() {
             { "ꦲ", "a" },      // ha 
@@ -783,7 +750,7 @@ namespace JavaneseToolkit
             { "꧐", "0" },        // angka 0
         };
 
-        public static string JavaUnicodeToASCII(this string input) {
+        public static string JavaUnicodeToANSI(this string input) {
             string output = "";
             for (int i = 0; i < input.Length; i++) {
                 if(UNICODEsandhanganWyanjana.ContainsKey(input[i].ToString())) {

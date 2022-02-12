@@ -12,7 +12,7 @@ TrueTypeFontImporter:
   - Noto Sans
   - Noto Sans Javanese
   fallbackFontReferences:
-  - {fileID: 12800000, guid: 9296667a553fc634b94ddc0afbee268a, type: 3}
+  - {fileID: 12800000, guid: 93dfe187fad65ff46a7373502a58cb74, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

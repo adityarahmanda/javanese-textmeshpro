@@ -26,11 +26,9 @@ namespace JavaneseToolkit {
             javaANSITextArea.wordWrap = true;
             javaANSITextArea.stretchHeight = true;
 
-            javaANSILabel = new GUIStyle(EditorStyles.wordWrappedLabel);
+            javaANSILabel = new GUIStyle(EditorStyles.label);
             javaANSILabel.font = (Font)AssetDatabase.LoadAssetAtPath(kJavaANSIFontPath, typeof(Font));
             javaANSILabel.fontSize = 10;
-            javaANSILabel.padding.top = 10;
-            javaANSILabel.padding.bottom = 10;
         }
     }
 }

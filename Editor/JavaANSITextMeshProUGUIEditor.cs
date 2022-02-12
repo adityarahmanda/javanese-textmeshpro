@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
 using TMPro;
@@ -9,15 +10,17 @@ namespace JavaneseToolkit {
     [CustomEditor(typeof(JavaANSITextMeshProUGUI), true), CanEditMultipleObjects]
     public class JavaANSITextMeshProUGUIEditor : TMP_EditorPanelUI
     {
-        private SerializedProperty originalTextProp;
+        private SerializedProperty m_transliteratorInputTextProp;
+        private SerializedProperty m_enableTransliteratorInputProp;
         
-        private bool enableTransliteratorInput = true;
+        private bool preview = true;
         private JavaANSITextMeshProUGUI tmpro;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            originalTextProp = serializedObject.FindProperty("originalText");
+            m_transliteratorInputTextProp = serializedObject.FindProperty("m_transliteratorInputText");
+            m_enableTransliteratorInputProp = serializedObject.FindProperty("m_enableTransliteratorInput");
         }
 
         public override void OnInspectorGUI()
@@ -53,30 +56,34 @@ namespace JavaneseToolkit {
             if (m_ParentLinkedTextComponentProp.objectReferenceValue == null)
             {   
                 EditorGUILayout.Space();
-
-                EditorGUILayout.LabelField("Preview :");
-                EditorGUILayout.LabelField(m_TextProp.stringValue, UIStyleManager.javaANSILabel);
-
+                // Display Preview
+                preview = EditorGUILayout.Toggle("Preview", preview);
+                if(preview) {
+                    string previewText = Regex.Replace(m_TextProp.stringValue, "<[^<>]+>", string.Empty);
+                    EditorGUILayout.LabelField(previewText, UIStyleManager.javaANSILabel, GUILayout.MinHeight(30));
+                }
                 EditorGUILayout.Space();
                 
+                // Enable and Display ANSI Transliterator Input
                 Rect rect = EditorGUILayout.GetControlRect(false, 22);
                 EditorGUI.LabelField(rect, new GUIContent("<b>ANSI Transliterator Input</b>"), TMP_UIStyleManager.sectionHeader);
                 EditorGUI.indentLevel = 0;
                 
-                // Display RTL Toggle
                 float labelWidth = EditorGUIUtility.labelWidth;
                 EditorGUIUtility.labelWidth = 50f;
 
-                enableTransliteratorInput = EditorGUI.Toggle(new Rect(rect.width - 60, rect.y + 3, 130, 20), "Enable", enableTransliteratorInput);
-
+                EditorGUI.BeginChangeCheck(); 
+                m_enableTransliteratorInputProp.boolValue = EditorGUI.Toggle(new Rect(rect.width - 60, rect.y + 3, 130, 20), "Enable", m_enableTransliteratorInputProp.boolValue);
+                if(EditorGUI.EndChangeCheck())
+                    OnToggleEnableTransliteratorInput();
+                
                 EditorGUIUtility.labelWidth = labelWidth;
+                EditorGUILayout.Space(); 
                 
-                if(enableTransliteratorInput) {
+                if(m_enableTransliteratorInputProp.boolValue) {
                     EditorGUILayout.Space();
-
                     EditorGUI.BeginChangeCheck(); 
-                    originalTextProp.stringValue = EditorGUILayout.TextArea(originalTextProp.stringValue, UIStyleManager.textArea, GUILayout.MinHeight(60));
-                
+                    m_transliteratorInputTextProp.stringValue = EditorGUILayout.TextArea(m_transliteratorInputTextProp.stringValue, UIStyleManager.textArea, GUILayout.MinHeight(70));
                     if(EditorGUI.EndChangeCheck())
                         OnChanged();
                 }
@@ -84,11 +91,19 @@ namespace JavaneseToolkit {
         }
 
         protected void OnChanged() {
-            tmpro.UpdateText();
             m_HavePropertiesChanged = false;
             m_TextComponent.havePropertiesChanged = true;
             m_TextComponent.ComputeMarginSize();
             EditorUtility.SetDirty(target);
+        }
+
+        protected void OnToggleEnableTransliteratorInput() {
+            if(m_enableTransliteratorInputProp.boolValue) {
+                if(m_TextProp.stringValue == null || m_TextProp.stringValue == "") 
+                    return;
+
+                m_transliteratorInputTextProp.stringValue = m_TextProp.stringValue.JavaANSIToLatin();
+            }
         }
     }
 }

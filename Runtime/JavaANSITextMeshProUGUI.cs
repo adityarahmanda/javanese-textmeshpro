@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Presets;
 using UnityEngine;
 using TMPro;
 
@@ -20,33 +18,45 @@ namespace JavaneseToolkit {
         {
             get { return base.text; }
             set {
-                if (originalText == value) 
-                    return;
-                
-                originalText = value;
+                if(m_enableTransliteratorInput) {
+                    if (m_transliteratorInputText == value) 
+                        return;
+                    
+                    m_transliteratorInputText = value;
 
-                UpdateText();
+                    UpdateText();
+                } else {
+                    base.text = value;
+                }
             } 
         }
 
-        public string OriginalText
+        public string TransliteratorInputText
         {
-            get { return originalText; }
+            get { return m_transliteratorInputText; }
         }
 
-        [SerializeField] [TextArea(3, 10)] protected string originalText;
+        [SerializeField] protected string m_transliteratorInputText;
+
+        
+        public bool EnableTransliteratorInput
+        {
+            get { return m_enableTransliteratorInput; }
+        }
+
+        [SerializeField] protected bool m_enableTransliteratorInput;
 
         protected void Update() {
-            if(havePropertiesChanged) {
+            if(havePropertiesChanged && m_enableTransliteratorInput) {
                 UpdateText();
             }
         }
 
         public void UpdateText() {
-            if(originalText == null) 
-                originalText = "";
+            if(m_transliteratorInputText == null) 
+                m_transliteratorInputText = "";
 
-            base.text = originalText.LatinToJava();
+            base.text = m_transliteratorInputText.LatinToJavaANSI();
 
             havePropertiesChanged = true;
         }
@@ -54,7 +64,7 @@ namespace JavaneseToolkit {
         protected override void Reset()
         {
             //Output the message to the Console
-            this.font = (TMP_FontAsset)AssetDatabase.LoadAssetAtPath("Packages/com.adityarahmanda.javanese-toolkit/Runtime/Fonts/Ndomblong SDF.asset", typeof(TMP_FontAsset));
+            this.font = JavaneseToolkitSettings.defaultJavaANSIFontAsset;
         }
     }
 }

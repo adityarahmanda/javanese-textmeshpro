@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9296667a553fc634b94ddc0afbee268a
+guid: 93dfe187fad65ff46a7373502a58cb74
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -10,7 +10,8 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Noto Sans Javanese
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 9296667a553fc634b94ddc0afbee268a, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
