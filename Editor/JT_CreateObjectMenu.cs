@@ -7,7 +7,7 @@ using TMPro.EditorUtilities;
 
 namespace JavaneseToolkit 
 {
-    public class CreateObjectMenu
+    public class JT_CreateObjectMenu
     {
         [MenuItem("GameObject/Javanese Toolkit/Javanese ANSI Text (TMP)", false, 10)]
         static void CreateCustomGameObject(MenuCommand menuCommand)
@@ -17,9 +17,10 @@ namespace JavaneseToolkit
             // Override text color and font size
             JavaANSITextMeshProUGUI textComponent = go.GetComponent<JavaANSITextMeshProUGUI>();
 
-            textComponent.fontSize = TMP_Settings.defaultFontSize;
             textComponent.color = Color.white;
             textComponent.text = "ancrk";
+            textComponent.fontSize = JT_Settings.defaultFontSize;
+            textComponent.margin = JT_Settings.defaultMargin;
 
             if (TMP_Settings.autoSizeTextContainer)
             {

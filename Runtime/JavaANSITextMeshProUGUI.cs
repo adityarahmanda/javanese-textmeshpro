@@ -64,7 +64,9 @@ namespace JavaneseToolkit {
         protected override void Reset()
         {
             //Output the message to the Console
-            this.font = JavaneseToolkitSettings.defaultJavaANSIFontAsset;
+            this.font = JT_Settings.defaultJavaANSIFontAsset;
+            this.fontSize = JT_Settings.defaultFontSize;
+            this.margin = JT_Settings.defaultMargin;
         }
     }
 }

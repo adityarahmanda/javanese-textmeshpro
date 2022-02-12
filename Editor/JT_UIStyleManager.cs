@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 
 namespace JavaneseToolkit {
-    public class UIStyleManager : MonoBehaviour {
+    public class JT_UIStyleManager : MonoBehaviour {
         public static GUIStyle textArea;
         public static GUIStyle javaANSITextArea;
         public static GUIStyle javaANSILabel;
@@ -10,7 +10,7 @@ namespace JavaneseToolkit {
         const string kDefaultFontPath = "Packages/com.adityarahmanda.javanese-toolkit/Editor/Fonts/NotoSans.ttf";
         const string kJavaANSIFontPath = "Packages/com.adityarahmanda.javanese-toolkit/Editor/Fonts/GenkKobraJeje.ttf";
 
-        static UIStyleManager()
+        static JT_UIStyleManager()
         {
             textArea = new GUIStyle(EditorStyles.textArea);
             textArea.font = (Font)AssetDatabase.LoadAssetAtPath(kDefaultFontPath, typeof(Font));

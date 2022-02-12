@@ -43,26 +43,26 @@ namespace JavaneseToolkit
 
                 GUILayout.Label("Input", EditorStyles.boldLabel);
                 if(useJavaneseFont && method == Methods.JavaToLatinANSI) {
-                    inputText = EditorGUILayout.TextArea(inputText, UIStyleManager.javaANSITextArea, GUILayout.MinHeight(60));
+                    inputText = EditorGUILayout.TextArea(inputText, JT_UIStyleManager.javaANSITextArea, GUILayout.MinHeight(60));
                 } else {
-                    inputText = EditorGUILayout.TextArea(inputText, UIStyleManager.textArea, GUILayout.MinHeight(60));
+                    inputText = EditorGUILayout.TextArea(inputText, JT_UIStyleManager.textArea, GUILayout.MinHeight(60));
                 }
                 EditorGUILayout.Space();
 
                 GUILayout.Label("Output", EditorStyles.boldLabel);
                 if(useJavaneseFont && method == Methods.LatinToJavaANSI) {
-                    outputText = EditorGUILayout.TextArea(outputText, UIStyleManager.javaANSITextArea, GUILayout.MinHeight(60));
+                    outputText = EditorGUILayout.TextArea(outputText, JT_UIStyleManager.javaANSITextArea, GUILayout.MinHeight(60));
                 } else {
-                    outputText = EditorGUILayout.TextArea(outputText, UIStyleManager.textArea, GUILayout.MinHeight(60));
+                    outputText = EditorGUILayout.TextArea(outputText, JT_UIStyleManager.textArea, GUILayout.MinHeight(60));
                 }
                 EditorGUILayout.Space();
             } else {
                 GUILayout.Label("Input", EditorStyles.boldLabel);
-                inputText = EditorGUILayout.TextArea(inputText, UIStyleManager.textArea, GUILayout.MinHeight(60));
+                inputText = EditorGUILayout.TextArea(inputText, JT_UIStyleManager.textArea, GUILayout.MinHeight(60));
                 EditorGUILayout.Space();
 
                 GUILayout.Label("Output", EditorStyles.boldLabel);
-                outputText = EditorGUILayout.TextArea(outputText, UIStyleManager.textArea, GUILayout.MinHeight(60));
+                outputText = EditorGUILayout.TextArea(outputText, JT_UIStyleManager.textArea, GUILayout.MinHeight(60));
                 EditorGUILayout.Space();
             }
 

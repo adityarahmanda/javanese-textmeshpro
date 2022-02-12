@@ -60,7 +60,7 @@ namespace JavaneseToolkit {
                 preview = EditorGUILayout.Toggle("Preview", preview);
                 if(preview) {
                     string previewText = Regex.Replace(m_TextProp.stringValue, "<[^<>]+>", string.Empty);
-                    EditorGUILayout.LabelField(previewText, UIStyleManager.javaANSILabel, GUILayout.MinHeight(30));
+                    EditorGUILayout.LabelField(previewText, JT_UIStyleManager.javaANSILabel, GUILayout.MinHeight(30));
                 }
                 EditorGUILayout.Space();
                 
@@ -83,7 +83,7 @@ namespace JavaneseToolkit {
                 if(m_enableTransliteratorInputProp.boolValue) {
                     EditorGUILayout.Space();
                     EditorGUI.BeginChangeCheck(); 
-                    m_transliteratorInputTextProp.stringValue = EditorGUILayout.TextArea(m_transliteratorInputTextProp.stringValue, UIStyleManager.textArea, GUILayout.MinHeight(70));
+                    m_transliteratorInputTextProp.stringValue = EditorGUILayout.TextArea(m_transliteratorInputTextProp.stringValue, JT_UIStyleManager.textArea, GUILayout.MinHeight(70));
                     if(EditorGUI.EndChangeCheck())
                         OnChanged();
                 }
