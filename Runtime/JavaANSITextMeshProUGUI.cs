@@ -57,7 +57,6 @@ namespace JavaneseToolkit {
                 m_transliteratorInputText = "";
 
             base.text = m_transliteratorInputText.LatinToJavaANSI();
-
             havePropertiesChanged = true;
         }
 
