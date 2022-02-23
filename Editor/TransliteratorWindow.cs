@@ -12,9 +12,9 @@ namespace JavaneseToolkit
 
         public enum Methods {
             LatinToJavaUnicode,
-            JavaToLatinUnicode,
             LatinToJavaANSI,
-            JavaToLatinANSI
+            JavaUnicodeToLatin,
+            JavaANSIToLatin
         }
 
         Methods method = Methods.LatinToJavaUnicode;
@@ -37,12 +37,12 @@ namespace JavaneseToolkit
             }
             EditorGUILayout.Space(); 
 
-            if(method == Methods.JavaToLatinANSI || method == Methods.LatinToJavaANSI) {
+            if(method == Methods.LatinToJavaANSI || method == Methods.JavaANSIToLatin) {
                 useJavaneseFont = EditorGUILayout.Toggle("Javanese Font", useJavaneseFont);
                 EditorGUILayout.Space();
 
                 GUILayout.Label("Input", EditorStyles.boldLabel);
-                if(useJavaneseFont && method == Methods.JavaToLatinANSI) {
+                if(useJavaneseFont && method == Methods.JavaANSIToLatin) {
                     inputText = EditorGUILayout.TextArea(inputText, JT_UIStyleManager.javaANSITextArea, GUILayout.MinHeight(60));
                 } else {
                     inputText = EditorGUILayout.TextArea(inputText, JT_UIStyleManager.textArea, GUILayout.MinHeight(60));
@@ -69,8 +69,12 @@ namespace JavaneseToolkit
             if(GUILayout.Button("Transliterate")) {
                 if(method == Methods.LatinToJavaANSI) {
                     outputText = inputText.LatinToJavaANSI();
-                } else if(method == Methods.JavaToLatinANSI) {
+                } else if(method == Methods.JavaANSIToLatin) {
                     outputText = inputText.JavaANSIToLatin();
+                } else if(method == Methods.LatinToJavaUnicode) {
+                    outputText = inputText.LatinToJavaUnicode();
+                } else if(method == Methods.JavaUnicodeToLatin) {
+                    outputText = inputText.JavaUnicodeToLatin();
                 }
             }
         }

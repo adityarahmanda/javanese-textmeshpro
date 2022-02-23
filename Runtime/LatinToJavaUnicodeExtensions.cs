@@ -6,56 +6,51 @@ using UnityEngine;
 
 namespace JavaneseToolkit
 {
-    public static class LatinToJavaANSIExtensions 
+    public static class LatinToJavaUnicodeExtensions 
     {
         public static Dictionary<string, string> wyanjana = new Dictionary<string, string>() {
-            { "b", "b" },       // ba 
-            { "ḃ", "*" },       // ba murda
-            { "c", "c" },       // ca
-            { "d", "f" },       // da
-            { "dh", "d" },       // dha
-            { "ḍ", "d" },       // dha
-            { "dz", "f+" },     // dza rekan
-            { "f", "p+" },      // fa rekan
-            { "g", "g" },       // ga
-            { "ġ", "&" },       // ga murda
-            { "gh", "g+" },     // gha rekan
-            { "h", "a" },       // ha
-            { "j", "j" },       // ja
-            { "k", "k" },       // ka
-            { "k̇", "@" },       // ka murda
-            { "kh", "k+" },     // kha rekan
-            { "l", "l" },       // la
-            { "m", "m" },       // ma
-            { "n", "n" },       // na
-            { "ṅ", "!" },       // na murda
-            { "ng", "z" },      // nga
-            { "ny", "v" },      // nya
-            { "ṅy", "^" },      // nya murda
-            { "ñ", "v" },       // nya
-            { "ṇ", "!" },       // na murda
-            { "p", "p" },       // pa
-            { "ṗ", "%" },       // pa murda
-            { "r", "r" },       // ra
-            { "s", "s" },       // sa
-            { "ṡ", "$" },       // sa murda
-            { "ṣ", "Ȱ" },       // sa mahaprana
-            { "t", "t" },       // ta
-            { "ṫ", "#" },       // ta murda
-            { "ṭ", "q" },       // tha
-            { "v", "w+" },      // va rekan
-            { "w", "w" },       // wa
-            { "y", "y" },       // ya
-            { "z", "j+" },      // za rekan
-            { "A", "A" },       // aksara swara a
-            { "I", "I" },       // aksara swara i
-            { "U", "U" },       // aksara swara u
-            { "E", "E" },       // aksara swara e
-            { "È", "E" },       // aksara swara e
-            { "É", "E" },       // aksara swara e
-            { "Ê", "Ee" },      // aksara swara ê
-            { "Ě", "Ee" },      // aksara swara ê
-            { "O", "O" },       // aksara swara o
+            { "b", "ꦧ" },       // ba
+            { "c", "ꦕ" },       // ca
+            { "d", "ꦢ" },       // da
+            { "dh", "ꦝ" },       // dha
+            { "ḍ", "ꦝ" },       // dha
+            { "ḋ", "ꦣ" },       // da mahaprana
+            { "dz", "ꦢ꦳" },     // dza rekan
+            { "f", "ꦥ꦳" },      // fa rekan
+            { "g", "ꦒ" },       // ga
+            { "gh", "ꦒ꦳+" },     // gha rekan
+            { "h", "ꦲ" },       // ha
+            { "j", "ꦗ" },       // ja
+            { "k", "ꦏ" },       // ka
+            { "kh", "ꦏ꦳" },     // kha rekan
+            { "l", "ꦭ" },       // la
+            { "m", "ꦩ" },       // ma
+            { "n", "ꦤ" },       // na
+            { "ng", "ꦔ" },      // nga
+            { "ny", "ꦚ" },       // nya
+            { "ñ", "ꦚ" },       // nya
+            { "ṇ", "ꦟ" },       // na murda
+            { "p", "ꦥ" },       // pa
+            { "p̣", "ꦦ" },       // pa murda
+            { "r", "ꦫ" },       // ra
+            { "s", "ꦱ" },       // sa
+            { "ś", "ꦯ" },       // sa murda
+            { "ṣ", "ꦰ" },       // sa mahaprana
+            { "t", "ꦠ" },       // ta
+            { "ṭ", "ꦡ" },       // tha
+            { "v", "ꦮ꦳" },      // va rekan
+            { "w", "ꦮ" },       // wa
+            { "y", "ꦪ" },       // ya
+            { "z", "ꦗ꦳" },      // za rekan
+            { "A", "ꦄ" },       // aksara swara a
+            { "I", "ꦆ" },       // aksara swara i
+            { "U", "ꦈ" },       // aksara swara u
+            { "E", "ꦌ" },       // aksara swara e
+            { "È", "ꦌ" },       // aksara swara e
+            { "É", "ꦌ" },       // aksara swara e
+            { "Ê", "ꦄꦼ" },      // aksara swara ê
+            { "Ě", "ꦄꦼ" },      // aksara swara ê
+            { "O", "ꦎ" },       // aksara swara o
         };
 
         private static string GetWyanjana(char c) {
@@ -66,105 +61,19 @@ namespace JavaneseToolkit
             return wyanjana[s];
         }
 
-        private static bool IsWyanjana(char c) {
-            return IsWyanjana(c.ToString());
-        }
-
-        private static bool IsWyanjana(string s) {
-            return wyanjana.ContainsValue(s);
-        }
-
-        public static Dictionary<string, string> pasangan = new Dictionary<string, string>() {
-            { "b", "B" },       // ba
-            { "ḃ", "µ" },       // ba murda
-            { "c", "C" },       // ca
-            { "d", "F" },       // da
-            { "dh", "D" },       // dha
-            { "ḍ", "D" },       // dha
-            { "dz", "F+" },     // dza rekan
-            { "f", "P+" },      // fa rekan
-            { "g", "G" },       // ga
-            { "ġ", "´" },       // ga murda
-            { "gh", "G+" },     // gha rekan
-            { "h", "H" },       // ha
-            { "j", "J" },       // ja
-            { "k", "K" },       // ka
-            { "k̇", "¯" },       // ka murda
-            { "kh", "K+" },     // kha rekan
-            { "l", "L" },       // la
-            { "m", "M" },       // ma
-            { "n", "N" },       // na
-            { "ṅ", "®" },       // na murda
-            { "ng", "Z" },      // nga
-            { "ny", "V" },       // nya
-            { "ñ", "V" },       // nya
-            { "ṅy", "³" },       // nya murda
-            { "p", "P" },       // pa
-            { "ṗ", "²" },       // pa murda
-            { "r", "R" },       // ra
-            { "s", "S" },       // sa
-            { "ṡ", "±" },       // sa murda
-            { "ṣ", "Ȱ" },       // sa mahaprana
-            { "t", "T" },       // ta
-            { "ṫ", "°" },       // ta murda
-            { "ṭ", "Q" },       // tha
-            { "v", "W+" },      // va rekan
-            { "w", "W" },       // wa
-            { "y", "Y" },       // ya
-            { "z", "J+" },      // za rekan
-            { "A", "¶" },       // aksara swara a
-            { "I", "·" },       // aksara swara i
-            { "U", "¸" },       // aksara swara u
-            { "E", "¹" },       // aksara swara e
-            { "È", "¹" },       // aksara swara e
-            { "É", "¹" },       // aksara swara e
-            { "Ê", "¹e" },      // aksara swara ê
-            { "Ě", "¹e" },      // aksara swara ê
-            { "O", "º" },       // aksara swara o
-        };
-
-        private static string GetPasangan(char c) {
-            return pasangan[c.ToString()];
-        }
-
-        private static string GetPasangan(string s) {
-            return pasangan[s];
-        }
-
-        private static bool IsPasangan(char c) {
-            return IsPasangan(c.ToString());
-        }
-
-        private static bool IsPasangan(string s) {
-            return pasangan.ContainsValue(s);
-        }
-
-        private static bool IsPasanganOnRight(char c) {
-            return IsPasanganOnRight(c.ToString());
-        }
-
-        private static bool IsPasanganOnRight(string s) {
-            return s == "H" || s == "S" || s == "P" || s == "²" || s == "V";
-        }
-
-        private static bool IsPasanganOnBelow(char c) {
-            return IsPasanganOnBelow(c.ToString());
-        }
-
-        private static bool IsPasanganOnBelow(string s) {
-            return IsPasangan(s) && !IsPasanganOnRight(s);
-        }
-        
         public static Dictionary<string, string> murda = new Dictionary<string, string>() {
-            { "n", "!" },       // na murda
-            { "k", "@" },       // ka murda
-            { "t", "#" },       // ta murda
-            { "s", "$" },       // sa murda
-            { "p", "%" },       // pa murda
-            { "ny", "^" },      // nya murda
-            { "ñ", "^" },       // nya murda
-            { "g", "&" },       // ga murda
-            { "b", "*" },       // ba murda
+            { "n", "ꦟ" },      // na murda
+            { "k", "ꦑ" },       // ka murda
+            { "kh", "ꦑ꦳" },       // kha murda
+            { "t", "ꦡ" },       // ta murda
+            { "s", "ꦯ" },      // sa murda
+            { "p", "ꦦ" },       // pa murda
+            { "f", "ꦦ꦳" },       // fa murda
+            { "ny", "ꦘ" },      // nya murda
+            { "ñ", "ꦘ" },       // nya murda
+            { "g", "ꦓ" },      // ga murda
+            { "gh", "ꦓ꦳" },      // gha murda
+            { "b", "ꦨ" },       // ba murda
         };
 
         private static string GetMurda(char c) {
@@ -175,33 +84,10 @@ namespace JavaneseToolkit
             return murda[s];
         }
 
-        public static Dictionary<string, string> pasanganMurda = new Dictionary<string, string>() {
-            { "n", "®" },       // na murda
-            { "k", "¯" },       // ka murda
-            { "kh", "¯+" },     // kha murda
-            { "t", "°" },       // ta murda
-            { "s", "±" },       // sa murda
-            { "p", "²" },       // pa murda
-            { "f", "²+" },      // fa murda
-            { "ny", "³" },      // nya murda
-            { "ñ", "³" },       // nya murda
-            { "g", "´" },       // ga murda
-            { "gh", "´+" },     // gha murda
-            { "b", "µ" },       // ba murda
-        };
-
-        private static string GetPasanganMurda(char c) {
-            return GetPasanganMurda(c.ToString());
-        }
-
-        private static string GetPasanganMurda(string s) {
-            return pasanganMurda[s];
-        }
-
         public static Dictionary<string, string> sandhanganWyanjana = new Dictionary<string, string>() {
-            { "r", "]" },   // cakra
-            { "y", "-" },   // pengkal
-            { "ṛ", "}" },   // cakra keret
+            { "r", "ꦿ" },   // cakra
+            { "ṛ", "ꦽ" },   // cakra keret
+            { "y", "ꦾ" },   // pengkal
         };
 
         private static string GetSandhanganWyanjana(char c) {
@@ -213,9 +99,9 @@ namespace JavaneseToolkit
         }
 
         public static Dictionary<string, string> sandhanganPanyigeg = new Dictionary<string, string>() {
-            { "r", "/" },
-            { "h", "h" }, 
-            { "ng", "=" },
+            { "r", "ꦂ" },
+            { "h", "ꦃ" }, 
+            { "ng", "ꦁ" },
         };
 
         private static string GetSandhanganPanyigeg(char c) {
@@ -231,27 +117,29 @@ namespace JavaneseToolkit
         }
 
         private static bool IsSandhanganPanyigeg(string s) {
-            return sandhanganPanyigeg.ContainsValue(s);
+            return s == "ꦁ" || s == "ꦃ" || s == "ꦂ";
         }
 
         public static Dictionary<string, string> sandhanganSwara = new Dictionary<string, string>() {
             { "a", "" },
             { "ô", "" },
-            { "aa", "o"},
+            { "aa", "ꦴ"},
+            { "ai", "ꦻ" },
+            { "au", "ꦻꦴ" },
             { "ôô", "" },
-            { "ā", "o" },
-            { "i", "i" },
-            { "ii", "»"},
-            { "ī", "»"},
-            { "u", "u" },
-            { "uu", "×"},
-            { "ū", "×"},
-            { "e", "[" },
-            { "è", "[" },
-            { "é", "[" },
-            { "ê", "e" },
-            { "ě", "e" },
-            { "o", "o" },
+            { "ā", "ꦴ" },
+            { "i", "ꦶ" },
+            { "ii", "ꦷ"},
+            { "ī", "ꦷ"},
+            { "u", "ꦸ" },
+            { "uu", "ꦹ"},
+            { "ū", "ꦹ"},
+            { "e", "ꦺ" },
+            { "è", "ꦺ" },
+            { "é", "ꦺ" },
+            { "ê", "ꦼ" },
+            { "ě", "ꦼ" },
+            { "o", "ꦺꦴ" },
         };
 
         private static string GetSandhanganSwara(char c) {
@@ -264,8 +152,8 @@ namespace JavaneseToolkit
 
         public static Dictionary<string, string> pada = new Dictionary<string, string>() {
             { " ", "​" },
-            { ".", "." },
-            { ",", "," },
+            { ".", "꧉" },
+            { ",", "꧈" },
             { "-", "" },
         };
 
@@ -277,7 +165,7 @@ namespace JavaneseToolkit
             return pada[s];            
         }
 
-        public static string LatinToJavaANSI(this string str, bool murda = true) {
+        public static string LatinToJavaUnicode(this string str, bool murda = true) {
             var length = str.Length;
             var sb = new StringBuilder(length);
             bool isMurdaAlreadyIncluded = false;
@@ -318,11 +206,12 @@ namespace JavaneseToolkit
                             var cBefore = str[i - 3].ToString() + str[i - 2].ToString();
 
                             if(IsConsonants(cBefore) && !IsSandhanganPanyigeg(sb[sb.Length - 1])) {
+                                sb.Append("꧀");
                                 if(murda && !isMurdaAlreadyIncluded && IsConsonantsMurda(c12)) {
-                                    sb.Append(GetPasanganMurda(c12));
+                                    sb.Append(GetMurda(c12));
                                     isMurdaAlreadyIncluded = true;
                                 } else {
-                                    sb.Append(GetPasangan(c12));
+                                    sb.Append(GetWyanjana(c12));
                                 }
                                 continue;
                             }
@@ -332,11 +221,12 @@ namespace JavaneseToolkit
                             var cBefore = str[i - 2];
 
                             if(IsConsonants(cBefore) && !IsSandhanganPanyigeg(sb[sb.Length - 1])) {
+                                sb.Append("꧀");
                                 if(murda && !isMurdaAlreadyIncluded && IsConsonantsMurda(c12)) {
-                                    sb.Append(GetPasanganMurda(c12));
+                                    sb.Append(GetMurda(c12));
                                     isMurdaAlreadyIncluded = true;
                                 } else {
-                                    sb.Append(GetPasangan(c12));
+                                    sb.Append(GetWyanjana(c12));
                                 }
                                 continue;
                             }
@@ -350,7 +240,7 @@ namespace JavaneseToolkit
                         }
                         
                         if(i == length - 1) {
-                            sb.Append("\\");
+                            sb.Append("꧀");
                         }
                         continue;
                     }
@@ -402,11 +292,12 @@ namespace JavaneseToolkit
                         var cBefore = str[i - 2].ToString() + str[i - 1].ToString();
 
                         if(IsConsonants(cBefore) && !IsSandhanganPanyigeg(sb[sb.Length - 1])) {
+                            sb.Append("꧀");
                             if(murda && !isMurdaAlreadyIncluded && IsConsonantsMurda(c)) {
-                                sb.Append(GetPasanganMurda(c));
+                                sb.Append(GetMurda(c));
                                 isMurdaAlreadyIncluded = true;
                             } else {
-                                sb.Append(GetPasangan(c));
+                                sb.Append(GetWyanjana(c));
                             }
                             continue;
                         }
@@ -416,11 +307,12 @@ namespace JavaneseToolkit
                         var cBefore = str[i - 1];
 
                         if(IsConsonants(cBefore) && !IsSandhanganPanyigeg(sb[sb.Length - 1])) {
+                            sb.Append("꧀");
                             if(murda && !isMurdaAlreadyIncluded && IsConsonantsMurda(c)) {
-                                sb.Append(GetPasanganMurda(c));
+                                sb.Append(GetMurda(c));
                                 isMurdaAlreadyIncluded = true;
                             } else {
-                                sb.Append(GetPasangan(c));
+                                sb.Append(GetWyanjana(c));
                             }
                             continue;
                         }
@@ -432,21 +324,21 @@ namespace JavaneseToolkit
 
                         // pa ceret
                         if(IsPaCeret(c12)) {
-                            sb.Append("x");
+                            sb.Append("ꦉ");
                             i++;
                             continue;
                         }
 
                         // nga lelet
                         if(IsNgaLelet(c12)) {
-                            sb.Append("X");
+                            sb.Append("ꦊ");
                             i++;
                             continue;
                         }
 
                         // aksara na mati ketemu aksara ca / ja
                         if(IsNaMatiKetemuCaJa(c12)) {
-                            sb.Append(GetWyanjana("ny") + GetPasangan(c2));
+                            sb.Append(GetWyanjana("ny") + "꧀" + GetWyanjana(c2));
                             i++;
                             continue;
                         }
@@ -460,63 +352,16 @@ namespace JavaneseToolkit
                     }
                     
                     if(i == length - 1) {
-                        sb.Append("\\");
+                        sb.Append("꧀");
                     }
                     continue;
                 }
                 
                 if(IsVowels(c)) {
-                    bool isVowelIndependent = true;
-
-                    if(sb.Length - 2 >= 0) {
-                        var sbLast = sb[sb.Length - 2].ToString() + sb[sb.Length - 1].ToString();
-                        
-                        if(IsWyanjana(sbLast) || IsPasangan(sbLast)) {
-                            isVowelIndependent = false;
-                        }
-                    }
-                    
-                    if(sb.Length - 1 >= 0) {
-                        var sbLast = sb[sb.Length - 1];
-
-                        if(IsWyanjana(sbLast) || IsPasangan(sbLast)) {
-                            isVowelIndependent = false;
-                        }
-                    }
-
-                    if(isVowelIndependent) {
-                        if(IsVowelsTalingTarung(c)) {
-                            sb.Append("[ao");
-                        } else if(IsVowelsTaling(c)) {
-                            sb.Append("[a");
-                        } else {
-                            sb.Append("a" + GetSandhanganSwara(c));
-                        }
+                    if(i - 1 >= 0 && IsConsonants(str[i - 1])) {
+                        sb.Append(GetSandhanganSwara(c));
                     } else {
-                        if(IsVowelsTalingTarung(c)) {
-                            sb.Insert(sb.Length - CountConsonantsBackward(str, i), "[");
-                            sb.Append("o");
-                        } else if(IsVowelsTaling(c)) {
-                            sb.Insert(sb.Length - CountConsonantsBackward(str, i), "[");
-                        } else if(IsVowelsSuku(c) && IsPasanganOnBelow(sb[sb.Length - 1])) {
-                            sb.Append("|"); // suku for pasangan below
-                        } else {
-                            sb.Append(GetSandhanganSwara(c));
-                        } 
-
-                        // Diphthong
-                        if(i + 1 < length && IsVowelsA(c) && IsVowels(str[i + 1])) {
-                            if(IsVowelsWulu(str[i + 1])) {
-                                sb.Insert(sb.Length - CountConsonantsBackward(str, i), "{");
-                                i++;
-                                continue;
-                            } else if(IsVowelsSuku(str[i + 1])) {
-                                sb.Insert(sb.Length - CountConsonantsBackward(str, i), "{");
-                                sb.Append("o");
-                                i++;
-                                continue;
-                            }
-                        }
+                        sb.Append(GetWyanjana("h") + GetSandhanganSwara(c));
                     }
 
                     // Diphthong
@@ -525,11 +370,10 @@ namespace JavaneseToolkit
                             sb.Append(GetSandhanganSwara("aa"));
                             i++;
                         } else if(IsVowelsWulu(str[i + 1])) {
-                            sb.Insert(sb.Length - 1, "{");
+                            sb.Append(GetSandhanganSwara("ai"));
                             i++;
                         } else if(IsVowelsSuku(str[i + 1])) {
-                            sb.Insert(sb.Length - 1, "{");
-                            sb.Append("o");
+                            sb.Append(GetSandhanganSwara("ao"));
                             i++;
                         }
                     } else if(i + 1 < length && IsVowelsWulu(c) && IsVowels(str[i + 1])) {
@@ -550,15 +394,15 @@ namespace JavaneseToolkit
                         }
                     } else if(i + 1 < length && IsVowelsTaling(c) && IsVowels(str[i + 1])) {
                         if(IsVowelsA(str[i + 1])) {
-                            sb.Append(GetWyanjana("y") + GetSandhanganSwara("a"));
+                            sb.Append(GetWyanjana("y") + GetSandhanganSwara(str[i + 1]));
                             i++;
                         } else if(IsVowelsTalingTarung(str[i + 1])) {
-                            sb.Append("[" + GetWyanjana("y") + "o");
+                            sb.Append(GetWyanjana("y") + GetSandhanganSwara(str[i + 1]));
                             i++;
                         }
                     } else if(i + 1 < length && IsVowelsTalingTarung(c) && IsVowels(str[i + 1])) {
                         if(IsVowelsTaling(str[i + 1])) {
-                            sb.Append("[" + GetWyanjana("w"));
+                            sb.Append(GetWyanjana("w") + GetSandhanganSwara(str[i + 1]));
                             i++;
                         }
                     }
@@ -570,7 +414,7 @@ namespace JavaneseToolkit
                         var cBefore = str[i - 2].ToString() + str[i - 1].ToString();
 
                         if(IsConsonants(cBefore) && !IsSandhanganPanyigeg(sb[sb.Length - 1])) {
-                            sb.Append("\\");
+                            sb.Append("꧀");
                             continue;
                         }
                     }
@@ -579,7 +423,7 @@ namespace JavaneseToolkit
                         var cBefore = str[i - 1];
 
                         if(IsConsonants(cBefore) && !IsSandhanganPanyigeg(sb[sb.Length - 1])) {
-                            sb.Append("\\");
+                            sb.Append("꧀");
                             continue;
                         }
                     }
@@ -587,6 +431,8 @@ namespace JavaneseToolkit
                     sb.Append(GetPada(c));
                     continue;
                 }
+                
+                sb.Append(c);
             }
 
             return sb.ToString();
@@ -622,6 +468,22 @@ namespace JavaneseToolkit
 
         private static bool IsConsonantsSandhanganWyanjana(string s) {
             return sandhanganWyanjana.ContainsKey(s);
+        }
+
+        private static bool IsConsonantsPasanganOnRight(string s) {
+            return s == "h" || s == "s" || s == "p" || s == "p̣" || s == "ny" || s == "ñ";
+        }
+
+        private static bool IsConsonantsPasanganOnRight(char c) {
+            return IsConsonantsPasanganOnRight(c.ToString());
+        }
+
+        private static bool IsConsonantsPasanganOnBelow(string s) {
+            return IsConsonants(s) && !IsConsonantsPasanganOnRight(s);
+        }
+
+        private static bool IsConsonantsPasanganOnBelow(char c) {
+            return IsConsonants(c.ToString()) && !IsConsonantsPasanganOnRight(c.ToString());
         }
 
         private static bool IsPaCeret(string s) {

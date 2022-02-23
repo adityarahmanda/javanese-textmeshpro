@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace JavaneseToolkit
@@ -47,7 +49,21 @@ namespace JavaneseToolkit
             { "Ì", "ra" },       // ra agung
             { "ß", "ba" },       // ba murda for diacritics suku, cakra, keret, pengkal
             { "à", "ku" },       // ka murda + suku (u)
+            { "A", "A" },        // a 
+            { "ȩ", "Ai" },       // ai 
+            { "I", "I" },        // i 
+            { "U", "U" },        // u 
+            { "E", "E" },        // e 
+            { "O", "O" },        // o 
         };
+
+        private static bool IsWyanjana(char c) {
+            return IsWyanjana(c.ToString());
+        }
+
+        private static bool IsWyanjana(string s) {
+            return wyanjana.ContainsKey(s);
+        }
 
         // conjunct
         public static Dictionary<string, string> pasangan = new Dictionary<string, string> {
@@ -97,18 +113,6 @@ namespace JavaneseToolkit
             { "Ö", "nu" },       // na pasangan + suku (u)
             { "Ø", "nra" },      // na pasangan + cakra
             { "Ù", "nrê" },      // na pasangan + cakra kêrêt
-        };
-
-        public static Dictionary<string, string> swara = new Dictionary<string, string> {
-            { "A", "A" },        // a 
-            { "ȩ", "Ai" },       // ai 
-            { "I", "I" },        // i 
-            { "U", "U" },        // u 
-            { "E", "E" },        // e 
-            { "O", "O" },        // o 
-        };
-
-        public static Dictionary<string, string> pasanganSwara = new Dictionary<string, string> {
             { "¶", "A" },       // aksara swara a pasangan
             { "ý", "Ai" },      // aksara swara ai pasangan
             { "·", "I" },       // aksara swara i pasangan
@@ -116,6 +120,14 @@ namespace JavaneseToolkit
             { "¹", "E" },       // aksara swara e pasangan
             { "º", "O" },       // aksara swara o pasangan
         };
+
+        private static bool IsPasangan(char c) {
+            return IsPasangan(c.ToString());
+        }
+
+        private static bool IsPasangan(string s) {
+            return pasangan.ContainsKey(s);
+        }
 
         // diacritics swara
         public static Dictionary<string, string> sandhanganSwara = new Dictionary<string, string> {
@@ -135,6 +147,14 @@ namespace JavaneseToolkit
             */
         };
 
+        private static bool IsSandhanganSwara(char c) {
+            return IsSandhanganSwara(c.ToString());
+        }
+
+        private static bool IsSandhanganSwara(string s) {
+            return sandhanganSwara.ContainsKey(s);
+        }
+
         // diacritics swara
         public static Dictionary<string, string> sandhanganWyanjana = new Dictionary<string, string> {
             { "]", "ra" },       // cakra
@@ -148,12 +168,28 @@ namespace JavaneseToolkit
             { "~", "re" },       // cakra keret for pasangan
         };
 
-        public static Dictionary<string, string> sandhanganPanyigegingWanda = new Dictionary<string, string> {
+        private static bool IsSandhanganWyanjana(char c) {
+            return IsSandhanganWyanjana(c.ToString());
+        }
+
+        private static bool IsSandhanganWyanjana(string s) {
+            return sandhanganWyanjana.ContainsKey(s);
+        }
+
+        public static Dictionary<string, string> sandhanganPanyigeg = new Dictionary<string, string> {
             { "/", "r" },        // layar (r)
             { "=", "ng" },       // cecak (ng)
             { "h", "h" },        // wigyan (h)
             { "\\", "" },        // pangkon
         };
+
+        private static bool IsSandhanganPanyigeg(char c) {
+            return IsSandhanganPanyigeg(c.ToString());
+        }
+
+        private static bool IsSandhanganPanyigeg(string s) {
+            return sandhanganPanyigeg.ContainsKey(s);
+        }
 
         // punctuations
         public static Dictionary<string, string> pada = new Dictionary<string, string> {
@@ -180,9 +216,6 @@ namespace JavaneseToolkit
             { "À", "(" },        // left parenthesis
             { "Á", ")" },        // right parenthesis
             { "​", " "},
-        };
-
-        public static Dictionary<string, string> angka = new Dictionary<string, string> {
             { "1", "1" },        // angka 1
             { "2", "2" },        // angka 2
             { "3", "3" },        // angka 3
@@ -195,62 +228,175 @@ namespace JavaneseToolkit
             { "0", "0" },        // angka 0
         };
 
-        public static string JavaANSIToLatin(this string input) {
-            bool isWyanjana = false;
-            int talingValuePos = -1;
-            string output = "";
-            for (int i = 0; i < input.Length; i++) {
-                if(sandhanganWyanjana.ContainsKey(input[i].ToString())) {
-                    if(talingValuePos == i) {
-                        output = output.Substring(0, isWyanjana ? output.Length - 1 : output.Length) + sandhanganWyanjana[input[i].ToString()].Substring(0, sandhanganWyanjana[input[i].ToString()].Length - 1) + "e";
-                        isWyanjana = false;
-                    } else {
-                        output = output.Substring(0, isWyanjana ? output.Length - 1 : output.Length) + sandhanganWyanjana[input[i].ToString()];
-                        isWyanjana = true;
-                    }
-                } else if(pasangan.ContainsKey(input[i].ToString())) {
-                    if(talingValuePos == i) {
-                        output = output.Substring(0, isWyanjana ? output.Length - 1 : output.Length) + pasangan[input[i].ToString()].Substring(0, pasangan[input[i].ToString()].Length - 1) + "e";
-                        isWyanjana = false;
-                    } else {
-                        output = output.Substring(0, isWyanjana ? output.Length - 1 : output.Length) + pasangan[input[i].ToString()];
-                        isWyanjana = true; 
-                    }
-                } else if(sandhanganSwara.ContainsKey(input[i].ToString())) {
-                    output = output.Substring(0, isWyanjana ? output.Length - 1 : output.Length) + sandhanganSwara[input[i].ToString()];
-                    isWyanjana = false;
-                } else if(input[i] == '[') {
-                    for(int j = 1; j <= 5; j++) {
-                        talingValuePos = i + j;
+        private static bool IsPada(char c) {
+            return IsPada(c.ToString());
+        }
 
-                        if(i + (j + 1) > input.Length - 1 || input[i + (j + 1)] == 'o' || wyanjana.ContainsKey(input[i + (j + 1)].ToString())) {
-                            break;
-                        }
-                    }
-                } else if (input[i] == 'o') {
-                    if(talingValuePos != -1 && i - 1 == talingValuePos) {
-                        output = output.Substring(0, output.Length - 1) + "o";
-                        isWyanjana = false;
-                    }
-                } else if(sandhanganPanyigegingWanda.ContainsKey(input[i].ToString())) {
-                    output = output.Substring(0, input[i] == '\\' ? output.Length - 1 : output.Length) + sandhanganPanyigegingWanda[input[i].ToString()];
-                    isWyanjana = false;
-                } else if(wyanjana.ContainsKey(input[i].ToString())) {
+        private static bool IsPada(string s) {
+            return pada.ContainsKey(s);
+        }
+
+        public static string JavaANSIToLatin(this string str) {
+            int talingValuePos = -1;
+
+            var length = str.Length;
+            var sb = new StringBuilder(length);
+            for (int i = 0; i < length; i++) {
+                var c = str[i];
+
+                if(IsSandhanganWyanjana(c)) {
                     if(talingValuePos == i) {
-                        output += wyanjana[input[i].ToString()].Substring(0, wyanjana[input[i].ToString()].Length - 1) + "e";
-                        isWyanjana = false;
-                    } else {
-                        output += wyanjana[input[i].ToString()];
-                        isWyanjana = true;
+                        if(i - 1 >= 0 && (IsWyanjana(str[i - 1]) || IsPasangan(str[i - 1]))) {
+                            sb.Remove(sb.Length - 1, 1);
+                        }
+                        sb.Append(GetConsonantsSandhanganWyanjana(c));
+                        sb.Remove(sb.Length - 1, 1);
+                        sb.Append("e");
+                        continue;
                     }
-                } else if(pada.ContainsKey(input[i].ToString())) {
-                    output += pada[input[i].ToString()];
-                } else {
-                    output += input[i].ToString();
+
+                    if(i - 1 >= 0 && (IsWyanjana(str[i - 1]) || IsPasangan(str[i - 1]))) {
+                        sb.Remove(sb.Length - 1, 1);
+                    }
+                    sb.Append(GetConsonantsSandhanganWyanjana(c));
+                    continue;
+                } 
+                
+                if(IsPasangan(c)) {
+                    if(talingValuePos == i) {
+                        if(i - 1 >= 0 && (IsWyanjana(str[i - 1]) || IsPasangan(str[i - 1]))) {
+                            sb.Remove(sb.Length - 1, 1);
+                        }
+                        sb.Append(GetConsonantsPasangan(c));
+                        sb.Remove(sb.Length - 1, 1);
+                        sb.Append("e");
+                        continue;
+                    }
+
+                    if(i - 1 >= 0 && (IsWyanjana(str[i - 1]) || IsPasangan(str[i - 1]))) {
+                        sb.Remove(sb.Length - 1, 1);
+                    }
+                    sb.Append(GetConsonantsPasangan(c));
+                    continue;
                 }
+                
+                if(IsSandhanganSwara(c)) {
+                    if(i - 1 >= 0 && (IsWyanjana(str[i - 1]) || IsPasangan(str[i - 1]))) {
+                        sb.Remove(sb.Length - 1, 1);
+                    }
+                    sb.Append(GetVowelsSandhanganSwara(c));
+                    continue;
+                }
+                
+                if(IsTaling(c)) {
+                    if(i + 1 < length && IsWyanjana(str[i + 1])) {
+                        for(int j = i + 2; j <= length; j++) {
+                            talingValuePos = j - 1;
+                            if(j == length) break;
+                            if(IsWyanjana(str[j])) break;
+                        }
+                        Debug.Log(talingValuePos);
+                    }
+                    continue;
+                }
+                
+                if(IsTarung(c)) {
+                    if(talingValuePos != -1 && talingValuePos == i) {
+                        sb.Remove(sb.Length - 1, 1);
+                        sb.Append("o");
+                    }
+                    continue;
+                }
+                
+                if(IsSandhanganPanyigeg(c)) {
+                    if(IsPangkon(c)) {
+                        sb.Remove(sb.Length - 1, 1);
+                    }
+                    sb.Append(GetConsonantsSandhanganPanyigeg(c));
+                    continue;
+                }
+                
+                if(IsWyanjana(c)) {
+                    if(talingValuePos == i) {
+                        sb.Append(GetConsonantsWyanjana(c));
+                        sb.Remove(sb.Length - 1, 1);
+                        sb.Append("e");
+                        continue;
+                    }
+                    
+                    sb.Append(GetConsonantsWyanjana(c));
+                    continue;
+                }
+                
+                if(IsPada(c)) {
+                    sb.Append(GetPunctuations(c));
+                    continue;
+                }
+                    
+                sb.Append(c);
                 // Debug.Log(output);
             }
-            return output;
-        }       
+            return sb.ToString();
+        }
+
+        private static bool IsTaling(char c) {
+            return c == '[';
+        }
+
+        private static bool IsTarung(char c) {
+            return c == 'o';
+        }
+
+        private static bool IsPangkon(char c) {
+            return c == '\\';
+        }
+
+        private static string GetConsonantsWyanjana(char c) {
+            return GetConsonantsWyanjana(c.ToString());
+        }
+
+        private static string GetConsonantsWyanjana(string s) {
+            return wyanjana[s];
+        }
+
+        private static string GetConsonantsPasangan(char c) {
+            return GetConsonantsPasangan(c.ToString());
+        }
+
+        private static string GetConsonantsPasangan(string s) {
+            return pasangan[s];
+        }
+
+        private static string GetConsonantsSandhanganWyanjana(char c) {
+            return GetConsonantsSandhanganWyanjana(c.ToString());
+        }
+
+        private static string GetConsonantsSandhanganWyanjana(string s) {
+            return sandhanganWyanjana[s];
+        }
+
+        private static string GetConsonantsSandhanganPanyigeg(char c) {
+            return GetConsonantsSandhanganPanyigeg(c.ToString());
+        }
+
+        private static string GetConsonantsSandhanganPanyigeg(string s) {
+            return sandhanganPanyigeg[s];
+        }
+
+        private static string GetVowelsSandhanganSwara(char c) {
+            return GetVowelsSandhanganSwara(c.ToString());
+        }
+
+        private static string GetVowelsSandhanganSwara(string s) {
+            return sandhanganSwara[s];
+        }
+        
+        private static string GetPunctuations(char c) {
+            return GetPunctuations(c.ToString());
+        }
+
+        private static string GetPunctuations(string s) {
+            return pada[s];
+        }
     }
 }

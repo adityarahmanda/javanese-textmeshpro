@@ -91,12 +91,12 @@ public static class JavaUnicodeFixerExtensions {
     private static char[] smallWyanjana = new char[] {
         'ꦅ', 'ꦈ', 'ꦉ', 'ꦊ', 'ꦋ', 'ꦌ', 'ꦍ', 'ꦎ', 'ꦑ', 'ꦔ', 'ꦕ',
         'ꦗ', 'ꦘ', 'ꦛ', 'ꦜ', 'ꦝ', 'ꦞ', 'ꦡ', 'ꦢ', 'ꦣ', 'ꦤ', 'ꦥ',
-        'ꦦ', 'ꦨ', 'ꦩ', 'ꦫ', 'ꦮ', 'ꦰ', 'ꦱ',
+        'ꦦ', 'ꦨ', 'ꦩ', 'ꦫ', 'ꦮ', 'ꦰ', 'ꦱ', 'ꦒ', 'ꦯ'
     };
 
     private static char[] mediumWyanjana = new char[] {
-        'ꦄ', 'ꦆ', 'ꦇ', 'ꦐ', 'ꦏ', 'ꦒ', 'ꦓ',
-        'ꦠ', 'ꦧ', 'ꦪ', 'ꦭ', 'ꦯ', 'ꦲ'
+        'ꦄ', 'ꦆ', 'ꦇ', 'ꦐ', 'ꦏ', 'ꦓ',
+        'ꦠ', 'ꦧ', 'ꦪ', 'ꦭ', 'ꦲ'
     };
 
     private static char[] largeWyanjana = new char[] {
