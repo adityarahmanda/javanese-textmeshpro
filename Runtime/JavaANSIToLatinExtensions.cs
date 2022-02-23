@@ -44,7 +44,7 @@ namespace JavaneseToolkit
             { "x", "rê" },       // pa cêrêk
             { "X", "lê" },       // nga lêlêt
             { "Ü", "lêu" },      // nga lêlêt raswadi
-            { "å", "jha" },      // ja jera
+            { "å", "jha" },      // ja jera / ja mahaprana
             { "è", "qa" },       // ka sasak
             { "Ì", "ra" },       // ra agung
             { "ß", "ba" },       // ba murda for diacritics suku, cakra, keret, pengkal
@@ -99,9 +99,11 @@ namespace JavaneseToolkit
             { "<", "lê" },       // nga lêlêt pasangan
             // { "?", "lêu" },      // nga lêlêt raswadi pasangan
             { "é", "qa" },      // ka sasak pasangan
+            // { "?", "sa" },       // sa mahaprana pasangan
             { "Ð", "cha" },      // cha mahaprana pasangan 
             { "ä", "dha" },      // dha mahaprana pasangan 
             { "ç", "tha" },      // tha mahaprana pasangan
+            // { "?", "jha" },      // ja jera / ja mahaprana
             // { "?", "ra" },       // ra agung pasangan
             { "Ñ", "ka" },       // ka pasangan for diacritics suku, cakra, keret, pengkal
             { "Ò", "ta" },       // ta pasangan for diacritics suku, cakra, keret, pengkal 
@@ -195,13 +197,13 @@ namespace JavaneseToolkit
         public static Dictionary<string, string> pada = new Dictionary<string, string> {
             { "Í", "" },         // laku
             { "Î", "" },         // lila
-            { "\"", "" },        // adeg-adeg
+            { "\"", "" },        // adeg
             { "?", "" },         // adeg-adeg
             { ",", "," },        // pada lingsa
             { ".", "." },        // pada lungsi
             { ";", "" },         // pada pangkat
             { "ª", "" },         // pada pancak
-            { "«", "" },         // pada windu
+            { "«", "" },         // tirta tumetes
             { "Ä", "" },         // pada windu
             { "©", "" },         // pada guru
             { "¥", "" },         // pada luhur

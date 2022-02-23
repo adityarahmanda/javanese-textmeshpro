@@ -14,7 +14,8 @@ namespace JavaneseToolkit
             LatinToJavaUnicode,
             LatinToJavaANSI,
             JavaUnicodeToLatin,
-            JavaANSIToLatin
+            JavaANSIToLatin,
+            JavaUnicodeToANSI
         }
 
         Methods method = Methods.LatinToJavaUnicode;
@@ -37,7 +38,7 @@ namespace JavaneseToolkit
             }
             EditorGUILayout.Space(); 
 
-            if(method == Methods.LatinToJavaANSI || method == Methods.JavaANSIToLatin) {
+            if(method == Methods.LatinToJavaANSI || method == Methods.JavaANSIToLatin || method == Methods.JavaUnicodeToANSI) {
                 useJavaneseFont = EditorGUILayout.Toggle("Javanese Font", useJavaneseFont);
                 EditorGUILayout.Space();
 
@@ -50,7 +51,7 @@ namespace JavaneseToolkit
                 EditorGUILayout.Space();
 
                 GUILayout.Label("Output", EditorStyles.boldLabel);
-                if(useJavaneseFont && method == Methods.LatinToJavaANSI) {
+                if(useJavaneseFont && (method == Methods.LatinToJavaANSI || method == Methods.JavaUnicodeToANSI)) {
                     outputText = EditorGUILayout.TextArea(outputText, JT_UIStyleManager.javaANSITextArea, GUILayout.MinHeight(60));
                 } else {
                     outputText = EditorGUILayout.TextArea(outputText, JT_UIStyleManager.textArea, GUILayout.MinHeight(60));
@@ -75,6 +76,8 @@ namespace JavaneseToolkit
                     outputText = inputText.LatinToJavaUnicode();
                 } else if(method == Methods.JavaUnicodeToLatin) {
                     outputText = inputText.JavaUnicodeToLatin();
+                } else if(method == Methods.JavaUnicodeToANSI) {
+                    outputText = inputText.JavaUnicodeToANSI();
                 }
             }
         }

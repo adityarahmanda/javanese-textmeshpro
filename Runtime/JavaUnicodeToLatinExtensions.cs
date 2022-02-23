@@ -47,7 +47,7 @@ namespace JavaneseToolkit
             { "ꦋ", "lêu" },      // nga lêlêt raswadi
             { "å", "jha" },      // ja jera
             { "ꦐ", "qa" },       // ka sasak
-            { "ꦙ", "ra" },       // ra agung
+            { "ꦬ", "ra" },       // ra agung
             { "ꦄ", "A" },        // a 
             { "ꦆ", "I" },        // i 
             { "ꦅ", "I" },        // i kawi
@@ -117,29 +117,22 @@ namespace JavaneseToolkit
 
         // punctuations
         public static Dictionary<string, string> pada = new Dictionary<string, string> {
-            { "Í", "" },         // laku
-            { "Î", "" },         // lila
-            { "꧊", "" },        // adeg-adeg
+            { "​", " "},          // zero width non joiner
+            { "꧊", "" },         // adeg
             { "꧋", "" },         // adeg-adeg
+            { "ꧏ", "" },        // pangkrangkep
+            { "꧞", "" },        // tirta tumetes
+            { "꧟", "" },        // isen-isen
+            { "꧌", "(" },        // pada piseleh
+            { "꧍", ")" },        // turned pada piseleh
+            { "꧁", "" },        // left rerenggan
+            { "꧂", "" },        // right rerenggan
             { "꧈", "," },        // pada lingsa
             { "꧉", "." },        // pada lungsi
-            { "꧇", "" },         // pada pangkat
-            { "ª", "" },         // pada pancak
-            { "«", "" },         // pada windu
-            { "Ä", "" },         // pada windu
-            { "©", "" },         // pada guru
-            { "¥", "" },         // pada luhur
-            { "¦", "" },         // pada madya
-            { "§", "" },         // pada andhap
-            { "¡", "" },         // purwa pada
-            { "¢", "" },         // madya pada
-            { "£", "" },         // wasana pada
-            { "¨", "_" },        // underscore
-            { ":", ":" },        // colon
-            { "¿", "?" },        // question mark
-            { "À", "(" },        // left parenthesis
-            { "Á", ")" },        // right parenthesis
-            { "​", " "},
+            { "꧆", "" },        // pada windu
+            { "꧃", "" },         // pada andhap
+            { "꧄", "" },         // pada madya
+            { "꧅", "" },         // pada luhur
             { "꧑", "1" },        // angka 1
             { "꧒", "2" },        // angka 2
             { "꧓", "3" },        // angka 3
@@ -163,6 +156,7 @@ namespace JavaneseToolkit
         public static string JavaUnicodeToLatin(this string str) {
             var length = str.Length;
             var sb = new StringBuilder(length);
+
             for (int i = 0; i < length; i++) {
                 var c = str[i];
 
