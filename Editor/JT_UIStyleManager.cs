@@ -4,22 +4,24 @@ using UnityEditor;
 namespace JavaneseToolkit {
     public class JT_UIStyleManager : MonoBehaviour {
         public static GUIStyle textArea;
+        public static GUIStyle label;
         public static GUIStyle javaANSITextArea;
         public static GUIStyle javaANSILabel;
-
-        const string kDefaultFontPath = "Packages/com.adityarahmanda.javanese-toolkit/Editor/Fonts/NotoSans.ttf";
-        const string kJavaANSIFontPath = "Packages/com.adityarahmanda.javanese-toolkit/Editor/Fonts/GenkKobraJeje.ttf";
 
         static JT_UIStyleManager()
         {
             textArea = new GUIStyle(EditorStyles.textArea);
-            textArea.font = (Font)AssetDatabase.LoadAssetAtPath(kDefaultFontPath, typeof(Font));
+            textArea.font = JT_Settings.defaultJavaUnicodeEditorFont;
             textArea.fontSize = 12;
             textArea.wordWrap = true;
             textArea.stretchHeight = true;
 
+            label = new GUIStyle(EditorStyles.label);
+            label.font = JT_Settings.defaultJavaUnicodeEditorFont;
+            label.fontSize = 12;
+
             javaANSITextArea = new GUIStyle(EditorStyles.textArea);
-            javaANSITextArea.font = (Font)AssetDatabase.LoadAssetAtPath(kJavaANSIFontPath, typeof(Font));
+            javaANSITextArea.font = JT_Settings.defaultJavaANSIEditorFont;
             javaANSITextArea.fontSize = 10;
             javaANSITextArea.padding.top = 12;
             javaANSITextArea.padding.bottom = 12;
@@ -27,7 +29,7 @@ namespace JavaneseToolkit {
             javaANSITextArea.stretchHeight = true;
 
             javaANSILabel = new GUIStyle(EditorStyles.label);
-            javaANSILabel.font = (Font)AssetDatabase.LoadAssetAtPath(kJavaANSIFontPath, typeof(Font));
+            javaANSILabel.font = JT_Settings.defaultJavaANSIEditorFont;
             javaANSILabel.fontSize = 10;
         }
     }

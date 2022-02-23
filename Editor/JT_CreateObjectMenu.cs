@@ -10,17 +10,56 @@ namespace JavaneseToolkit
     public class JT_CreateObjectMenu
     {
         [MenuItem("GameObject/Javanese Toolkit/Javanese ANSI Text (TMP)", false, 10)]
-        static void CreateCustomGameObject(MenuCommand menuCommand)
-        {   
-            GameObject go = CreateText(GetStandardResources());
+        static void CreateJavaANSITextUGUI(MenuCommand menuCommand)
+        {               
+            GameObject go = null;
 
-            // Override text color and font size
-            JavaANSITextMeshProUGUI textComponent = go.GetComponent<JavaANSITextMeshProUGUI>();
-
+            #if UNITY_EDITOR
+                go = ObjectFactory.CreateGameObject("Javanese ANSI Text (TMP)");
+                JavaANSITextMeshProUGUI textComponent = ObjectFactory.AddComponent<JavaANSITextMeshProUGUI>(go);
+            #else
+                go = CreateUIElementRoot("Javanese ANSI Text (TMP)", s_TextElementSize);
+                JavaANSITextMeshProUGUI textComponent = go.AddComponent<JavaANSITextMeshProUGUI>();
+            #endif
+            
             textComponent.color = Color.white;
             textComponent.text = "ancrk";
             textComponent.fontSize = JT_Settings.defaultFontSize;
             textComponent.margin = JT_Settings.defaultMargin;
+
+            if (TMP_Settings.autoSizeTextContainer)
+            {
+                Vector2 size = textComponent.GetPreferredValues(TMP_Math.FLOAT_MAX, TMP_Math.FLOAT_MAX);
+                textComponent.rectTransform.sizeDelta = size;
+            }
+            else
+            {
+                textComponent.rectTransform.sizeDelta = TMP_Settings.defaultTextMeshProUITextContainerSize;
+            }
+
+            // Ensure it gets reparented if this was a context click (otherwise does nothing)
+            GameObjectUtility.SetParentAndAlign(go, menuCommand.context as GameObject);
+            // Register the creation in the undo system
+            Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
+            Selection.activeObject = go;
+        }
+
+        [MenuItem("GameObject/Javanese Toolkit/Javanese Unicode Text (TMP)", false, 10)]
+        static void CreateJavaUnicodeTextUGUI(MenuCommand menuCommand)
+        {   
+            GameObject go = null;
+
+            #if UNITY_EDITOR
+                go = ObjectFactory.CreateGameObject("Javanese Unicode Text (TMP)");
+                JavaUnicodeTextMeshProUGUI textComponent = ObjectFactory.AddComponent<JavaUnicodeTextMeshProUGUI>(go);
+            #else
+                go = CreateUIElementRoot("Javanese Unicode Text (TMP)", s_TextElementSize);
+                JavaUnicodeTextMeshProUGUI textComponent = go.AddComponent<JavaUnicodeTextMeshProUGUI>();
+            #endif
+
+            textComponent.color = Color.white;
+            textComponent.text = "ꦲꦤꦕꦫꦏ";
+            textComponent.fontSize = JT_Settings.defaultFontSize;
 
             if (TMP_Settings.autoSizeTextContainer)
             {
@@ -52,21 +91,6 @@ namespace JavaneseToolkit
                 s_StandardResources.mask = AssetDatabase.GetBuiltinExtraResource<Sprite>(kMaskPath);
             }
             return s_StandardResources;
-        }
-
-        public static GameObject CreateText(TMP_DefaultControls.Resources resources)
-        {
-            GameObject go = null;
-
-            #if UNITY_EDITOR
-                go = ObjectFactory.CreateGameObject("Javanese ANSI Text (TMP)");
-                JavaANSITextMeshProUGUI textComponent = ObjectFactory.AddComponent<JavaANSITextMeshProUGUI>(go);
-            #else
-                go = CreateUIElementRoot("Javanese ANSI Text (TMP)", s_TextElementSize);
-                go.AddComponent<JavaneseANSITextMeshProUGUI>();
-            #endif
-
-            return go;
         }
 
         private static GameObject CreateUIElementRoot(string name, Vector2 size)

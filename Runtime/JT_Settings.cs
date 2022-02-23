@@ -30,6 +30,26 @@ namespace JavaneseToolkit
         private Vector4 m_defaultMargin = new Vector4(0, 21, 0, 0);
 
         /// <summary>
+        /// Returns the Default Javanese Unicode Font to be used in Editor.
+        /// </summary>
+        public static Font defaultJavaUnicodeEditorFont
+        {
+            get { return instance.m_defaultJavaUnicodeEditorFont; }
+        }
+        [SerializeField]
+        private Font m_defaultJavaUnicodeEditorFont;
+
+        /// <summary>
+        /// Returns the Default Javanese ANSI Font to be used in Editor.
+        /// </summary>
+        public static Font defaultJavaANSIEditorFont
+        {
+            get { return instance.m_defaultJavaANSIEditorFont; }
+        }
+        [SerializeField]
+        private Font m_defaultJavaANSIEditorFont;
+
+        /// <summary>
         /// Returns the Default Font Asset to be used by newly created text objects.
         /// </summary>
         public static TMP_FontAsset defaultJavaUnicodeFontAsset

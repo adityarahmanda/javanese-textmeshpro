@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-public static class JavaUnicodeAdjuster {
+public static class JavaUnicodeFixerExtensions {
     private static Dictionary<char, char> pasangan = new Dictionary<char, char>() {
         { 'ꦄ', '\xE000' },      // A
         { 'ꦅ', '\xE001' },      // I kawi
@@ -68,7 +68,7 @@ public static class JavaUnicodeAdjuster {
         { 'ꦝ', '\xE03F' },       // dha
         { 'ꦠ', '\xE045' },       // ta 											
         { 'ꦡ', '\xE047' },       // ta murda 
-        { 'ꦢ', '\xE04B' },       // da 
+        { 'ꦢ', '\xE04C' },       // da 
         { 'ꦤ', '\xE050' },       // na
         { 'ꦩ', '\xE05C' },       // ma murda 
         { 'ꦭ', '\xE064' },       // la
@@ -80,6 +80,13 @@ public static class JavaUnicodeAdjuster {
     // ꦐꦿ ꦑꦿ ꦒꦿ ꦓꦿ ꦔꦿ ꦕꦿ ꦖꦿ ꦗꦿ ꦘꦿ ꦙꦿ ꦚꦿ ꦛꦿ ꦜꦿ ꦝꦿ ꦞꦿ ꦟꦿ
     // ꦠꦿ ꦡꦿ ꦢꦿ ꦣꦿ ꦤꦿ ꦥꦿ ꦦꦿ ꦧꦿ ꦨꦿ ꦩꦿ ꦪꦿ ꦫꦿ ꦬꦿ ꦭꦿ  ꦮꦿ ꦯꦿ
     // ꦰꦿ ꦱꦿ ꦲꦿ
+
+    // ꦤꦿꦸꦏꦿꦸꦚꦿꦸ
+    // ꦏ꧀ꦔꦿꦏ꧀ꦠꦿꦏ꧀ꦪꦿꦏ꧀ꦱꦿ
+    // ꦏ꧀ꦔꦿꦺꦴꦏ꧀ꦠꦿꦺꦴꦏ꧀ꦪꦿꦺꦴꦏ꧀ꦱꦿꦺꦴ
+    // ꦏꦸꦏꦹꦏꦾꦏꦽ
+    // ꦏ꧀ꦏꦸ ꦏ꧀ꦏꦹ ꦏ꧀ꦏꦾ ꦏ꧀ꦏꦽ
+    // ꦏ꧀ꦤꦸꦏ꧀ꦤꦹꦏ꧀ꦤꦾꦏ꧀ꦤꦽ
 
     private static char[] smallWyanjana = new char[] {
         'ꦅ', 'ꦈ', 'ꦉ', 'ꦊ', 'ꦋ', 'ꦌ', 'ꦍ', 'ꦎ', 'ꦑ', 'ꦔ', 'ꦕ',
@@ -105,7 +112,7 @@ public static class JavaUnicodeAdjuster {
         'ꦡ', 'ꦢ', 'ꦣ', 'ꦤ', 'ꦧ', 'ꦨ', 'ꦩ', 'ꦫ', 'ꦮ', 'ꦰ', 'ꦙ'
     };
 
-    public static string Adjust(string s)
+    public static string JavaUnicodeFix(this string s)
     {
         var length = s.Length;
         var sb = new StringBuilder(length);
@@ -130,20 +137,13 @@ public static class JavaUnicodeAdjuster {
                                     var c5 = s[i + 4];
 
                                     if(IsSuku(c5)) {
-                                        if(IsAltPasangan(c3)) {
-                                            sb.Append('\xE114'); // alt cakra
-                                        }
-
+                                        sb.Append('\xE114'); // alt cakra
                                         sb.Append(c);
 
                                         if(IsPasanganOnBelow(c3) && IsPasanganHasFullShape(c3)) {
                                             sb.Append(GetFullShapePasangan(c3));
                                         } else {
                                             sb.Append(GetPasangan(c3));
-                                        }
-
-                                        if(!IsAltPasangan(c3)) {
-                                            sb.Append('\xE118'); // cakra for pasangan
                                         }
 
                                         sb.Append('\xE08F'); // suku for pasangan
@@ -155,14 +155,40 @@ public static class JavaUnicodeAdjuster {
                                         sb.Append(c5);
 
                                         if(IsAltPasangan(c3)) {
-                                            sb.Append('\xE114'); // alt cakra for pasangan
-                                        }
+                                            sb.Append('\xE114'); // alt cakra 
+                                            sb.Append(c);
+                                            sb.Append(GetPasangan(c3));
+                                        } else {
+                                            if(IsPasanganOnBelow(c3)) {
+                                                sb.Append(' ');
+                                                sb.Append(c);
 
-                                        sb.Append(c);
-                                        sb.Append(GetPasangan(c3));
+                                                if(IsPasanganHasFullShape(c3)) {
+                                                    sb.Append(GetFullShapePasangan(c3));
+                                                } else {
+                                                    sb.Append(GetPasangan(c3));
+                                                }
 
-                                        if(!IsAltPasangan(c3)) {
-                                            sb.Append('\xE118'); // cakra for pasangan
+                                                if(IsSmall(c3)) {
+                                                    sb.Append('\xE118'); // small cakra for pasangan
+                                                }else if(IsMedium(c3)) {
+                                                    sb.Append('\xE119'); // medium cakra for pasangan
+                                                } else if(IsLarge(c3)) {
+                                                    sb.Append('\xE11A'); // large cakra for pasangan
+                                                }
+                                            } else {
+                                                sb.Append(c);
+                                                sb.Append(' ');
+                                                sb.Append(GetPasangan(c3));
+
+                                                if(IsSmall(c3)) {
+                                                    sb.Append('\xE115');  // small cakra
+                                                } else if(IsMedium(c3)) {
+                                                    sb.Append('\xE116');  // medium cakra
+                                                } else if(IsLarge(c3)) {
+                                                    sb.Append('\xE117');  // big cakra
+                                                }
+                                            }
                                         }
 
                                         i += 4;
@@ -172,13 +198,39 @@ public static class JavaUnicodeAdjuster {
 
                                 if(IsAltPasangan(c3)) {
                                     sb.Append('\xE114'); // alt cakra 
-                                }
+                                    sb.Append(c);
+                                    sb.Append(GetPasangan(c3));
+                                } else {
+                                    if(IsPasanganOnBelow(c3)) {
+                                        sb.Append(' ');
+                                        sb.Append(c);
 
-                                sb.Append(c);
-                                sb.Append(GetPasangan(c3));
+                                        if(IsPasanganHasFullShape(c3)) {
+                                            sb.Append(GetFullShapePasangan(c3));
+                                        } else {
+                                            sb.Append(GetPasangan(c3));
+                                        }
 
-                                if(!IsAltPasangan(c3)) {
-                                    sb.Append('\xE118'); // cakra for pasangan
+                                        if(IsSmall(c3)) {
+                                            sb.Append('\xE118'); // small cakra for pasangan
+                                        }else if(IsMedium(c3)) {
+                                            sb.Append('\xE119'); // medium cakra for pasangan
+                                        } else if(IsLarge(c3)) {
+                                            sb.Append('\xE11A'); // large cakra for pasangan
+                                        }
+                                    } else {
+                                        sb.Append(c);
+                                        sb.Append(' ');
+                                        sb.Append(GetPasangan(c3));
+
+                                        if(IsSmall(c3)) {
+                                            sb.Append('\xE115');  // small cakra
+                                        } else if(IsMedium(c3)) {
+                                            sb.Append('\xE116');  // medium cakra
+                                        } else if(IsLarge(c3)) {
+                                            sb.Append('\xE117');  // big cakra
+                                        }
+                                    }
                                 }
 
                                 i += 3;
@@ -188,21 +240,24 @@ public static class JavaUnicodeAdjuster {
                             if(IsSuku(c4) || IsDirgaMendhut(c4) || IsCakraKeret(c4) || IsWignyan(c4)) { 
                                 sb.Append(c);
 
-                                if(IsPasanganHasFullShape(c3)) {
-                                    sb.Append(GetFullShapePasangan(c3));
+                                if(IsPasanganOnBelow(c3)) {
+                                    if(IsPasanganHasFullShape(c3)) {
+                                        sb.Append(GetFullShapePasangan(c3));
+                                    } else {
+                                        sb.Append(GetPasangan(c3));
+                                    }
+
+                                    if(IsSuku(c4)) {
+                                        sb.Append('\xE08F'); // suku for pasangan
+                                    } else if(IsDirgaMendhut(c4)) {
+                                        sb.Append('\xE090'); // dirga mendhut for pasangan
+                                    } else if(IsCakraKeret(c4)) {
+                                        sb.Append('\xE094'); // cakra keret for pasangan
+                                    } else if(IsWignyan(c4)) {
+                                        sb.Append('\xE098'); // wignyan for pasangan
+                                    }
                                 } else {
                                     sb.Append(GetPasangan(c3));
-                                }
-
-                                if(IsPasanganOnBelow(c3) && IsSuku(c4)) {
-                                    sb.Append('\xE08F'); // suku for pasangan
-                                } else if(IsPasanganOnBelow(c3) && IsDirgaMendhut(c4)) {
-                                    sb.Append('\xE090'); // dirga mendhut for pasangan
-                                } else if(IsPasanganOnBelow(c3) && IsCakraKeret(c4)) {
-                                    sb.Append('\xE094'); // cakra keret for pasangan
-                                } else if(IsPasanganOnBelow(c3) && IsWignyan(c4)) {
-                                    sb.Append('\xE098'); // wignyan for pasangan
-                                } else {
                                     sb.Append(c4);
                                 }
 
@@ -252,55 +307,55 @@ public static class JavaUnicodeAdjuster {
 
                 if(IsWulu(c) && IsPanyangga(c2)) {
                     sb.Append('\xE089');
-                    i += 2;
+                    i++;
                     continue;
                 }
 
                 if(IsWulu(c) && IsCecak(c2)) {
                     sb.Append('\xE08A');
-                    i += 2;
+                    i++;
                     continue;
                 }
 
                 if(IsWulu(c) && IsLayar(c2)) {
                     sb.Append('\xE08B');
-                    i += 2;
+                    i++;
                     continue;
                 }
 
                 if(IsPepet(c) && IsPanyangga(c2)) {
                     sb.Append('\xE091');
-                    i += 2;
+                    i++;
                     continue;
                 }
 
                 if(IsPepet(c) && IsCecak(c2)) {
                     sb.Append('\xE092');
-                    i += 2;
+                    i++;
                     continue;
                 }
 
                 if(IsPepet(c) && IsLayar(c2)) {
                     sb.Append('\xE093');
-                    i += 2;
+                    i++;
                     continue;
                 }
 
                 if(IsWuluMelik(c) && IsPanyangga(c2)) {
                     sb.Append('\xE08C');
-                    i += 2;
+                    i++;
                     continue;
                 }
 
                 if(IsWuluMelik(c) && IsCecak(c2)) {
                     sb.Append('\xE08D');
-                    i += 2;
+                    i++;
                     continue;
                 }
 
                 if(IsWuluMelik(c) && IsLayar(c2)) {
                     sb.Append('\xE08E');
-                    i += 2;
+                    i++;
                     continue;
                 }
 
@@ -455,35 +510,68 @@ public static class JavaUnicodeAdjuster {
                 }
             
                 if(IsAlt(c) && IsCakra(c2)) {
-                    sb.Append('\xE114');
+                    sb.Append('\xE114'); // alt cakra
                     sb.Append(c);
                     i++;
                     continue;
                 }
 
                 if(IsSmall(c) && IsCakra(c2)) {
+                    if(i + 2 < length) {
+                        var c3 = s[i + 2];
+
+                        if(IsSuku(c3)) {
+                            sb.Append(' ');
+                            sb.Append(c);
+                            sb.Append('\xE11B');  // small cakra + suku
+                            i += 2;
+                            continue;
+                        }
+                    }
+
+                    sb.Append(' ');
                     sb.Append(c);
-                    sb.Append('\xE115');
+                    sb.Append('\xE115');  // small cakra
                     i++;
                     continue;
                 }
 
                 if(IsMedium(c) && IsCakra(c2)) {
+                    if(i + 2 < length) {
+                        var c3 = s[i + 2];
+
+                        if(IsSuku(c3)) {
+                            sb.Append(' ');
+                            sb.Append(c);
+                            sb.Append('\xE11C');  // medium cakra + suku
+                            i += 2;
+                            continue;
+                        }
+                    }
+
+                    sb.Append(' ');
                     sb.Append(c);
-                    sb.Append('\xE116');
+                    sb.Append('\xE116'); // medium cakra
                     i++;
                     continue;
                 }
 
                 if(IsLarge(c) && IsCakra(c2)) {
+                    if(i + 2 < length) {
+                        var c3 = s[i + 2];
+
+                        if(IsSuku(c3)) {
+                            sb.Append(' ');
+                            sb.Append(c);
+                            sb.Append('\xE11D');  // large cakra + suku
+                            i += 2;
+                            continue;
+                        }
+                    }
+
+                    sb.Append(' ');
                     sb.Append(c);
-                    sb.Append('\xE117');
-                    i++;
-                    continue;
-                }
-            
-                if(IsCakra(c) && IsSuku(c2)) {
-                    sb.Append('\xE11B');
+                    sb.Append('\xE117');  // large cakra
                     i++;
                     continue;
                 }
@@ -531,7 +619,7 @@ public static class JavaUnicodeAdjuster {
     }
 
     private static bool IsTaling(char c) {
-        return c == 'ꦺ';
+        return c == 'ꦺ' || c == 'ꦻ';
     }
 
     private static bool IsCecak(char c) {
@@ -575,7 +663,7 @@ public static class JavaUnicodeAdjuster {
     }
 
     private static bool IsPasanganOnBelow(char c) {
-        return IsJavaUnicode(c) && !IsPasanganOnRight(c);
+        return IsWyanjana(c) && !IsPasanganOnRight(c);
     }
 
     private static bool IsPasanganHasFullShape(char c) {
