@@ -55,6 +55,10 @@ public static class JavaUnicodeFixerExtensions {
         { 'ꦲ', '\xE077' },       // ha - \xE078 alt
     };
 
+    private static bool IsPasangan(char c) {
+        return pasangan.ContainsValue(c);
+    }
+
     private static Dictionary<char, char> fullShapePasangan = new Dictionary<char, char>() {
         { 'ꦏ', '\xE014' },       // ka
         { 'ꦐ', '\xE016' },       // qa (ka sasak) 
@@ -120,463 +124,543 @@ public static class JavaUnicodeFixerExtensions {
         {
             var c = s[i];
 
-            // check next character
-            if (i + 1 < length)
-            {
-                var c2 = s[i + 1];
+            if(IsCakra(c)) {
+                bool isCakraAlt = false;
+                int cakraAltPos = -1;
 
-                if (i + 2 < length) {
-                    var c3 = s[i + 2];
-
-                    if(IsPangkon(c2) && IsWyanjana(c3)) {
-                        if(i + 3 < length) {
-                            var c4 = s[i + 3];
-
-                            if(IsCakra(c4)) {
-                                if(i + 4 < length) {
-                                    var c5 = s[i + 4];
-
-                                    if(IsSuku(c5)) {
-                                        sb.Append('\xE114'); // alt cakra
-                                        sb.Append(c);
-
-                                        if(IsPasanganOnBelow(c3) && IsPasanganHasFullShape(c3)) {
-                                            sb.Append(GetFullShapePasangan(c3));
-                                        } else {
-                                            sb.Append(GetPasangan(c3));
-                                        }
-
-                                        sb.Append('\xE08F'); // suku for pasangan
-                                        i += 4;
-                                        continue;
-                                    }
-
-                                    if(IsTaling(c5)) {
-                                        sb.Append(c5);
-
-                                        if(IsAltPasangan(c3)) {
-                                            sb.Append('\xE114'); // alt cakra 
-                                            sb.Append(c);
-                                            sb.Append(GetPasangan(c3));
-                                        } else {
-                                            if(IsPasanganOnBelow(c3)) {
-                                                sb.Append(' ');
-                                                sb.Append(c);
-
-                                                if(IsPasanganHasFullShape(c3)) {
-                                                    sb.Append(GetFullShapePasangan(c3));
-                                                } else {
-                                                    sb.Append(GetPasangan(c3));
-                                                }
-
-                                                if(IsSmall(c3)) {
-                                                    sb.Append('\xE118'); // small cakra for pasangan
-                                                }else if(IsMedium(c3)) {
-                                                    sb.Append('\xE119'); // medium cakra for pasangan
-                                                } else if(IsLarge(c3)) {
-                                                    sb.Append('\xE11A'); // large cakra for pasangan
-                                                }
-                                            } else {
-                                                sb.Append(c);
-                                                sb.Append(' ');
-                                                sb.Append(GetPasangan(c3));
-
-                                                if(IsSmall(c3)) {
-                                                    sb.Append('\xE115');  // small cakra
-                                                } else if(IsMedium(c3)) {
-                                                    sb.Append('\xE116');  // medium cakra
-                                                } else if(IsLarge(c3)) {
-                                                    sb.Append('\xE117');  // big cakra
-                                                }
-                                            }
-                                        }
-
-                                        i += 4;
-                                        continue;
-                                    }
-                                }
-
-                                if(IsAltPasangan(c3)) {
-                                    sb.Append('\xE114'); // alt cakra 
-                                    sb.Append(c);
-                                    sb.Append(GetPasangan(c3));
-                                } else {
-                                    if(IsPasanganOnBelow(c3)) {
-                                        sb.Append(' ');
-                                        sb.Append(c);
-
-                                        if(IsPasanganHasFullShape(c3)) {
-                                            sb.Append(GetFullShapePasangan(c3));
-                                        } else {
-                                            sb.Append(GetPasangan(c3));
-                                        }
-
-                                        if(IsSmall(c3)) {
-                                            sb.Append('\xE118'); // small cakra for pasangan
-                                        }else if(IsMedium(c3)) {
-                                            sb.Append('\xE119'); // medium cakra for pasangan
-                                        } else if(IsLarge(c3)) {
-                                            sb.Append('\xE11A'); // large cakra for pasangan
-                                        }
-                                    } else {
-                                        sb.Append(c);
-                                        sb.Append(' ');
-                                        sb.Append(GetPasangan(c3));
-
-                                        if(IsSmall(c3)) {
-                                            sb.Append('\xE115');  // small cakra
-                                        } else if(IsMedium(c3)) {
-                                            sb.Append('\xE116');  // medium cakra
-                                        } else if(IsLarge(c3)) {
-                                            sb.Append('\xE117');  // big cakra
-                                        }
-                                    }
-                                }
-
-                                i += 3;
-                                continue;
-                            }
-                            
-                            if(IsSuku(c4) || IsDirgaMendhut(c4) || IsCakraKeret(c4) || IsWignyan(c4)) { 
-                                sb.Append(c);
-
-                                if(IsPasanganOnBelow(c3)) {
-                                    if(IsPasanganHasFullShape(c3)) {
-                                        sb.Append(GetFullShapePasangan(c3));
-                                    } else {
-                                        sb.Append(GetPasangan(c3));
-                                    }
-
-                                    if(IsSuku(c4)) {
-                                        sb.Append('\xE08F'); // suku for pasangan
-                                    } else if(IsDirgaMendhut(c4)) {
-                                        sb.Append('\xE090'); // dirga mendhut for pasangan
-                                    } else if(IsCakraKeret(c4)) {
-                                        sb.Append('\xE094'); // cakra keret for pasangan
-                                    } else if(IsWignyan(c4)) {
-                                        sb.Append('\xE098'); // wignyan for pasangan
-                                    }
-                                } else {
-                                    sb.Append(GetPasangan(c3));
-                                    sb.Append(c4);
-                                }
-
-                                i += 3;
-                                continue;
-                            }
-                            
-                            // check taling
-                            if(IsTaling(c4)) {
-                                sb.Append(c4);
-                                sb.Append(c);
-                                sb.Append(GetPasangan(c3));
-                                i += 3;
-                                continue;
-                            }
-                        }
-
-                        sb.Append(c);
-                        sb.Append(GetPasangan(c3));
-                        i += 2;
-                        continue;
-                    }
-
-                    if(IsPangkon(c2) && IsTaling(c3)) {
-                        sb.Append(c);
-                        sb.Append(c2);
-                        sb.Append(c3);
-                        i += 2;
-                        continue;
-                    } 
+                bool isWyanjanaPasangan = false;
+                char wyanjanaKepasanganCakra = '\0';
+                int wyanjanaKepasanganCakraPos = -1;
                 
-                    if(IsSandhanganWyanjana(c2) && IsTaling(c3)) {
-                        sb.Append(c3);
-                        sb.Append(c);
-                        sb.Append(c2);
-                        i += 2;
+                // find cakra's wyanjana and alt pos
+                for(int j = sb.Length - 1; j >= 0; j--) {
+                    if(IsPasangan(sb[j])) {
+                        isWyanjanaPasangan = true;
+                        wyanjanaKepasanganCakraPos = j;
+                        wyanjanaKepasanganCakra = GetWyanjanaFromPasangan(sb[j]);
+
+                        if(i + 1 < length) {
+                            var c2 = s[i + 1];
+
+                            if(isWyanjanaPasangan && IsSuku(c2) && IsPasanganOnBelow(wyanjanaKepasanganCakra)) {
+                                isCakraAlt = true;
+                            }
+                        }
+
+                        if(IsAlt(wyanjanaKepasanganCakra)) {
+                            isCakraAlt = true;
+                        }
+
+                        if(isCakraAlt) {
+                            cakraAltPos = j - 1;
+                            if(cakraAltPos < 0) {
+                                cakraAltPos = 0;
+                            }
+                        }
+                        break;
+                    }
+                    
+                    if(IsWyanjana(sb[j])) {
+                        wyanjanaKepasanganCakraPos = j;
+                        wyanjanaKepasanganCakra = sb[j];
+
+                        if(IsAlt(wyanjanaKepasanganCakra)) {
+                            isCakraAlt = true;
+                        }
+
+                        if(isCakraAlt) {
+                            cakraAltPos = j - 1;
+                            if(cakraAltPos < 0) {
+                                cakraAltPos = 0;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                if(isCakraAlt) {
+                    sb.Insert(cakraAltPos, '\xE114');
+                    continue;
+                }
+
+                if(isWyanjanaPasangan && IsPasanganOnBelow(wyanjanaKepasanganCakra)) {
+                    // replace pasangan with full shape pasangan
+                    if(IsPasanganHasFullShape(wyanjanaKepasanganCakra)) {
+                        sb.Remove(wyanjanaKepasanganCakraPos, 1);
+                        sb.Insert(wyanjanaKepasanganCakraPos, GetFullShapePasangan(wyanjanaKepasanganCakra));
+                    }
+
+                    if(IsSmall(wyanjanaKepasanganCakra)) {
+                        sb.Append('\xE118'); // small cakra for pasangan
+                        continue;
+                    }
+                    
+                    if(IsMedium(wyanjanaKepasanganCakra)) {
+                        sb.Append('\xE119'); // medium cakra for pasangan
+                        continue;
+                    }
+                    
+                    if(IsLarge(wyanjanaKepasanganCakra)) {
+                        sb.Append('\xE11A'); // large cakra for pasangan
                         continue;
                     }
                 }
 
-                if(IsTaling(c2)) {
-                    sb.Append(c2);
-                    sb.Append(c);
-                    i++;
-                    continue;
-                }
-
-                if(IsWulu(c) && IsPanyangga(c2)) {
-                    sb.Append('\xE089');
-                    i++;
-                    continue;
-                }
-
-                if(IsWulu(c) && IsCecak(c2)) {
-                    sb.Append('\xE08A');
-                    i++;
-                    continue;
-                }
-
-                if(IsWulu(c) && IsLayar(c2)) {
-                    sb.Append('\xE08B');
-                    i++;
-                    continue;
-                }
-
-                if(IsPepet(c) && IsPanyangga(c2)) {
-                    sb.Append('\xE091');
-                    i++;
-                    continue;
-                }
-
-                if(IsPepet(c) && IsCecak(c2)) {
-                    sb.Append('\xE092');
-                    i++;
-                    continue;
-                }
-
-                if(IsPepet(c) && IsLayar(c2)) {
-                    sb.Append('\xE093');
-                    i++;
-                    continue;
-                }
-
-                if(IsWuluMelik(c) && IsPanyangga(c2)) {
-                    sb.Append('\xE08C');
-                    i++;
-                    continue;
-                }
-
-                if(IsWuluMelik(c) && IsCecak(c2)) {
-                    sb.Append('\xE08D');
-                    i++;
-                    continue;
-                }
-
-                if(IsWuluMelik(c) && IsLayar(c2)) {
-                    sb.Append('\xE08E');
-                    i++;
-                    continue;
-                }
-
-                if(IsCecakTelu(c) && IsPanyangga(c2)) {
-                    sb.Append('\xE07A');
-                    i++;
-                    continue;
-                }
-
-                if(IsCecakTelu(c) && IsCecak(c2)) {
-                    sb.Append('\xE07B');
-                    i++;
-                    continue;
-                }
-
-                if(IsCecakTelu(c) && IsLayar(c2)) {
-                    sb.Append('\xE07C');
-                    i++;
-                    continue;
-                }
-
-                if(IsCecakTelu(c) && IsWulu(c2)) {
-                    if(i + 2 < length) {
-                        var c3 = s[i + 2];
-
-                        if(IsPanyangga(c3)) {
-                            sb.Append('\xE07E');
-                            i += 2;
-                            continue;
-                        }
-
-                        if(IsCecak(c3)) {
-                            sb.Append('\xE07F');
-                            i += 2;
-                            continue;
-                        }
-                    
-                        if(IsLayar(c3)) {
-                            sb.Append('\xE080');
-                            i += 2;
-                            continue;
-                        }
-                    }
-                    
-                    sb.Append(c);
-                    sb.Append('\xE07D');
-                    i++;
-                    continue;
-                }
-
-                if(IsCecakTelu(c) && IsWuluMelik(c2)) {
-                    if(i + 2 < length) {
-                        var c3 = s[i + 2];
-
-                        if(IsPanyangga(c3)) {
-                            sb.Append('\xE082');
-                            i += 2;
-                            continue;
-                        }
-
-                        if(IsCecak(c3)) {
-                            sb.Append('\xE083');
-                            i += 2;
-                            continue;
-                        }
-                    
-                        if(IsLayar(c3)) {
-                            sb.Append('\xE084');
-                            i += 2;
-                            continue;
-                        }
-                    }
-
-                    sb.Append(c);
-                    sb.Append('\xE081');
-                    i++;
-                    continue;
-                }
-
-                if(IsCecakTelu(c) && IsPepet(c2)) {
-                    if(i + 2 < length) {
-                        var c3 = s[i + 2];
-
-                        if(IsPanyangga(c3)) {
-                            sb.Append('\xE086');
-                            i += 2;
-                            continue;
-                        }
-
-                        if(IsCecak(c3)) {
-                            sb.Append('\xE087');
-                            i += 2;
-                            continue;
-                        }
-                    
-                        if(IsLayar(c3)) {
-                            sb.Append('\xE088');
-                            i += 2;
-                            continue;
-                        }
-                    }
-
-                    sb.Append('\xE085');
-                    i++;
-                    continue;
-                }
-            
-                if(IsWyanjanaAI(c) && IsPanyangga(c2)) {
-                    sb.Append('\xE00B');
-                    i++;
-                    continue;
-                }
-
-                if(IsWyanjanaAI(c) && IsCecak(c2)) {
-                    sb.Append('\xE00C');
-                    i++;
-                    continue;
-                }
-
-                if(IsWyanjanaAI(c) && IsLayar(c2)) {
-                    sb.Append('\xE00D');
-                    i++;
-                    continue;
-                }
-            
-                if(IsWyanjanaAI(c) && IsCecakTelu(c2)) {
-                    if(i + 2 < length) {
-                        var c3 = s[i + 2];
-
-                        if(IsPanyangga(c3)) {
-                            sb.Append('\xE00F');
-                            i += 2;
-                            continue;
-                        }
-
-                        if(IsCecak(c3)) {
-                            sb.Append('\xE010');
-                            i += 2;
-                            continue;
-                        }
-                    
-                        if(IsLayar(c3)) {
-                            sb.Append('\xE011');
-                            i += 2;
-                            continue;
-                        }
-                    }
-                    
-                    sb.Append('\xE00E');
-                    i++;
-                    continue;
-                }
-            
-                if(IsAlt(c) && IsCakra(c2)) {
-                    sb.Append('\xE114'); // alt cakra
-                    sb.Append(c);
-                    i++;
-                    continue;
-                }
-
-                if(IsSmall(c) && IsCakra(c2)) {
-                    if(i + 2 < length) {
-                        var c3 = s[i + 2];
-
-                        if(IsSuku(c3)) {
-                            sb.Append(' ');
-                            sb.Append(c);
-                            sb.Append('\xE11B');  // small cakra + suku
-                            i += 2;
-                            continue;
-                        }
-                    }
-
-                    sb.Append(' ');
-                    sb.Append(c);
+                if(IsSmall(wyanjanaKepasanganCakra)) {
                     sb.Append('\xE115');  // small cakra
-                    i++;
                     continue;
                 }
-
-                if(IsMedium(c) && IsCakra(c2)) {
-                    if(i + 2 < length) {
-                        var c3 = s[i + 2];
-
-                        if(IsSuku(c3)) {
-                            sb.Append(' ');
-                            sb.Append(c);
-                            sb.Append('\xE11C');  // medium cakra + suku
-                            i += 2;
-                            continue;
-                        }
-                    }
-
-                    sb.Append(' ');
-                    sb.Append(c);
-                    sb.Append('\xE116'); // medium cakra
-                    i++;
+                
+                if(IsMedium(wyanjanaKepasanganCakra)) {
+                    sb.Append('\xE116');  // medium cakra
                     continue;
-                }
-
-                if(IsLarge(c) && IsCakra(c2)) {
-                    if(i + 2 < length) {
-                        var c3 = s[i + 2];
-
-                        if(IsSuku(c3)) {
-                            sb.Append(' ');
-                            sb.Append(c);
-                            sb.Append('\xE11D');  // large cakra + suku
-                            i += 2;
-                            continue;
-                        }
-                    }
-
-                    sb.Append(' ');
-                    sb.Append(c);
-                    sb.Append('\xE117');  // large cakra
-                    i++;
+                } 
+                
+                if(IsLarge(wyanjanaKepasanganCakra)) {
+                    sb.Append('\xE117');  // big cakra
                     continue;
                 }
             }
 
+            if(IsPangkon(c)) {
+                if(i + 1 < length) {
+                    var c2 = s[i + 1];
+                    
+                    if(IsWyanjana(c2)) {
+                        sb.Append(GetPasangan(c2));
+                        i++;
+                        continue;
+                    }
+                }
+            }
+
+            if(IsTaling(c)) {
+                int talingPos = -1;
+                for(int j = sb.Length - 1; j >= 0; j--) {
+                    if(IsSandhanganSwara(sb[j])) {
+                        talingPos = j + 1;
+                        break;
+                    }
+                    
+                    if(IsWyanjana(sb[j])) {
+                        if(j - 1 >= 0){
+                            if(IsCakraAlt(sb[j - 1])) {
+                                talingPos = j - 1;
+                                break;
+                            }
+                        } 
+
+                        talingPos = j;
+                        break;
+                    }
+                }
+
+                if(talingPos != -1) {
+                    sb.Insert(talingPos, c);
+                    continue;
+                }
+            }
+
+            if(IsSuku(c)) {
+                if(sb.Length - 1 >= 0) {
+                    var sbLastChar = sb[sb.Length - 1];
+
+                    if(IsCakra(sbLastChar) && IsCakraSmall(sbLastChar)) {
+                        sb.Remove(sb.Length - 1, 1);
+                        sb.Append('\xE11B'); // cakra + u small ꦫꦿꦸ
+                        continue;
+                    }
+
+                    if(IsCakra(sbLastChar) && IsCakraMedium(sbLastChar)) {
+                        sb.Remove(sb.Length - 1, 1);
+                        sb.Append('\xE11C'); // cakra + u medium ꦏꦿꦸ
+                        continue;
+                    }
+
+                    if(IsCakra(sbLastChar) && IsCakraBig(sbLastChar)) {
+                        sb.Remove(sb.Length - 1, 1);
+                        sb.Append('\xE11D'); // cakra + u big ꦚꦿꦸ
+                        continue;
+                    }
+                }
+            }
+
+            if(IsSuku(c) || IsDirgaMendhut(c) || IsCakraKeret(c) || IsPengkal(c)) { 
+                if(sb.Length - 1 >= 0) {
+                    var sbLastChar = sb[sb.Length - 1];
+
+                    if(IsPasangan(sbLastChar)) {
+                        var sbLastCharWyanjana = GetWyanjanaFromPasangan(sbLastChar);
+
+                        if(IsPasanganOnBelow(sbLastCharWyanjana)) {
+                            // replace pasangan to full shape pasangan
+                            if(IsPasanganHasFullShape(sbLastCharWyanjana)) {
+                                sb.Remove(sb.Length - 1, 1);
+                                sb.Append(GetFullShapePasangan(sbLastCharWyanjana));
+                            }
+
+                            if(IsSuku(c)) {
+                                sb.Append('\xE08F'); // suku for pasangan ꦏ꧀ꦏꦸ
+                                continue;
+                            }
+                            
+                            if(IsDirgaMendhut(c)) {
+                                sb.Append('\xE090'); // dirga mendhut for pasangan ꦏ꧀ꦏꦹ
+                                continue;
+                            }
+                            
+                            if(IsCakraKeret(c)) {
+                                sb.Append('\xE094'); // cakra keret for pasangan ꦏ꧀ꦏꦽ
+                                continue;
+                            }
+                            
+                            if(IsPengkal(c)) {
+                                sb.Append('\xE098'); // pengkal for pasangan ꦏ꧀ꦏꦾ 
+                                continue;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // wulu
+            if(IsWulu(c)) {
+                if(sb.Length - 2 >= 0) {
+                    var sbLastChar = sb[sb.Length - 1];
+                    var sbLastChar2 = sb[sb.Length - 2];
+
+                    if(IsCecakTelu(sbLastChar2) && IsCakra(sbLastChar)) {
+                        // remove cecak telu
+                        sb.Remove(sb.Length - 2, 1);
+
+                        if(i + 1 < length) {
+                            var c2 = s[i + 1]; 
+
+                            if(IsPanyangga(c2)) {
+                                sb.Append('\xE07E'); // ꦳ꦶꦀ
+                                i++;
+                                continue;
+                            }
+
+                            if(IsCecak(c2)) {
+                                sb.Append('\xE07F'); // ꦳ꦶꦁ
+                                i++;
+                                continue;
+                            }
+                        
+                            if(IsLayar(c2)) {
+                                sb.Append('\xE080'); // ꦳ꦶꦂ
+                                i++;
+                                continue;
+                            }
+                        }
+                        
+                        sb.Append('\xE07D'); // ꦳ꦶ
+                        continue;
+                    }
+                }
+
+                if(i + 1 < length) {
+                    var c2 = s[i + 1];
+                    
+                    if(IsPanyangga(c2)) {
+                        sb.Append('\xE089'); // ꦶꦀ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsCecak(c2)) {
+                        sb.Append('\xE08A'); // ꦶꦁ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsLayar(c2)) {
+                        sb.Append('\xE08B'); // ꦶꦂ
+                        i++;
+                        continue;
+                    }
+                }
+            }
+
+            // pepet
+            if(IsPepet(c)) {
+                if(sb.Length - 2 >= 0) {
+                    var sbLastChar = sb[sb.Length - 1];
+                    var sbLastChar2 = sb[sb.Length - 2];
+
+                    if(IsCecakTelu(sbLastChar2) && IsCakra(sbLastChar)) {
+                        // remove cecak telu
+                        sb.Remove(sb.Length - 2, 1);
+
+                        if(i + 1 < length) {
+                            var c2 = s[i + 1]; 
+
+                            if(IsPanyangga(c2)) {
+                                sb.Append('\xE086'); // ꦳ꦼꦀ
+                                i++;
+                                continue;
+                            }
+
+                            if(IsCecak(c2)) {
+                                sb.Append('\xE087'); // ꦳ꦼꦁ
+                                i++;
+                                continue;
+                            }
+                        
+                            if(IsLayar(c2)) {
+                                sb.Append('\xE088'); // ꦳ꦼꦂ
+                                i++;
+                                continue;
+                            }
+                        }
+                        
+                        sb.Append('\xE085'); // ꦳ꦼ
+                        continue;
+                    }
+                }
+                
+                if(i + 1 < length) {
+                    var c2 = s[i + 1];
+                    
+                    if(IsPanyangga(c2)) {
+                        sb.Append('\xE091'); // ꦼꦀ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsCecak(c2)) {
+                        sb.Append('\xE092'); // ꦼꦁ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsLayar(c2)) {
+                        sb.Append('\xE093'); // ꦼꦂ
+                        i++;
+                        continue;
+                    }
+                }
+            }
+
+            if(IsWuluMelik(c)) {
+                if(sb.Length - 2 >= 0) {
+                    var sbLastChar = sb[sb.Length - 1];
+                    var sbLastChar2 = sb[sb.Length - 2];
+
+                    if(i + 1 < length) {
+                        var c2 = s[i + 1];
+
+                        if(IsPanyangga(c2)) {
+                            sb.Append('\xE082'); // ꦳ꦷꦀ
+                            i++;
+                            continue;
+                        }
+
+                        if(IsCecak(c2)) {
+                            sb.Append('\xE083'); // ꦳ꦷꦁ
+                            i++;
+                            continue;
+                        }
+                    
+                        if(IsLayar(c2)) {
+                            sb.Append('\xE084'); // ꦳ꦷꦂ
+                            i++;
+                            continue;
+                        }
+                    }
+
+                    sb.Append('\xE081'); // ꦳ꦷ
+                    continue;
+                }
+
+                if(i + 1 < length) {
+                    var c2 = s[i + 1];
+
+                    if(IsPanyangga(c2)) {
+                        sb.Append('\xE08C'); // ꦷꦀ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsCecak(c2)) {
+                        sb.Append('\xE08D'); // ꦷꦁ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsLayar(c2)) {
+                        sb.Append('\xE08E'); // ꦷꦂ
+                        i++;
+                        continue;
+                    }
+                }
+            }
+
+            // cecak telu
+            if(IsCecakTelu(c)) {
+                if(i + 1 < length) {
+                    var c2 = s[i + 1];
+
+                    if(IsPanyangga(c2)) {
+                        sb.Append('\xE07A'); // ꦳ꦀ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsCecak(c2)) {
+                        sb.Append('\xE07B'); // ꦳ꦁ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsLayar(c2)) {
+                        sb.Append('\xE07C'); // ꦳ꦂ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsWulu(c2)) {
+                        if(i + 2 < length) {
+                            var c3 = s[i + 2];
+
+                            if(IsPanyangga(c3)) {
+                                sb.Append('\xE07E'); // ꦳ꦶꦀ
+                                i += 2;
+                                continue;
+                            }
+
+                            if(IsCecak(c3)) {
+                                sb.Append('\xE07F'); // ꦳ꦶꦁ
+                                i += 2;
+                                continue;
+                            }
+                        
+                            if(IsLayar(c3)) {
+                                sb.Append('\xE080'); // ꦳ꦶꦂ
+                                i += 2;
+                                continue;
+                            }
+                        }
+                        
+                        sb.Append(c);
+                        sb.Append('\xE07D'); // ꦳ꦶ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsWuluMelik(c2)) {
+                        if(i + 2 < length) {
+                            var c3 = s[i + 2];
+
+                            if(IsPanyangga(c3)) {
+                                sb.Append('\xE082'); // ꦳ꦷꦀ
+                                i += 2;
+                                continue;
+                            }
+
+                            if(IsCecak(c3)) {
+                                sb.Append('\xE083'); // ꦳ꦷꦁ
+                                i += 2;
+                                continue;
+                            }
+                        
+                            if(IsLayar(c3)) {
+                                sb.Append('\xE084'); // ꦳ꦷꦂ
+                                i += 2;
+                                continue;
+                            }
+                        }
+
+                        sb.Append(c);
+                        sb.Append('\xE081'); // ꦳ꦷ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsPepet(c2)) {
+                        if(i + 2 < length) {
+                            var c3 = s[i + 2]; 
+
+                            if(IsPanyangga(c3)) {
+                                sb.Append('\xE086'); // ꦳ꦼꦀ
+                                i += 2;
+                                continue;
+                            }
+
+                            if(IsCecak(c3)) {
+                                sb.Append('\xE087'); // ꦳ꦼꦁ
+                                i += 2;
+                                continue;
+                            }
+                        
+                            if(IsLayar(c3)) {
+                                sb.Append('\xE088'); // ꦳ꦼꦂ
+                                i += 2;
+                                continue;
+                            }
+                        }
+
+                        sb.Append('\xE085'); // ꦳ꦼ
+                        i++;
+                        continue;
+                    }
+                }
+            }
+
+            // wyanjana ai (ꦍ)
+            if(IsWyanjanaAI(c)) {
+                if(i + 1 < length) {
+                    var c2 = s[i + 1];
+
+                    if(IsPanyangga(c2)) {
+                        sb.Append('\xE00B'); // ꦍꦀ
+                        i++;
+                        continue;
+                    }
+
+                    if(IsCecak(c2)) {
+                        sb.Append('\xE00C'); // ꦍ꦳
+                        i++;
+                        continue;
+                    }
+
+                    if(IsLayar(c2)) {
+                        sb.Append('\xE00D'); // ꦍꦂ
+                        i++;
+                        continue;
+                    }
+                
+                    if(IsCecakTelu(c2)) {
+                        if(i + 2 < length) {
+                            var c3 = s[i + 2];
+
+                            if(IsPanyangga(c3)) {
+                                sb.Append('\xE00F'); // ꦍ꦳ꦀ
+                                i += 2;
+                                continue;
+                            }
+
+                            if(IsCecak(c3)) {
+                                sb.Append('\xE010'); // ꦍ꦳ꦁ
+                                i += 2;
+                                continue;
+                            }
+                        
+                            if(IsLayar(c3)) {
+                                sb.Append('\xE011'); // ꦍ꦳ꦂ
+                                i += 2;
+                                continue;
+                            }
+                        }
+                        
+                        sb.Append('\xE00E'); // ꦍ꦳
+                        i++;
+                        continue;
+                    }
+                }
+            }
+            
             sb.Append(c);
         }
 
@@ -587,23 +671,27 @@ public static class JavaUnicodeFixerExtensions {
     {
         return c >= '\xA980' && c <= '\xA9DF';
     }
-    
-    private static bool IsPangkon(char c)
-    {
-        return c == '\xA9C0';
-    }
 
     private static bool IsWyanjana(char c)
     {
         return c >= '\xA984' && c <= '\xA9B2';
     }
 
+    private static bool IsPangkon(char c)
+    {
+        return c == '꧀';
+    }
+
+    private static bool IsSandhanganSwara(char c) {
+        return IsSuku(c) || IsDirgaMendhut(c) || IsTaling(c) || IsWulu(c) || IsWuluMelik(c) || IsPepet(c);
+    }
+
     private static bool IsSuku(char c) {
-        return c == 'ꦸ';
+        return c == 'ꦸ' || c == '\xE08F';
     }
 
     private static bool IsDirgaMendhut(char c) {
-        return c == 'ꦹ';
+        return c == 'ꦹ' || c == '\xE090';
     }
 
     private static bool IsWulu(char c) {
@@ -639,14 +727,30 @@ public static class JavaUnicodeFixerExtensions {
     }
 
     private static bool IsCakra(char c) {
-        return c == 'ꦿ';
+        return c == 'ꦿ' || (c >= '\xE115' && c <= '\xE117');
+    }
+
+    private static bool IsCakraAlt(char c) {
+        return c == '\xE114';
+    }
+
+    private static bool IsCakraSmall(char c) {
+        return c == '\xE115';
+    }
+
+    private static bool IsCakraMedium(char c) {
+        return c == '\xE116';
+    }
+
+    private static bool IsCakraBig(char c) {
+        return c == '\xE117';
     }
 
     private static bool IsCakraKeret(char c) {
         return c == 'ꦽ';
     }
 
-    private static bool IsWignyan(char c) {
+    private static bool IsPengkal(char c) {
         return c == 'ꦾ';
     }
 
@@ -688,6 +792,16 @@ public static class JavaUnicodeFixerExtensions {
 
     private static bool IsAltPasangan(char c) {
         return Array.Exists(altPasangan, x => x == c);
+    }
+
+    private static char GetWyanjanaFromPasangan(char c) {
+        foreach(var pair in pasangan) {
+            if(pair.Value == c) {
+                return pair.Key;
+            }
+        }
+
+        return '\0';
     }
 
     private static char GetPasangan(char c) {
