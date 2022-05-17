@@ -6,19 +6,18 @@ using TMPro.EditorUtilities;
 
 #pragma warning disable 0414 // Disabled a few warnings related to serialized variables not used in this script but used in the editor.
 
-namespace JavaneseToolkit {
-    [CustomEditor(typeof(JavaUnicodeTextMeshProUGUI), true), CanEditMultipleObjects]
-    public class JavaUnicodeTextMeshProUGUIEditor : TMP_EditorPanelUI
+namespace JVTMPro {
+    [CustomEditor(typeof(JVTMProUGUI), true), CanEditMultipleObjects]
+    public class JVTMProUGUIEditor : TMP_EditorPanelUI
     {
-        private SerializedProperty m_javaUnicodeInputTextProp;
-        
+        private SerializedProperty m_inputTextProp;
         private bool m_preview = true;
-        private JavaUnicodeTextMeshProUGUI m_javaUnicodeTextComponent;
+        private JVTMProUGUI m_textComponent;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            m_javaUnicodeInputTextProp = serializedObject.FindProperty("m_javaUnicodeInputText");
+            m_inputTextProp = serializedObject.FindProperty("m_inputText");
         }
 
         public override void OnInspectorGUI()
@@ -27,7 +26,7 @@ namespace JavaneseToolkit {
             if (IsMixSelectionTypes()) return;
 
             serializedObject.Update();
-            m_javaUnicodeTextComponent = (JavaUnicodeTextMeshProUGUI)target;
+            m_textComponent = (JVTMProUGUI)target;
 
             DrawJavaneseTextInput();
 
@@ -42,7 +41,7 @@ namespace JavaneseToolkit {
             if (serializedObject.ApplyModifiedProperties() || m_HavePropertiesChanged)
             {
                 OnChanged();
-                m_javaUnicodeTextComponent.havePropertiesChanged = true;
+                m_textComponent.havePropertiesChanged = true;
                 m_HavePropertiesChanged = false;
                 EditorUtility.SetDirty(target);
             }
@@ -58,7 +57,7 @@ namespace JavaneseToolkit {
                 m_preview = EditorGUILayout.Toggle("Preview", m_preview);
                 if(m_preview) {
                     string previewText = Regex.Replace(m_TextProp.stringValue, "<[^<>]+>", string.Empty);
-                    EditorGUILayout.LabelField(previewText, JT_UIStyleManager.label);
+                    EditorGUILayout.LabelField(previewText, JVTMProUIStyleManager.label);
                 }
                 EditorGUILayout.Space();
                 
@@ -77,7 +76,7 @@ namespace JavaneseToolkit {
                 
                 EditorGUILayout.Space();
                 EditorGUI.BeginChangeCheck(); 
-                m_javaUnicodeInputTextProp.stringValue = EditorGUILayout.TextArea(m_javaUnicodeInputTextProp.stringValue, JT_UIStyleManager.textArea, GUILayout.MinHeight(70));
+                m_inputTextProp.stringValue = EditorGUILayout.TextArea(m_inputTextProp.stringValue, JVTMProUIStyleManager.textArea, GUILayout.MinHeight(70));
                 if(EditorGUI.EndChangeCheck())
                     OnChanged();
             }
@@ -85,8 +84,8 @@ namespace JavaneseToolkit {
 
         protected void OnChanged() {
             m_HavePropertiesChanged = false;
-            m_javaUnicodeTextComponent.havePropertiesChanged = true;
-            m_javaUnicodeTextComponent.ComputeMarginSize();
+            m_textComponent.havePropertiesChanged = true;
+            m_textComponent.ComputeMarginSize();
             EditorUtility.SetDirty(target);
         }
     }

@@ -1,10 +1,9 @@
 {
-  "name": "com.adityarahmanda.javanese-toolkit",
+  "name": "com.adityarahmanda.javanese-textmeshpro",
   "version": "1.0.0",
-  "displayName": "Javanese Toolkit",
-  "description": "Toolkit to help create javanese based game in Unity",
-  "unity": "2019.1",
-  "unityRelease": "0b5",
+  "displayName": "Javanese TextMeshPro",
+  "unity": "2021.2",
+  "unityRelease": "0f1",
   "documentationUrl": "https://adityarahmanda.com/javanese-toolkit",
   "changelogUrl": "https://adityarahmanda.com/javanese-toolkit/changelog.html",
   "licensesUrl": "https://adityarahmanda.com/javanese-toolkit/licensing.html",
@@ -20,7 +19,6 @@
     "email": "arahmanda21@gmail.com",
     "url": "https://adityarahmanda.com"
   },
-  "type": "tool",
   "dependencies": {
     "com.unity.textmeshpro": ""
   }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-namespace JavaneseToolkit {
+namespace JVTMPro {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(CanvasRenderer))]
-    [AddComponentMenu("Javanese Toolkit/Javanese Unicode Text (TMP)", 10)]
-    public class JavaUnicodeTextMeshProUGUI : TextMeshProUGUI
+    [AddComponentMenu("Javanese Toolkit/Javanese Text (TMP)", 10)]
+    public class JVTMProUGUI : TextMeshProUGUI
     {
-#if TMP_VERSIO_2_1_0_OR_NEWER
+#if TMP_VERSION_2_1_0_OR_NEWER
         public override string text
 #else
         public new string text
@@ -18,21 +18,21 @@ namespace JavaneseToolkit {
         {
             get { return base.text; }
             set {
-                if (m_javaUnicodeInputText == value) 
+                if (m_inputText == value) 
                     return;
                 
-                m_javaUnicodeInputText = value;
+                m_inputText = value;
 
                 UpdateText();
             } 
         }
 
-        public string JavaUnicodeInputText
+        public string InputText
         {
-            get { return m_javaUnicodeInputText; }
+            get { return m_inputText; }
         }
 
-        [SerializeField] protected string m_javaUnicodeInputText;
+        [SerializeField] protected string m_inputText;
 
         protected void Update() {
             if(havePropertiesChanged) {
@@ -41,18 +41,18 @@ namespace JavaneseToolkit {
         }
 
         public void UpdateText() {
-            if(m_javaUnicodeInputText == null) 
-                m_javaUnicodeInputText = "";
+            if(m_inputText == null) 
+                m_inputText = "";
 
-            base.text = m_javaUnicodeInputText.JavaUnicodeFix();
+            base.text = JavaneseTextFixer.Fix(m_inputText);
             havePropertiesChanged = true;
         }
 
         protected override void Reset()
         {
             //Output the message to the Console
-            this.font = JT_Settings.defaultJavaUnicodeFontAsset;
-            this.fontSize = JT_Settings.defaultFontSize;
+            this.font = JVTMProSettings.defaultFontAsset;
+            this.fontSize = JVTMProSettings.defaultFontSize;
         }
     }
 }
