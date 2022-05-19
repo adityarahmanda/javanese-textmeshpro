@@ -395,37 +395,37 @@ namespace JVTMPro
 
                         // change ia, iu, ie, iê, io to iya, iyu, iye, iyê, iyo
                         if(IsVowelsWulu(c) && IsVowels(c2) && !IsVowelsWulu(c2)) {
-                            str = str.Substring(0, i + 1) + "y" + str.Substring(i + 1, length);
+                            str = str.Substring(0, i + 1) + "y" + str.Substring(i + 1, length - 1);
                             length = str.Length;
                         }
 
                         // change ua, ui, ue, uê, uo to uwa, uwi, uwe, uwê, uwo
                         if(IsVowelsSuku(c) && IsVowels(c2) && !IsVowelsSuku(c2)) {
-                            str = str.Substring(0, i + 1) + "w" + str.Substring(i + 1, length);
+                            str = str.Substring(0, i + 1) + "w" + str.Substring(i + 1, length - 1);
                             length = str.Length;
                         }
 
                         // change ea to eya
                         if(IsVowelsTaling(c) && IsVowelsA(c2)) {
-                            str = str.Substring(0, i + 1) + "y" + str.Substring(i + 1, length);
+                            str = str.Substring(0, i + 1) + "y" + str.Substring(i + 1, length - 1);
                             length = str.Length;
                         }
 
                         // change eo to eyo
                         if(IsVowelsTaling(c) && IsVowelsTalingTarung(c2)) {
-                            str = str.Substring(0, i + 1) + "y" + str.Substring(i + 1, length);
+                            str = str.Substring(0, i + 1) + "y" + str.Substring(i + 1, length - 1);
                             length = str.Length;
                         }
                         
                         // change oa to owa
                         if(IsVowelsTalingTarung(c) && IsVowelsA(c2)) {
-                            str = str.Substring(0, i + 1) + "w" + str.Substring(i + 1, length);
+                            str = str.Substring(0, i + 1) + "w" + str.Substring(i + 1, length - 1);
                             length = str.Length;
                         }
                         
                         // change oe to owe
                         if(IsVowelsTalingTarung(c) && IsVowelsTaling(c2)) {
-                            str = str.Substring(0, i + 1) + "w" + str.Substring(i + 1, length);
+                            str = str.Substring(0, i + 1) + "w" + str.Substring(i + 1, length - 1);
                             length = str.Length;
                         }
                     }

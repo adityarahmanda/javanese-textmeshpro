@@ -9,16 +9,6 @@ namespace JVTMPro
     public class JVTMProSettings : ScriptableObject
     {
         private static JVTMProSettings s_Instance;
-
-        /// <summary>
-        /// Returns the Default Font Asset to be used by newly created text objects.
-        /// </summary>
-        public static Vector4 defaultMargin
-        {
-            get { return instance.m_defaultMargin; }
-        }
-        [SerializeField]
-        private Vector4 m_defaultMargin = new Vector4(0, 21, 0, 0);
         
         /// <summary>
         /// Returns the Default Font Asset to be used by newly created text objects.

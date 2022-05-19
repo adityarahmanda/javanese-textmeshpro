@@ -28,7 +28,7 @@ namespace JVTMPro
         string[] specialChars = new string[] { "Ê", "ê", "ā", "ī", "ū", "ḍ", "ḍh", "ṣ", "ś", "ṭ", "ṭh", "ṇ", "ñ", "ŋ" };
         int specialCharButtonWidth = 30;
 
-        [MenuItem("Window/Javanese TextMeshPro/Transliterator")]
+        [MenuItem("Window/Javanese TextMeshPro/Transliterator", false, 2200)]
         public static void Open()
         {
             GetWindow<TransliteratorWindow>("Transliterator");
