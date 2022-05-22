@@ -35,6 +35,9 @@ namespace JVTMPro
         }
 
         public void OnGUI() {
+            GUIStyle javaTextAreaStyle = new GUIStyle(EditorStyles.textArea);
+            javaTextAreaStyle.font = JVTMP_Settings.defaultEditorFont;
+
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, false,  GUILayout.Width(position.width),  GUILayout.Height(position.height));
 
             EditorGUILayout.Space(); 
@@ -48,7 +51,7 @@ namespace JVTMPro
             GUILayout.Label("Input", EditorStyles.boldLabel);
             
             Rect rect = EditorGUILayout.GetControlRect(false, 100);
-            inputText = GUI.TextArea(rect, inputText, JVTMProUIStyleManager.textArea);
+            inputText = GUI.TextArea(rect, inputText, javaTextAreaStyle);
 
             inputTextEditor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
 
@@ -119,7 +122,7 @@ namespace JVTMPro
             EditorGUILayout.Space();
 
             GUILayout.Label("Output", EditorStyles.boldLabel);
-            outputText = EditorGUILayout.TextArea(outputText, JVTMProUIStyleManager.textArea, GUILayout.Height(100));
+            outputText = EditorGUILayout.TextArea(outputText, javaTextAreaStyle, GUILayout.Height(100));
             
             EditorGUILayout.Space();
 
@@ -153,19 +156,20 @@ namespace JVTMPro
             inputText = inputText.Insert(inputTextEditor.cursorIndex, s);
             
             if(lastInputTextCursorIndex == lastInputTextLength) {
-                this.StartCoroutine(MoveTextEndAfterDelay(0.1f));
+                this.StartCoroutine(MoveCaretEnd());
             } else {
                 inputTextEditor.cursorIndex += s.Length;
                 inputTextEditor.selectIndex = inputTextEditor.cursorIndex;
             }
         }
 
-        private IEnumerator MoveTextEndAfterDelay(float delay) {
-            yield return new EditorWaitForSeconds(delay);
+        private IEnumerator MoveCaretEnd() {
+            yield return new EditorWaitForSeconds(0.01f);
 
             if(inputTextEditor == null) yield break;
             
             inputTextEditor.MoveTextEnd();
+            Repaint();
         }
     }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "com.adityarahmanda.javanese-textmeshpro",
+  "name": "com.adityarahmanda.jvtmpro",
   "version": "1.0.0",
   "displayName": "Javanese TextMeshPro",
   "unity": "2021.2",
@@ -20,6 +20,7 @@
     "url": "https://adityarahmanda.com"
   },
   "dependencies": {
-    "com.unity.textmeshpro": ""
+    "com.unity.textmeshpro": "",
+    "com.unity.editorcoroutines": ""
   }
 }

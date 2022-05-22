@@ -5,20 +5,9 @@ using TMPro;
 
 namespace JVTMPro 
 {
-    [CreateAssetMenu(fileName = "JVTMProSettings", menuName = "Javanese TextMeshPro/Settings", order = 1)]
-    public class JVTMProSettings : ScriptableObject
+    public class JVTMP_Settings : ScriptableObject
     {
-        private static JVTMProSettings s_Instance;
-        
-        /// <summary>
-        /// Returns the Default Font Asset to be used by newly created text objects.
-        /// </summary>
-        public static int defaultFontSize
-        {
-            get { return instance.m_defaultFontSize; }
-        }
-        [SerializeField]
-        private int m_defaultFontSize = 24;
+        private static JVTMP_Settings s_Instance;
 
         /// <summary>
         /// Returns the Default Javanese Unicode Font to be used in Editor.
@@ -43,17 +32,17 @@ namespace JVTMPro
         /// <summary>
         /// Get a singleton instance of the settings class.
         /// </summary>
-        public static JVTMProSettings instance
+        public static JVTMP_Settings instance
         {
             get
             {
-                if (JVTMProSettings.s_Instance == null)
+                if (JVTMP_Settings.s_Instance == null)
                 {
-                    JVTMProSettings.s_Instance = Resources.Load<JVTMProSettings>("JVTMProSettings");
+                    JVTMP_Settings.s_Instance = Resources.Load<JVTMP_Settings>("JVTMP_Settings");
 
                     #if UNITY_EDITOR
                     // Make sure TextMesh Pro UPM packages resources have been added to the user project
-                    if (JVTMProSettings.s_Instance == null)
+                    if (JVTMP_Settings.s_Instance == null)
                     {
                         // Open TMP Resources Importer
                         // TMP_PackageResourceImporterWindow.ShowPackageImporterWindow();
@@ -61,7 +50,7 @@ namespace JVTMPro
                     #endif
                 }
 
-                return JVTMProSettings.s_Instance;
+                return JVTMP_Settings.s_Instance;
             }
         }
     }

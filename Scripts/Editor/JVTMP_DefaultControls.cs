@@ -1,26 +1,40 @@
+using TMPro;
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-using TMPro;
-
-
 namespace JVTMPro
 {
-
-    public static class JVTMPro_DefaultControls
+    public static class JVTMP_DefaultControls
     {
-        private static Vector2 s_TextElementSize = new Vector2(100f, 100f);
-        private static Vector2 s_ButtonElementSize = new Vector2(160f, 50f);
-        private static Vector2 s_InputFieldElementSize = new Vector2(200f, 50f);
-        private static Vector2 s_DropdownElementSize = new Vector2(200f, 50f);
-        
+        public struct Resources
+        {
+            public Sprite standard;
+            public Sprite background;
+            public Sprite inputField;
+            public Sprite knob;
+            public Sprite checkmark;
+            public Sprite dropdown;
+            public Sprite mask;
+        }
+
+        private const float kWidth = 180f;
+        private const float kThickHeight = 45f;
+        private const float kThinHeight = 20f;
+        private static Vector2 s_TextElementSize = new Vector2(200f, 100f);
+        private static Vector2 s_ThickElementSize = new Vector2(kWidth, kThickHeight);
+
+        private static Vector2 s_ThinElementSize = new Vector2(kWidth, kThinHeight);
+
+        //private static Vector2 s_ImageElementSize = new Vector2(100f, 100f);
         private static Color s_DefaultSelectableColor = new Color(1f, 1f, 1f, 1f);
+
+        //private static Color s_PanelColor = new Color(1f, 1f, 1f, 0.392f);
         private static Color s_TextColor = new Color(50f / 255f, 50f / 255f, 50f / 255f, 1f);
+
 
         private static GameObject CreateUIElementRoot(string name, Vector2 size)
         {
@@ -37,21 +51,6 @@ namespace JVTMPro
             SetParentAndAlign(go, parent);
             return go;
         }
-        
-        public static GameObject CreateText(TMP_DefaultControls.Resources resources)
-        {
-            GameObject go = null;
-
-            #if UNITY_EDITOR
-                go = ObjectFactory.CreateGameObject("Javanese Text (TMP)");
-                JVTMProUGUI text = ObjectFactory.AddComponent<JVTMProUGUI>(go);
-            #else
-                go = CreateUIElementRoot("Javanese Text (TMP)", s_TextElementSize);
-                JVTMProUGUI text = go.AddComponent<JVTMProUGUI>();
-            #endif
-
-            return go;
-        }
 
         private static void SetDefaultTextValues(TMP_Text lbl)
         {
@@ -59,7 +58,8 @@ namespace JVTMPro
             // Don't set values which are the same as the default values for the Text component,
             // since there's no point in that, and it's good to keep them as consistent as possible.
             lbl.color = s_TextColor;
-            lbl.fontSize = 18;
+            lbl.font = JVTMP_Settings.defaultFontAsset;
+            lbl.fontSize = 16;
         }
 
         private static void SetDefaultColorTransitionValues(Selectable slider)
@@ -87,9 +87,27 @@ namespace JVTMPro
                 SetLayerRecursively(t.GetChild(i).gameObject, layer);
         }
 
-        public static GameObject CreateButton(TMP_DefaultControls.Resources resources)
+        public static GameObject CreateText(Resources resources)
         {
-            GameObject buttonRoot = CreateUIElementRoot("Javanese Button", s_ButtonElementSize);
+            GameObject go = null;
+
+            #if UNITY_EDITOR
+                go = ObjectFactory.CreateGameObject("Javanese Text (TMP)");
+                JVTextMeshProUGUI text = ObjectFactory.AddComponent<JVTextMeshProUGUI>(go);
+            #else
+                go = CreateUIElementRoot("Javanese Text (TMP)", s_TextElementSize);
+                JVTextMeshProUGUI text = go.AddComponent<TextMeshProUGUI>();
+            #endif
+            
+            text.text = "ꦠꦸꦭꦝꦈꦏꦫ";
+            SetDefaultTextValues(text);
+
+            return go;
+        }
+
+        public static GameObject CreateButton(Resources resources)
+        {
+            GameObject buttonRoot = CreateUIElementRoot("Javanese Button (TMP)", s_ThickElementSize);
 
             GameObject childText = new GameObject("Javanese Text (TMP)");
             childText.AddComponent<RectTransform>();
@@ -103,7 +121,7 @@ namespace JVTMPro
             Button bt = buttonRoot.AddComponent<Button>();
             SetDefaultColorTransitionValues(bt);
 
-            JVTMProUGUI text = childText.AddComponent<JVTMProUGUI>();
+            JVTextMeshProUGUI text = childText.AddComponent<JVTextMeshProUGUI>();
             text.text = "ꦠꦺꦴꦩ꧀ꦧꦺꦴꦭ꧀";
             text.alignment = TextAlignmentOptions.Center;
             SetDefaultTextValues(text);
@@ -116,27 +134,61 @@ namespace JVTMPro
             return buttonRoot;
         }
 
-        public static GameObject CreateInputField(TMP_DefaultControls.Resources resources)
-        {
-            GameObject root = CreateUIElementRoot("Javanese InputField (TMP)", s_InputFieldElementSize);
+        // Actual controls
 
-            GameObject textArea = CreateUIObject("Javanese Text Area", root);
-            GameObject childPlaceholder = CreateUIObject("Javanese Placeholder", textArea);
-            GameObject childText = CreateUIObject("Javanese Text", textArea);
+        public static GameObject CreateScrollbar(Resources resources)
+        {
+            // Create GOs Hierarchy
+            GameObject scrollbarRoot = CreateUIElementRoot("Scrollbar", s_ThinElementSize);
+
+            GameObject sliderArea = CreateUIObject("Sliding Area", scrollbarRoot);
+            GameObject handle = CreateUIObject("Handle", sliderArea);
+
+            Image bgImage = scrollbarRoot.AddComponent<Image>();
+            bgImage.sprite = resources.background;
+            bgImage.type = Image.Type.Sliced;
+            bgImage.color = s_DefaultSelectableColor;
+
+            Image handleImage = handle.AddComponent<Image>();
+            handleImage.sprite = resources.standard;
+            handleImage.type = Image.Type.Sliced;
+            handleImage.color = s_DefaultSelectableColor;
+
+            RectTransform sliderAreaRect = sliderArea.GetComponent<RectTransform>();
+            sliderAreaRect.sizeDelta = new Vector2(-20, -20);
+            sliderAreaRect.anchorMin = Vector2.zero;
+            sliderAreaRect.anchorMax = Vector2.one;
+
+            RectTransform handleRect = handle.GetComponent<RectTransform>();
+            handleRect.sizeDelta = new Vector2(20, 20);
+
+            Scrollbar scrollbar = scrollbarRoot.AddComponent<Scrollbar>();
+            scrollbar.handleRect = handleRect;
+            scrollbar.targetGraphic = handleImage;
+            SetDefaultColorTransitionValues(scrollbar);
+
+            return scrollbarRoot;
+        }
+
+
+        public static GameObject CreateInputField(Resources resources)
+        {
+            GameObject root = CreateUIElementRoot("Javanese InputField (TMP)", s_ThickElementSize);
+
+            GameObject textArea = CreateUIObject("Text Area", root);
+            GameObject childPlaceholder = CreateUIObject("Javanese Placeholder (TMP)", textArea);
+            GameObject childText = CreateUIObject("Javanese Text (TMP)", textArea);
 
             Image image = root.AddComponent<Image>();
             image.sprite = resources.inputField;
             image.type = Image.Type.Sliced;
             image.color = s_DefaultSelectableColor;
 
-            TMP_InputField inputField = root.AddComponent<TMP_InputField>();
+            JVTMP_InputField inputField = root.AddComponent<JVTMP_InputField>();
             SetDefaultColorTransitionValues(inputField);
 
             // Use UI.Mask for Unity 5.0 - 5.1 and 2D RectMask for Unity 5.2 and up
-            RectMask2D rectMask = textArea.AddComponent<RectMask2D>();
-            #if UNITY_2019_4_OR_NEWER && !UNITY_2019_4_1 && !UNITY_2019_4_2 && !UNITY_2019_4_3 && !UNITY_2019_4_4 && !UNITY_2019_4_5 && !UNITY_2019_4_6 && !UNITY_2019_4_7 && !UNITY_2019_4_8 && !UNITY_2019_4_9 && !UNITY_2019_4_10 && !UNITY_2019_4_11
-            rectMask.padding = new Vector4(-8, -5, -8, -5);
-            #endif
+            textArea.AddComponent<RectMask2D>();
 
             RectTransform textAreaRectTransform = textArea.GetComponent<RectTransform>();
             textAreaRectTransform.anchorMin = Vector2.zero;
@@ -146,25 +198,24 @@ namespace JVTMPro
             textAreaRectTransform.offsetMax = new Vector2(-10, -7);
 
 
-            JVTMProUGUI text = childText.AddComponent<JVTMProUGUI>();
+            JVTextMeshProUGUI text = childText.AddComponent<JVTextMeshProUGUI>();
             text.text = "";
             text.enableWordWrapping = false;
             text.extraPadding = true;
             text.richText = true;
             SetDefaultTextValues(text);
 
-            JVTMProUGUI placeholder = childPlaceholder.AddComponent<JVTMProUGUI>();
-            placeholder.text = "ꦏꦼꦠꦶꦏ꧀...";
-            placeholder.fontSize = 18;
-            placeholder.fontStyle = FontStyles.Italic;
+            JVTextMeshProUGUI placeholder = childPlaceholder.AddComponent<JVTextMeshProUGUI>();
+            placeholder.text = "ꦏꦼꦠꦶꦏ꧀ꦤꦶꦁꦏꦺꦤꦺ...";
             placeholder.enableWordWrapping = false;
             placeholder.extraPadding = true;
+            SetDefaultTextValues(placeholder);
 
             // Make placeholder color half as opaque as normal text color.
             Color placeholderColor = text.color;
             placeholderColor.a *= 0.5f;
             placeholder.color = placeholderColor;
-
+            
             // Add Layout component to placeholder.
             placeholder.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
 
@@ -190,11 +241,11 @@ namespace JVTMPro
             return root;
         }
 
-        public static GameObject CreateDropdown(TMP_DefaultControls.Resources resources)
+        public static GameObject CreateDropdown(Resources resources)
         {
-            GameObject root = CreateUIElementRoot("Javanese Dropdown", s_DropdownElementSize);
+            GameObject root = CreateUIElementRoot("Javanese Dropdown (TMP)", s_ThickElementSize);
 
-            GameObject label = CreateUIObject("Javanese Label", root);
+            GameObject label = CreateUIObject("Javanese Label (TMP)", root);
             GameObject arrow = CreateUIObject("Arrow", root);
             GameObject template = CreateUIObject("Template", root);
             GameObject viewport = CreateUIObject("Viewport", template);
@@ -202,11 +253,11 @@ namespace JVTMPro
             GameObject item = CreateUIObject("Item", content);
             GameObject itemBackground = CreateUIObject("Item Background", item);
             GameObject itemCheckmark = CreateUIObject("Item Checkmark", item);
-            GameObject itemLabel = CreateUIObject("Item Javanese Label", item);
+            GameObject itemLabel = CreateUIObject("Javanese Item Label (TMP)", item);
 
             // Sub controls.
 
-            GameObject scrollbar = TMP_DefaultControls.CreateScrollbar(resources);
+            GameObject scrollbar = CreateScrollbar(resources);
             scrollbar.name = "Scrollbar";
             SetParentAndAlign(scrollbar, template);
 
@@ -221,9 +272,9 @@ namespace JVTMPro
 
             // Setup item UI components.
 
-            JVTMProUGUI itemLabelText = itemLabel.AddComponent<JVTMProUGUI>();
-            SetDefaultTextValues(itemLabelText);
+            JVTextMeshProUGUI itemLabelText = itemLabel.AddComponent<JVTextMeshProUGUI>();
             itemLabelText.alignment = TextAlignmentOptions.Left;
+            SetDefaultTextValues(itemLabelText);
 
             Image itemBackgroundImage = itemBackground.AddComponent<Image>();
             itemBackgroundImage.color = new Color32(245, 245, 245, 255);
@@ -243,8 +294,8 @@ namespace JVTMPro
             templateImage.type = Image.Type.Sliced;
 
             ScrollRect templateScrollRect = template.AddComponent<ScrollRect>();
-            templateScrollRect.content = (RectTransform)content.transform;
-            templateScrollRect.viewport = (RectTransform)viewport.transform;
+            templateScrollRect.content = (RectTransform) content.transform;
+            templateScrollRect.viewport = (RectTransform) viewport.transform;
             templateScrollRect.horizontal = false;
             templateScrollRect.movementType = ScrollRect.MovementType.Clamped;
             templateScrollRect.verticalScrollbar = scrollbarScrollbar;
@@ -260,9 +311,9 @@ namespace JVTMPro
 
             // Setup dropdown UI components.
 
-            JVTMProUGUI labelText = label.AddComponent<JVTMProUGUI>();
-            SetDefaultTextValues(labelText);
+            JVTextMeshProUGUI labelText = label.AddComponent<JVTextMeshProUGUI>();
             labelText.alignment = TextAlignmentOptions.Left;
+            SetDefaultTextValues(labelText);
 
             Image arrowImage = arrow.AddComponent<Image>();
             arrowImage.sprite = resources.dropdown;
@@ -272,7 +323,7 @@ namespace JVTMPro
             backgroundImage.color = s_DefaultSelectableColor;
             backgroundImage.type = Image.Type.Sliced;
 
-            TMP_Dropdown dropdown = root.AddComponent<TMP_Dropdown>();
+            JVTMP_Dropdown dropdown = root.AddComponent<JVTMP_Dropdown>();
             dropdown.targetGraphic = backgroundImage;
             SetDefaultColorTransitionValues(dropdown);
             dropdown.template = template.GetComponent<RectTransform>();
@@ -280,9 +331,9 @@ namespace JVTMPro
             dropdown.itemText = itemLabelText;
 
             // Setting default Item list.
-            itemLabelText.text = "ꦥꦶꦭꦶꦃꦲꦤ꧀ A";
-            dropdown.options.Add(new TMP_Dropdown.OptionData {text = "ꦥꦶꦭꦶꦃꦲꦤ꧀ A" });
-            dropdown.options.Add(new TMP_Dropdown.OptionData {text = "ꦥꦶꦭꦶꦃꦲꦤ꧀ B" });
+            itemLabelText.text = "ꦎꦥ꧀ꦱꦶ A";
+            dropdown.options.Add(new JVTMP_Dropdown.OptionData { text = "ꦎꦥ꧀ꦱꦶ A" });
+            dropdown.options.Add(new JVTMP_Dropdown.OptionData { text = "ꦎꦥ꧀ꦱꦶ B" });
             dropdown.RefreshShownValue();
 
             // Set up RectTransforms.
@@ -304,7 +355,7 @@ namespace JVTMPro
             templateRT.anchorMax = new Vector2(1, 0);
             templateRT.pivot = new Vector2(0.5f, 1);
             templateRT.anchoredPosition = new Vector2(0, 2);
-            templateRT.sizeDelta = new Vector2(0, 108);
+            templateRT.sizeDelta = new Vector2(0, kThickHeight * 2);
 
             RectTransform viewportRT = viewport.GetComponent<RectTransform>();
             viewportRT.anchorMin = new Vector2(0, 0);
@@ -317,12 +368,12 @@ namespace JVTMPro
             contentRT.anchorMax = new Vector2(1f, 1);
             contentRT.pivot = new Vector2(0.5f, 1);
             contentRT.anchoredPosition = new Vector2(0, 0);
-            contentRT.sizeDelta = new Vector2(0, 58);
+            contentRT.sizeDelta = new Vector2(0, kThickHeight + 8f);
 
             RectTransform itemRT = item.GetComponent<RectTransform>();
             itemRT.anchorMin = new Vector2(0, 0.5f);
             itemRT.anchorMax = new Vector2(1, 0.5f);
-            itemRT.sizeDelta = new Vector2(0, 50);
+            itemRT.sizeDelta = new Vector2(0, kThickHeight);
 
             RectTransform itemBackgroundRT = itemBackground.GetComponent<RectTransform>();
             itemBackgroundRT.anchorMin = Vector2.zero;
@@ -332,7 +383,7 @@ namespace JVTMPro
             RectTransform itemCheckmarkRT = itemCheckmark.GetComponent<RectTransform>();
             itemCheckmarkRT.anchorMin = new Vector2(0, 0.5f);
             itemCheckmarkRT.anchorMax = new Vector2(0, 0.5f);
-            itemCheckmarkRT.sizeDelta = new Vector2(20, 50);
+            itemCheckmarkRT.sizeDelta = new Vector2(20, 20);
             itemCheckmarkRT.anchoredPosition = new Vector2(10, 0);
 
             RectTransform itemLabelRT = itemLabel.GetComponent<RectTransform>();
