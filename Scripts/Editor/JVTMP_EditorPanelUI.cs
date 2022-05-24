@@ -2,7 +2,7 @@ using TMPro.EditorUtilities;
 using UnityEditor;
 using UnityEngine;
 
-namespace JVTMPro
+namespace JVTMPro.EditorUtilities
 {
     [CustomEditor(typeof(JVTextMeshProUGUI)), CanEditMultipleObjects]
     public class RTLTextMeshProEditor : TMP_EditorPanelUI

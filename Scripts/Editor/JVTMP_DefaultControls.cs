@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEditor;
 #endif
 
-namespace JVTMPro
+namespace JVTMPro.EditorUtilities
 {
     public static class JVTMP_DefaultControls
     {

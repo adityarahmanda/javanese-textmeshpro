@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 
-namespace JVTMPro 
+namespace JVTMPro.EditorUtilities
 {
     public class JVTMP_Settings : ScriptableObject
     {

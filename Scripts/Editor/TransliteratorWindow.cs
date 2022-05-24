@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using Unity.EditorCoroutines.Editor;
 
-namespace JVTMPro
+namespace JVTMPro.EditorUtilities
 {
     public class TransliteratorWindow : EditorWindow
     {

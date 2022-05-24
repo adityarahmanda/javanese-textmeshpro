@@ -2,11 +2,9 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor.Presets;
 using UnityEngine.EventSystems;
-using UnityEditor.SceneManagement;
 
-namespace JVTMPro
+namespace JVTMPro.EditorUtilities
 {
     public class JVTMP_CreateObjectMenu : Editor
     {

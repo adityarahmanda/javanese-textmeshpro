@@ -1,16 +1,18 @@
 {
-  "name": "com.adityarahmanda.jvtmpro",
+  "name": "com.adityarahmanda.javanese-textmeshpro",
   "version": "1.0.0",
   "displayName": "Javanese TextMeshPro",
   "unity": "2021.2",
   "unityRelease": "0f1",
-  "documentationUrl": "https://adityarahmanda.com/javanese-toolkit",
-  "changelogUrl": "https://adityarahmanda.com/javanese-toolkit/changelog.html",
-  "licensesUrl": "https://adityarahmanda.com/javanese-toolkit/licensing.html",
+  "documentationUrl": "https://javanese-textmeshpro.adityarahmanda.com/",
+  "changelogUrl": "https://github.com/adityarahmanda/javanese-textmeshpro/commits/master",
+  "licensesUrl": "https://github.com/adityarahmanda/javanese-textmeshpro/blob/master/LICENSE",
   "keywords": [
     "javanese",
-    "javanese script",
     "language",
+    "text",
+    "textmeshpro",
+    "transliterator",
     "tool",
     "utility"
   ],
@@ -20,7 +22,8 @@
     "url": "https://adityarahmanda.com"
   },
   "dependencies": {
-    "com.unity.textmeshpro": "",
-    "com.unity.editorcoroutines": ""
-  }
+    "com.unity.textmeshpro": "2.1.0",
+    "com.unity.editorcoroutines": "1.0.0"
+  },
+  "description": "Adds Javanese language support to \"TextMeshPro\" Unity plugin including Javanese text processing and Javanese-Latin Transliterator."
 }

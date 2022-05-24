@@ -1,11 +1,7 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEditor;
-using UnityEditor.UI;
-using TMPro;
-using TMPro.EditorUtilities;
 
-namespace JVTMPro
+namespace JVTMPro.EditorUtilities
 {
     [CustomEditor(typeof(JVTMP_Dropdown), true)]
     [CanEditMultipleObjects]

@@ -1,11 +1,8 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEditor;
-using UnityEditor.UI;
-using TMPro;
 using TMPro.EditorUtilities;
 
-namespace JVTMPro
+namespace JVTMPro.EditorUtilities
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(JVTMP_InputField), true)]
