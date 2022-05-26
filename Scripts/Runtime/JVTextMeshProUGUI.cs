@@ -4,7 +4,6 @@ using JVTMPro.Utilities;
 
 namespace JVTMPro
 {
-    
     /// <summary>
     /// Description
     /// </summary>
@@ -34,6 +33,9 @@ namespace JVTMPro
             }
         }
 
+        /// <summary>
+        /// A string containing the original javanese text before the displayed text is being fixed
+        /// </summary>
         public string OriginalText
         {
             get { return originalText; }
@@ -51,6 +53,9 @@ namespace JVTMPro
             }
         }
 
+        /// <summary>
+        /// Update the original javanese text by fixing it so it would be displayed correctly
+        /// </summary>
         public void UpdateText()
         {
             if (originalText == null)

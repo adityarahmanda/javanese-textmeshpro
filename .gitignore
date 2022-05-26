@@ -1,16 +1,15 @@
-udg_setting.json
-udg_setting.json.meta
-.docfx_project/
+# Visual Studio cache directory
 .vs/
+
+# Documentation files
 docs~/
-Documentation~/
-obj/
-obj.meta
-Temp.meta
-Temp/
-com.adityarahmanda.javanese-textmeshpro.csproj
-com.adityarahmanda.javanese-textmeshpro.csproj.meta
-Scripts/Runtime/Utilities/JVTMPro.Utilities.md
-Scripts/Runtime/Utilities/JVTMPro.Utilities.md.meta
-Scripts/Runtime/JVTMPro.md
-Scripts/Runtime/JVTMPro.md.meta
+docs~.meta
+_site/
+_site.meta
+*.md
+
+# Unity3D generated meta files
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+*.md.meta

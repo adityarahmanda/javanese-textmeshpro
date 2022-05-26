@@ -81,19 +81,6 @@ namespace JVTMPro.Utilities {
             { 'ꦮ', '\xE069' },       // wa
         };
 
-        // cakra test
-        // ꦄꦿ ꦅꦿ ꦆꦿ ꦇꦿ ꦈꦿ ꦉꦿ ꦊꦿ ꦋꦿ ꦌꦿ ꦍꦿ ꦎꦿ ꦏꦿ
-        // ꦐꦿ ꦑꦿ ꦒꦿ ꦓꦿ ꦔꦿ ꦕꦿ ꦖꦿ ꦗꦿ ꦘꦿ ꦙꦿ ꦚꦿ ꦛꦿ ꦜꦿ ꦝꦿ ꦞꦿ ꦟꦿ
-        // ꦠꦿ ꦡꦿ ꦢꦿ ꦣꦿ ꦤꦿ ꦥꦿ ꦦꦿ ꦧꦿ ꦨꦿ ꦩꦿ ꦪꦿ ꦫꦿ ꦬꦿ ꦭꦿ  ꦮꦿ ꦯꦿ
-        // ꦰꦿ ꦱꦿ ꦲꦿ
-
-        // ꦤꦿꦸꦏꦿꦸꦚꦿꦸ
-        // ꦏ꧀ꦔꦿꦏ꧀ꦠꦿꦏ꧀ꦪꦿꦏ꧀ꦱꦿ
-        // ꦏ꧀ꦔꦿꦺꦴꦏ꧀ꦠꦿꦺꦴꦏ꧀ꦪꦿꦺꦴꦏ꧀ꦱꦿꦺꦴ
-        // ꦏꦸꦏꦹꦏꦾꦏꦽ
-        // ꦏ꧀ꦏꦸ ꦏ꧀ꦏꦹ ꦏ꧀ꦏꦾ ꦏ꧀ꦏꦽ
-        // ꦏ꧀ꦤꦸꦏ꧀ꦤꦹꦏ꧀ꦤꦾꦏ꧀ꦤꦽ
-
         private static char[] smallWyanjana = new char[] {
             'ꦅ', 'ꦈ', 'ꦉ', 'ꦊ', 'ꦋ', 'ꦌ', 'ꦍ', 'ꦎ', 'ꦑ', 'ꦔ', 'ꦕ',
             'ꦗ', 'ꦘ', 'ꦛ', 'ꦜ', 'ꦝ', 'ꦞ', 'ꦡ', 'ꦢ', 'ꦣ', 'ꦤ', 'ꦥ',
@@ -118,6 +105,9 @@ namespace JVTMPro.Utilities {
             'ꦡ', 'ꦢ', 'ꦣ', 'ꦤ', 'ꦧ', 'ꦨ', 'ꦩ', 'ꦫ', 'ꦮ', 'ꦰ', 'ꦙ'
         };
 
+        /// <summary>
+        /// Fix javanese text so it would be displayed correctly in Unity's TextMeshPro
+        /// </summary>
         public static string Fix(string s)
         {
             var length = s.Length;

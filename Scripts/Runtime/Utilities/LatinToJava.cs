@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace JVTMPro
+namespace JVTMPro.Utilities
 {
-    public static class LatinToJavaExtension
+    /// <summary>
+    /// Description
+    /// </summary>
+    public class LatinToJava
     {
-        public static Dictionary<string, string> wyanjana = new Dictionary<string, string>() {
+        public Dictionary<string, string> wyanjana = new Dictionary<string, string>() {
             { "b", "ꦧ" },       // ba
             { "c", "ꦕ" },       // ca
             { "d", "ꦢ" },       // da
@@ -48,39 +51,39 @@ namespace JVTMPro
             { "z", "ꦗ꦳" },      // za rekan
         };
 
-        private static bool IsWyanjana(string s) { 
+        private bool IsWyanjana(string s) { 
             return wyanjana.ContainsValue(s); 
         }
 
-        private static bool IsWyanjana(char c) { 
+        private bool IsWyanjana(char c) { 
             return IsWyanjana(c.ToString());
         }
 
-        private static bool IsWyanjanaPasanganInRight(string wyanjana) { 
+        private bool IsWyanjanaPasanganInRight(string wyanjana) { 
             return wyanjana == "ꦥ" || wyanjana == "ꦥ꦳" || wyanjana == "ꦲ" || wyanjana == "ꦏ꧀ꦱ" || wyanjana == "ꦰ" || wyanjana == "ꦱ" || wyanjana == "ꦦ"; 
         }
 
-        private static bool IsWyanjanaPasanganInRight(char wyanjana) { 
+        private bool IsWyanjanaPasanganInRight(char wyanjana) { 
             return IsWyanjanaPasanganInRight(wyanjana.ToString());
         }
 
-        private static bool IsWyanjanaPasanganInBelow(string wyanjana) { 
+        private bool IsWyanjanaPasanganInBelow(string wyanjana) { 
             return IsWyanjana(wyanjana) && !IsWyanjanaPasanganInRight(wyanjana); 
         }
 
-        private static bool IsWyanjanaPasanganInBelow(char wyanjana) { 
+        private bool IsWyanjanaPasanganInBelow(char wyanjana) { 
             return IsWyanjanaPasanganInBelow(wyanjana.ToString()); 
         }
         
-        private static string GetWyanjana(char c) {
+        private string GetWyanjana(char c) {
             return wyanjana[c.ToString()];
         }
 
-        private static string GetWyanjana(string s) {
+        private string GetWyanjana(string s) {
             return wyanjana[s];
         }
 
-        public static Dictionary<string, string> swara = new Dictionary<string, string>() {
+        private Dictionary<string, string> swara = new Dictionary<string, string>() {
             { "A", "ꦄ" },     // aksara swara a
             { "I", "ꦆ" },     // aksara swara i
             { "U", "ꦈ" },     // aksara swara u
@@ -92,15 +95,15 @@ namespace JVTMPro
             { "O", "ꦎ" },     // aksara swara o
         };
         
-        private static string GetSwara(char c) {
+        private string GetSwara(char c) {
             return swara[c.ToString()];
         }
 
-        private static string GetSwara(string s) {
+        private string GetSwara(string s) {
             return swara[s];
         }
 
-        public static Dictionary<string, string> murda = new Dictionary<string, string>() {
+        private Dictionary<string, string> murda = new Dictionary<string, string>() {
             { "n", "ꦟ" },      // na murda
             { "k", "ꦑ" },       // ka murda
             { "kh", "ꦑ꦳" },       // kha murda
@@ -115,51 +118,51 @@ namespace JVTMPro
             { "b", "ꦨ" },       // ba murda
         };
 
-        private static string GetMurda(char c) {
+        private string GetMurda(char c) {
             return GetMurda(c.ToString());
         }
 
-        private static string GetMurda(string s) {
+        private string GetMurda(string s) {
             return murda[s];
         }
 
-        public static Dictionary<string, string> sandhanganWyanjana = new Dictionary<string, string>() {
+        private Dictionary<string, string> sandhanganWyanjana = new Dictionary<string, string>() {
             { "r", "ꦿ" },   // cakra
             { "ṛ", "ꦽ" },   // cakra keret
             { "y", "ꦾ" },   // pengkal
         };
 
-        private static string GetSandhanganWyanjana(char c) {
+        private string GetSandhanganWyanjana(char c) {
             return sandhanganWyanjana[c.ToString()];
         }
 
-        private static string GetSandhanganWyanjana(string s) {
+        private string GetSandhanganWyanjana(string s) {
             return sandhanganWyanjana[s];
         }
 
-        public static Dictionary<string, string> sandhanganPanyigeg = new Dictionary<string, string>() {
+        private Dictionary<string, string> sandhanganPanyigeg = new Dictionary<string, string>() {
             { "r", "ꦂ" },
             { "h", "ꦃ" }, 
             { "ng", "ꦁ" },
         };
 
-        private static string GetSandhanganPanyigeg(char c) {
+        private string GetSandhanganPanyigeg(char c) {
             return sandhanganPanyigeg[c.ToString()];
         }
 
-        private static string GetSandhanganPanyigeg(string s) {
+        private string GetSandhanganPanyigeg(string s) {
             return sandhanganPanyigeg[s];
         }
 
-        private static bool IsSandhanganPanyigeg(char c) {
+        private bool IsSandhanganPanyigeg(char c) {
             return IsSandhanganPanyigeg(c.ToString());
         }
 
-        private static bool IsSandhanganPanyigeg(string s) {
+        private bool IsSandhanganPanyigeg(string s) {
             return s == "ꦁ" || s == "ꦃ" || s == "ꦂ";
         }
 
-        public static Dictionary<string, string> sandhanganSwara = new Dictionary<string, string>() {
+        private Dictionary<string, string> sandhanganSwara = new Dictionary<string, string>() {
             { "a", "" },
             { "ô", "" },
             { "aa", "ꦴ"},
@@ -181,41 +184,48 @@ namespace JVTMPro
             { "o", "ꦺꦴ" },
         };
 
-        private static string GetSandhanganSwara(char c) {
+        private string GetSandhanganSwara(char c) {
             return sandhanganSwara[c.ToString()];            
         }
 
-        private static string GetSandhanganSwara(string s) {
+        private string GetSandhanganSwara(string s) {
             return sandhanganSwara[s];            
         }
 
-        public static Dictionary<string, string> pada = new Dictionary<string, string>() {
+        private Dictionary<string, string> pada = new Dictionary<string, string>() {
             { " ", "​" },
             { ".", "꧉" },
             { ",", "꧈" },
             { "-", "" },
         };
 
-        private static string GetPada(char c) {
+        private string GetPada(char c) {
             return pada[c.ToString()];            
         }
 
-        private static string GetPada(string s) {
+        private string GetPada(string s) {
             return pada[s];            
         }
 
-        public static string LatinToJava(this string str, bool murda = false, bool ignoreSpace = false, bool diphthong = false) {
-            int length = str.Length;
+        /// <summary>
+        /// Convert latin characters to javanese characters
+        /// </summary>
+        /// <param name="text">The text to be converted</param>
+        /// <param name="murda">If enabled, the first character of ꦤ, ꦏ, ꦠ, ꦱ, ꦥ, ꦘ, ꦒ, ꦧ will be converted into its murda form ꦟ, ꦑ, ꦡ, ꦯ, ꦦ, ꦟ, ꦓ, ꦨ.</param>
+        /// <param name="ignoreSpace">If enabled, space character will not be converted int zero width space</param>
+        /// <param name="diphthong">If enabled, latin diphthong will be converted into javanese dipthong</param>
+        public string Transliterate(string text, bool murda = false, bool ignoreSpace = false, bool diphthong = false) {
+            int length = text.Length;
             List<string> output = new List<string>();
             bool isMurdaAlreadyIncluded = false;
             bool isAlreadyStacked = false;
 
             for (int i = 0; i < length; i++)
             {
-                var c = str[i];
+                var c = text[i];
 
                 if(i + 1 < length) {
-                    var c2 = str[i + 1];
+                    var c2 = text[i + 1];
                     var c12 = c.ToString() + c2.ToString();
                     
                     if(IsConsonants(c12)) {
@@ -229,8 +239,8 @@ namespace JVTMPro
                             isAlreadyStacked = false;
 
                             if(i - 2 >= 0 && i + 1 < length) {
-                                var cBefore = str[i - 2];
-                                var cAfter = str[i + 1];
+                                var cBefore = text[i - 2];
+                                var cAfter = text[i + 1];
 
                                 if(IsVowels(cBefore) && !IsVowels(cAfter)) {
                                     output.Add(GetSandhanganPanyigeg(c12));
@@ -239,7 +249,7 @@ namespace JVTMPro
                             }
 
                             if(i - 2 >= 0 && i == length - 1) {
-                                var cBefore = str[i - 2];
+                                var cBefore = text[i - 2];
 
                                 if(IsVowels(cBefore)) {
                                     output.Add(GetSandhanganPanyigeg(c12));
@@ -280,8 +290,8 @@ namespace JVTMPro
                     bool isSandhanganPanyigeg = false;
 
                     if(i - 1 >= 0 && i + 1 < length) {
-                        var cBefore = str[i - 1];
-                        var cAfter = str[i + 1];
+                        var cBefore = text[i - 1];
+                        var cAfter = text[i + 1];
 
                         if(IsVowels(cBefore) && !IsVowels(cAfter)) {
                             isSandhanganPanyigeg = true;
@@ -289,7 +299,7 @@ namespace JVTMPro
                     }
 
                     if(i - 1 >= 0 && i == length - 1) {
-                        var cBefore = str[i - 1];
+                        var cBefore = text[i - 1];
 
                         if(IsVowels(cBefore)) {
                             isSandhanganPanyigeg = true;
@@ -316,7 +326,7 @@ namespace JVTMPro
                     bool isSandhanganWyanjana = false;
 
                     if(i - 2 >= 0) {
-                        var cBefore = str[i - 2].ToString() + str[i - 1].ToString();
+                        var cBefore = text[i - 2].ToString() + text[i - 1].ToString();
 
                         if(IsConsonants(cBefore) && !IsSandhanganPanyigeg(output[output.Count - 1])) {
                             isSandhanganWyanjana = true;
@@ -324,7 +334,7 @@ namespace JVTMPro
                     }
 
                     if(i - 1 >= 0) {
-                        var cBefore = str[i - 1];
+                        var cBefore = text[i - 1];
 
                         if(IsConsonants(cBefore) && !IsSandhanganPanyigeg(output[output.Count - 1])) {
                             isSandhanganWyanjana = true;
@@ -388,42 +398,42 @@ namespace JVTMPro
                     isAlreadyStacked = false;
 
                     if(i + 1 < length) {
-                        var c2 = str[i + 1];
+                        var c2 = text[i + 1];
 
                         // change ia, iu, ie, iê, io to iya, iyu, iye, iyê, iyo
                         if(IsVowelsWulu(c) && IsVowels(c2) && !IsVowelsWulu(c2)) {
-                            str = str.Substring(0, i + 1) + "y" + str.Substring(i + 1);
-                            length = str.Length;
+                            text = text.Substring(0, i + 1) + "y" + text.Substring(i + 1);
+                            length = text.Length;
                         }
 
                         // change ua, ui, ue, uê, uo to uwa, uwi, uwe, uwê, uwo
                         if(IsVowelsSuku(c) && IsVowels(c2) && !IsVowelsSuku(c2)) {
-                            str = str.Substring(0, i + 1) + "w" + str.Substring(i + 1);
-                            length = str.Length;
+                            text = text.Substring(0, i + 1) + "w" + text.Substring(i + 1);
+                            length = text.Length;
                         }
 
                         // change ea to eya
                         if(IsVowelsTaling(c) && IsVowelsA(c2)) {
-                            str = str.Substring(0, i + 1) + "y" + str.Substring(i + 1);
-                            length = str.Length;
+                            text = text.Substring(0, i + 1) + "y" + text.Substring(i + 1);
+                            length = text.Length;
                         }
 
                         // change eo to eyo
                         if(IsVowelsTaling(c) && IsVowelsTalingTarung(c2)) {
-                            str = str.Substring(0, i + 1) + "y" + str.Substring(i + 1);
-                            length = str.Length;
+                            text = text.Substring(0, i + 1) + "y" + text.Substring(i + 1);
+                            length = text.Length;
                         }
                         
                         // change oa to owa
                         if(IsVowelsTalingTarung(c) && IsVowelsA(c2)) {
-                            str = str.Substring(0, i + 1) + "w" + str.Substring(i + 1);
-                            length = str.Length;
+                            text = text.Substring(0, i + 1) + "w" + text.Substring(i + 1);
+                            length = text.Length;
                         }
                         
                         // change oe to owe
                         if(IsVowelsTalingTarung(c) && IsVowelsTaling(c2)) {
-                            str = str.Substring(0, i + 1) + "w" + str.Substring(i + 1);
-                            length = str.Length;
+                            text = text.Substring(0, i + 1) + "w" + text.Substring(i + 1);
+                            length = text.Length;
                         }
                     }
                     
@@ -440,7 +450,7 @@ namespace JVTMPro
 
                             // check nga lelet
                             if(i - 1 >= 0) {
-                                var cBefore = str[i - 1];
+                                var cBefore = text[i - 1];
                                 
                                 if(cBefore == 'l' && !IsPangkon(lastOutputChar)) {
                                     output.RemoveAt(output.Count - 1); // pop pangkon
@@ -452,7 +462,7 @@ namespace JVTMPro
                         }
 
                         if(i - 1 >= 0) {
-                            var cBefore = str[i - 1];
+                            var cBefore = text[i - 1];
                             
                             // check pa ceret
                             if(cBefore == 'r') {
@@ -464,7 +474,7 @@ namespace JVTMPro
                         }
                     }            
                     
-                    if(i - 1 >= 0 && IsConsonants(str[i - 1])) {
+                    if(i - 1 >= 0 && IsConsonants(text[i - 1])) {
                         // check pangkon
                         if(output.Count - 1 >= 0) {
                             var lastOutputChar = output[output.Count - 1];
@@ -481,8 +491,8 @@ namespace JVTMPro
                     }
 
                     // Diphthong
-                    if(diphthong && i + 1 < length && IsVowels(str[i + 1])) {
-                        var c2 = str[i + 1];
+                    if(diphthong && i + 1 < length && IsVowels(text[i + 1])) {
+                        var c2 = text[i + 1];
 
                         if(IsVowelsA(c) && IsVowelsA(c2)) {
                             output.Add(GetSandhanganSwara("aa"));
@@ -537,151 +547,151 @@ namespace JVTMPro
             return String.Join("", output);
         }
 
-        private static bool IsConsonants(char c) {
+        private bool IsConsonants(char c) {
             return wyanjana.ContainsKey(c.ToString());
         }
 
-        private static bool IsConsonants(string s) {
+        private bool IsConsonants(string s) {
             return wyanjana.ContainsKey(s);
         }
 
-        private static bool IsConsonantsMurda(char c) {
+        private bool IsConsonantsMurda(char c) {
             return IsConsonantsMurda(c.ToString());
         }
 
-        private static bool IsConsonantsMurda(string s) {
+        private bool IsConsonantsMurda(string s) {
             return murda.ContainsKey(s);
         }
 
-        private static bool IsConsonantsSandhanganPanyigeg(char c) {
+        private bool IsConsonantsSandhanganPanyigeg(char c) {
             return sandhanganPanyigeg.ContainsKey(c.ToString());
         }
 
-        private static bool IsConsonantsSandhanganPanyigeg(string s) {
+        private bool IsConsonantsSandhanganPanyigeg(string s) {
             return sandhanganPanyigeg.ContainsKey(s);
         }
 
-        private static bool IsConsonantsSandhanganWyanjana(char c) {
+        private bool IsConsonantsSandhanganWyanjana(char c) {
             return sandhanganWyanjana.ContainsKey(c.ToString());
         }
 
-        private static bool IsConsonantsSandhanganWyanjana(string s) {
+        private bool IsConsonantsSandhanganWyanjana(string s) {
             return sandhanganWyanjana.ContainsKey(s);
         }
 
-        private static bool IsConsonantsPasanganOnRight(string s) {
+        private bool IsConsonantsPasanganOnRight(string s) {
             return s == "h" || s == "s" || s == "p" || s == "p̣" || s == "ny" || s == "ñ";
         }
 
-        private static bool IsConsonantsPasanganOnRight(char c) {
+        private bool IsConsonantsPasanganOnRight(char c) {
             return IsConsonantsPasanganOnRight(c.ToString());
         }
 
-        private static bool IsConsonantsPasanganOnBelow(string s) {
+        private bool IsConsonantsPasanganOnBelow(string s) {
             return IsConsonants(s) && !IsConsonantsPasanganOnRight(s);
         }
 
-        private static bool IsConsonantsPasanganOnBelow(char c) {
+        private bool IsConsonantsPasanganOnBelow(char c) {
             return IsConsonants(c.ToString()) && !IsConsonantsPasanganOnRight(c.ToString());
         }
 
-        private static bool IsPaCeret(string s) {
+        private bool IsPaCeret(string s) {
             return s[0] == 'r' && IsVowelsPepet(s[1]);
         }
         
-        private static bool IsNgaLelet(string s) {
+        private bool IsNgaLelet(string s) {
             return s[0] == 'l' && IsVowelsPepet(s[1]);
         }
 
-        private static bool IsNaMatiKetemuCaJa(string s) {
+        private bool IsNaMatiKetemuCaJa(string s) {
             return s[0] == 'n' && s[1] == 'c' || s[0] == 'n' && s[1] == 'j';
         }
 
-        private static bool IsVowels(char c) {
+        private bool IsVowels(char c) {
             return sandhanganSwara.ContainsKey(c.ToString());
         }
 
-        private static bool IsVowels(string s) {
+        private bool IsVowels(string s) {
             return sandhanganSwara.ContainsKey(s);
         }
 
-        private static bool IsVowelsA(string s) {
+        private bool IsVowelsA(string s) {
             return s == "a" || s == "ô";
         }
 
-        private static bool IsVowelsA(char c) {
+        private bool IsVowelsA(char c) {
             return IsVowelsA(c.ToString());
         }
 
-        private static bool IsVowelsPepet(string s) {
+        private bool IsVowelsPepet(string s) {
             return s == "ê" || s == "ě";
         }
 
-        private static bool IsVowelsPepet(char c) {
+        private bool IsVowelsPepet(char c) {
             return IsVowelsPepet(c.ToString());
         }
 
-        private static bool IsVowelsWulu(string s) {
+        private bool IsVowelsWulu(string s) {
             return s == "i";
         }
 
-        private static bool IsVowelsWulu(char c) {
+        private bool IsVowelsWulu(char c) {
             return IsVowelsWulu(c.ToString());
         }
 
-        private static bool IsVowelsSuku(string s) {
+        private bool IsVowelsSuku(string s) {
             return s == "u";
         }
 
-        private static bool IsVowelsSuku(char c) {
+        private bool IsVowelsSuku(char c) {
             return IsVowelsSuku(c.ToString());
         }
 
-        private static bool IsVowelsTaling(string s) {
+        private bool IsVowelsTaling(string s) {
             return s == "e" || s == "é" || s == "è";
         }
 
-        private static bool IsVowelsTaling(char c) {
+        private bool IsVowelsTaling(char c) {
             return IsVowelsTaling(c.ToString());
         }
 
-        private static bool IsVowelsTalingTarung(string s) {
+        private bool IsVowelsTalingTarung(string s) {
             return s == "o";
         }
 
-        private static bool IsVowelsTalingTarung(char c) {
+        private bool IsVowelsTalingTarung(char c) {
             return IsVowelsTalingTarung(c.ToString());
         }
 
-        private static bool IsPangkon(string s) {
+        private bool IsPangkon(string s) {
             return s == "꧀";
         }
 
-        private static bool IsPangkon(char c) {
+        private bool IsPangkon(char c) {
             return IsPangkon(c.ToString());
         }
 
-        private static bool IsVowelsSwara(string s) {
+        private bool IsVowelsSwara(string s) {
             return swara.ContainsKey(s);
         }
 
-        private static bool IsVowelsSwara(char c) {
+        private bool IsVowelsSwara(char c) {
             return IsVowelsSwara(c.ToString());
         }
 
-        private static bool IsCharactersPada(string s) {
+        private bool IsCharactersPada(string s) {
             return pada.ContainsKey(s);
         }
 
-        private static bool IsCharactersPada(char c) {
+        private bool IsCharactersPada(char c) {
             return pada.ContainsKey(c.ToString());
         }
 
-        private static bool IsCakra(string s) {
+        private bool IsCakra(string s) {
             return s == "ꦿ";
         }
 
-        private static bool IsCakra(char c) {
+        private bool IsCakra(char c) {
             return IsCakra(c.ToString());
         }
     }
