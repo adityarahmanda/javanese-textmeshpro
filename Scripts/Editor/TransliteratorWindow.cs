@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 using Unity.EditorCoroutines.Editor;
+using JVTMPro.Utilities;
 
 namespace JVTMPro.EditorUtilities
 {
@@ -113,9 +114,9 @@ namespace JVTMPro.EditorUtilities
 
             if(GUILayout.Button("Transliterate")) {
                 if(method == Methods.LatinToJava) {
-                    outputText = inputText.LatinToJava(murda, ignoreSpace, dipthong);
+                    outputText = Transliterator.LatinToJava(inputText);
                 } else if(method == Methods.JavaToLatin) {
-                    outputText = inputText.JavaToLatin();
+                    outputText = Transliterator.JavaToLatin(inputText);
                 }
             }
 

@@ -4,3 +4,13 @@ udg_setting.json.meta
 .vs/
 docs~/
 Documentation~/
+obj/
+obj.meta
+Temp.meta
+Temp/
+com.adityarahmanda.javanese-textmeshpro.csproj
+com.adityarahmanda.javanese-textmeshpro.csproj.meta
+Scripts/Runtime/Utilities/JVTMPro.Utilities.md
+Scripts/Runtime/Utilities/JVTMPro.Utilities.md.meta
+Scripts/Runtime/JVTMPro.md
+Scripts/Runtime/JVTMPro.md.meta

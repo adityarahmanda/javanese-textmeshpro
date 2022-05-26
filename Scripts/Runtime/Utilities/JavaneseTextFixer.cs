@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JVTMPro {
+namespace JVTMPro.Utilities {
+    /// <summary>
+    /// Description
+    /// </summary>
     public static class JavaneseTextFixer {
         private static Dictionary<char, char> pasangan = new Dictionary<char, char>() {
             { 'ꦄ', '\xE000' },      // A

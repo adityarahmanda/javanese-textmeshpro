@@ -1,8 +1,13 @@
 using TMPro;
 using UnityEngine;
+using JVTMPro.Utilities;
 
 namespace JVTMPro
 {
+    
+    /// <summary>
+    /// Description
+    /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(MeshRenderer))]
     [AddComponentMenu("Mesh/Javanese TextMeshPro - Text")]
