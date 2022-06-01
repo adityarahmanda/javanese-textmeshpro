@@ -1,16 +1,17 @@
-using TMPro.EditorUtilities;
-using UnityEditor;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEditor;
+using TMPro.EditorUtilities;
 
 namespace JVTMPro.EditorUtilities
 {
-    [CustomEditor(typeof(JVTextMeshProUGUI)), CanEditMultipleObjects]
-    public class JVTMP_EditorPanelUI : TMP_EditorPanelUI
-    {
+    [CustomEditor(typeof(JVTextMeshPro)), CanEditMultipleObjects]
+    public class JVTMP_EditorPanel : TMP_EditorPanel
+     {
         private SerializedProperty originalTextProp;
 
-        private JVTextMeshProUGUI tmpro;
-        
+        private JVTextMeshPro tmpro;
+
         private Font defaultEditorFont;
 
         static readonly GUIContent javaneseTextInputLabel = new GUIContent("<b>Javanese Text Input</b>");
@@ -26,7 +27,7 @@ namespace JVTMPro.EditorUtilities
             ChangeEditorStyle();
 
             serializedObject.Update();
-            tmpro = (JVTextMeshProUGUI)target;
+            tmpro = (JVTextMeshPro)target;
 
             DrawJavaneseTextInput();
 
@@ -56,12 +57,14 @@ namespace JVTMPro.EditorUtilities
             }
         }
 
-        private void ChangeEditorStyle() {
+        private void ChangeEditorStyle()
+        {
             defaultEditorFont = new GUIStyle().font;
             EditorStyles.textArea.font = JVTMP_Settings.defaultEditorFont;
         }
 
-        private void RevertEditorStyle() {
+        private void RevertEditorStyle()
+        {
             EditorStyles.textArea.font = defaultEditorFont;
         }
     }

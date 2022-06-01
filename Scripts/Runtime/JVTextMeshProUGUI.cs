@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using JVTMPro.Utilities;
+using JVTMPro.EditorUtilities;
 
 namespace JVTMPro
 {
@@ -9,7 +10,7 @@ namespace JVTMPro
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(MeshRenderer))]
-    [AddComponentMenu("Mesh/Javanese TextMeshPro - Text")]
+    [AddComponentMenu("UI/Javanese TextMeshPro - Text (UI)")]
     [ExecuteAlways]
     [HelpURL("https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0")]
     public class JVTextMeshProUGUI : TextMeshProUGUI
@@ -51,6 +52,12 @@ namespace JVTMPro
             {
                 UpdateText();
             }
+        }
+
+        protected override void Reset()
+        {
+            base.Reset();
+            font = JVTMP_Settings.defaultFontAsset;
         }
 
         /// <summary>

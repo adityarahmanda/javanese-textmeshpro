@@ -35,7 +35,6 @@ namespace JVTMPro.EditorUtilities
         //private static Color s_PanelColor = new Color(1f, 1f, 1f, 0.392f);
         private static Color s_TextColor = new Color(50f / 255f, 50f / 255f, 50f / 255f, 1f);
 
-
         private static GameObject CreateUIElementRoot(string name, Vector2 size)
         {
             GameObject child = new GameObject(name);
@@ -58,7 +57,6 @@ namespace JVTMPro.EditorUtilities
             // Don't set values which are the same as the default values for the Text component,
             // since there's no point in that, and it's good to keep them as consistent as possible.
             lbl.color = s_TextColor;
-            lbl.font = JVTMP_Settings.defaultFontAsset;
             lbl.fontSize = 16;
         }
 
@@ -89,6 +87,17 @@ namespace JVTMPro.EditorUtilities
 
         public static GameObject CreateText(Resources resources)
         {
+            GameObject go = ObjectFactory.CreateGameObject("Javanese Text (TMP)");
+            JVTextMeshPro text = ObjectFactory.AddComponent<JVTextMeshPro>(go);
+
+            text.text = "ꦠꦸꦭꦝꦲꦸꦏꦫ";
+            SetDefaultTextValues(text);
+
+            return go;
+        }
+
+        public static GameObject CreateTextUI(Resources resources)
+        {
             GameObject go = null;
 
             #if UNITY_EDITOR
@@ -99,7 +108,7 @@ namespace JVTMPro.EditorUtilities
                 JVTextMeshProUGUI text = go.AddComponent<TextMeshProUGUI>();
             #endif
             
-            text.text = "ꦠꦸꦭꦝꦈꦏꦫ";
+            text.text = "ꦠꦸꦭꦝꦲꦸꦏꦫ";
             SetDefaultTextValues(text);
 
             return go;

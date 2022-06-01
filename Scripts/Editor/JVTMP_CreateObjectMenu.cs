@@ -1,8 +1,14 @@
-using TMPro;
+﻿using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEditor.Presets;
+using UnityEditor.SceneManagement;
+
+//#if !UNITY_2021_2_OR_NEWER
+using UnityEditor.Experimental.SceneManagement;
+//#endif
 
 namespace JVTMPro.EditorUtilities
 {
@@ -20,14 +26,32 @@ namespace JVTMPro.EditorUtilities
 
         private static JVTMP_DefaultControls.Resources s_StandardResources;
 
-        /// <summary>
-        ///     Create a TextMeshPro object that works with the CanvasRenderer
-        /// </summary>
-        /// <param name="command"></param>
+        [MenuItem("GameObject/3D Object/Text - Javanese TextMeshPro", false, 30)]
+        static void CreateTextMeshProObjectPerform(MenuCommand command)
+        {
+            GameObject go = JVTMP_DefaultControls.CreateText(GetStandardResources());
+
+            // Add support for new prefab mode
+            StageUtility.PlaceGameObjectInCurrentStage(go);
+
+            ObjectFactory.AddComponent<JVTextMeshPro>(go);
+
+            Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
+
+            GameObject contextObject = command.context as GameObject;
+            if (contextObject != null)
+            {
+                GameObjectUtility.SetParentAndAlign(go, contextObject);
+                Undo.SetTransformParent(go.transform, contextObject.transform, "Parent " + go.name);
+            }
+
+            Selection.activeGameObject = go;
+        }
+
         [MenuItem("GameObject/UI/Text - Javanese TextMeshPro", false, 2001)]
         private static void CreateTextMeshProGuiObjectPerform(MenuCommand menuCommand)
         {
-            GameObject go = JVTMP_DefaultControls.CreateText(GetStandardResources());
+            GameObject go = JVTMP_DefaultControls.CreateTextUI(GetStandardResources());
             
             // Override text color and font size
             JVTextMeshProUGUI textComponent = go.GetComponent<JVTextMeshProUGUI>();

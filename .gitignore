@@ -13,3 +13,4 @@ _site.meta
 *.pdb.meta
 *.mdb.meta
 *.md.meta
+.vscode/
