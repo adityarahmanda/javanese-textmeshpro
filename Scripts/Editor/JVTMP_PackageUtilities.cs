@@ -44,7 +44,7 @@ namespace JVTMPro.EditorUtilities
         private static string k_SettingsFilePath;
         private static byte[] k_SettingsBackup;
 
-        private static void ImportEssentialResources()
+        public static void ImportEssentialResources()
         {
             // Check if the JVTMP Settings asset is already present in the project.
             string[] settings = AssetDatabase.FindAssets("t:JVTMP_Settings");
@@ -64,7 +64,7 @@ namespace JVTMPro.EditorUtilities
             AssetDatabase.ImportPackage(GetPackageFullPath() + "/Package Resources/JVTMP Essential Resources.unitypackage", true);
         }
 
-        private static void ImportExamplesAndExtras()
+        public static void ImportExamplesAndExtras()
         {
             AssetDatabase.ImportPackage(GetPackageFullPath() + "/Package Resources/JVTMP Examples Resources.unitypackage", true);
         }

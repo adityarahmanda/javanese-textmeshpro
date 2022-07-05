@@ -3,7 +3,7 @@ using TMPro;
 
 namespace JVTMPro {
     /// <summary>
-    /// Kelas TMP_InputField lanjutan yang mendukung pemrosesan teks aksara Jawa
+    /// Kelas TMP_InputField lanjutan yang mendukung pemrosesan teks beraksara Jawa
     /// </summary>
     /// <example>
     /// <code lang="csharp">

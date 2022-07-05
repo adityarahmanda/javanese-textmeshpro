@@ -25,5 +25,5 @@
     "com.unity.textmeshpro": "2.1.0",
     "com.unity.editorcoroutines": "1.0.0"
   },
-  "description": "Adds Javanese language support to \"TextMeshPro\" Unity plugin including Javanese text processing and Javanese-Latin Transliterator."
+  "description": "Javanese language support for Unity TextMeshPro with additional transliteration tool."
 }

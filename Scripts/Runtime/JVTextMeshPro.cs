@@ -31,20 +31,18 @@ namespace JVTMPro
     [HelpURL("https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0")]
     public class JVTextMeshPro : TextMeshPro
     {
-        // ReSharper disable once InconsistentNaming
-#if TMP_VERSION_2_1_0_OR_NEWER
+        /// <summary>
+        /// Teks yang tertampil dalam game.
+        /// </summary>
         public override string text
-#else
-        public new string text
-#endif
         {
-            get { return base.text; }
+            get { return m_originalText; }
             set
             {
-                if (originalText == value)
+                if (m_originalText == value)
                     return;
 
-                originalText = value;
+                m_originalText = value;
 
                 UpdateText();
             }
@@ -55,10 +53,10 @@ namespace JVTMPro
         /// </summary>
         public string OriginalText
         {
-            get { return originalText; }
+            get { return m_originalText; }
         }
 
-        [SerializeField] [TextArea(5, 10)] protected string originalText;
+        [SerializeField] [TextArea(5, 10)] protected string m_originalText;
 
         /// <summary>
         /// Lihat <see href="https://docs.unity3d.com/2018.3/Documentation/ScriptReference/MonoBehaviour.Update.html">MonoBehaviour.Update</see>
@@ -81,14 +79,14 @@ namespace JVTMPro
         }
 
         /// <summary>
-        /// Memperbarui teks tertampil dalam game dengan teks asli yang tatanan aksara Jawanya sudah diperbaiki
+        /// Memperbarui teks yang tertampil dalam game dengan teks asli yang tatanan aksara Jawanya sudah diperbaiki
         /// </summary>
         public void UpdateText()
         {
-            if (originalText == null)
-                originalText = "";
+            if (m_originalText == null)
+                m_originalText = "";
 
-            base.text = JavaneseTextFixer.Fix(originalText);
+            base.text = JavaneseTextFixer.Fix(m_originalText);
 
             havePropertiesChanged = true;
         }

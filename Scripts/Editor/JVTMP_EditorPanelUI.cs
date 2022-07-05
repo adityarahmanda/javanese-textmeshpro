@@ -18,7 +18,7 @@ namespace JVTMPro.EditorUtilities
         protected override void OnEnable()
         {
             base.OnEnable();
-            originalTextProp = serializedObject.FindProperty("originalText");
+            originalTextProp = serializedObject.FindProperty("m_originalText");
         }
 
         public override void OnInspectorGUI()

@@ -45,7 +45,7 @@ namespace JVTMPro.EditorUtilities
                     if (JVTMP_Settings.s_Instance == null)
                     {
                         // Open TMP Resources Importer
-                        // TMP_PackageResourceImporterWindow.ShowPackageImporterWindow();
+                        JVTMP_PackageUtilities.ImportEssentialResources();
                     }
                     #endif
                 }

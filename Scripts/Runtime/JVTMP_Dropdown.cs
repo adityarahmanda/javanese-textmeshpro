@@ -4,7 +4,7 @@ using JVTMPro.EditorUtilities;
 
 namespace JVTMPro {
     /// <summary>
-    /// Kelas TMP_Dropdown lanjutan yang mendukung pemrosesan teks aksara Jawa
+    /// Kelas TMP_Dropdown lanjutan yang mendukung pemrosesan teks beraksara Jawa
     /// </summary>
     /// <example>
     /// <code lang="csharp">

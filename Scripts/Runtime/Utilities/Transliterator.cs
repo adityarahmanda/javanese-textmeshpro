@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace JVTMPro.Utilities
 {
-    /// <summary>Perkakas untuk mentransliterasikan teks Latin-Jawa atau Jawa-Latin.</summary>
+    /// <summary>Perkakas untuk mentransliterasikan teks dari Latin ke Jawa atau sebaliknya.</summary>
     /// <example>
     /// <code lang="csharp">
     /// using UnityEngine;
