@@ -1,19 +1,30 @@
-﻿# Ikhtisar
-[TextMeshPro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html) dari Unity tidak memproses peletakan dan penggantian *glyph* dari font Unicode sehingga tidak mampu menampilkan diakritik aksara Jawa dengan benar.
+﻿# Javanese TextMeshPro
+Unity TextMeshPro dengan dukungan aksara Jawa
 
-Javanese TextMeshPro merupakan plugin menghadirkan komponen TextMeshPro tambahan yang mendukung pemrosesan teks aksara Jawa untuk mengatasi problematika tersebut.
+[Dokumentasi](https://javanese-textmeshpro.adityarahmanda.com/manual/introduction.html)
 
-# Prasyarat
-| Prasyarat Minimum      | Keterangan |
-| ----------- | ----------- |
-| [Unity 2021.2.0f1](https://unity3d.com/unity/whats-new/2021.2.0) | Untuk dapat menggunakan plugin ini secara maksimal, dibutuhkan minimum [Unity 2021.2.0f1](https://unity3d.com/unity/whats-new/2021.2.0) karena baru pada versi inilah Editor Unity mendukung pengetikan teks unicode aksara Jawa. |
-| [TextMeshPro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html) | Karena plugin ini bergantung pada [TextMeshPro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html), anda harus memasangnya terlebih dahulu pada project Unity anda. Pemasangan [TextMeshPro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html) dapat dilakukan melalui jendela [Package Manager](https://docs.unity3d.com/Manual/upm-ui.html). |
+# Fitur-Fitur
+## [Javanese Text](https://javanese-textmeshpro.adityarahmanda.com/manual/javanese_text.html)
+Elemen teks yang digunakan untuk menampilkan teks aksara Jawa.
 
-# Instalasi 
-### Melalui URL GIT
-- Buka jendela **Package Manager** pada project Unity anda
-- Tekan **tombol ikon plus [+]** lalu pilih opsi **Add package from git url**
-- Tempelkan tautan git plugin ini — `https://github.com/adityarahmanda/javanese-textmeshpro.git` — dan tekan tombol **Add**
-- Tunggu hingga paket plugin selesai terpasang
+![Preview Javanese Text](https://javanese-textmeshpro.adityarahmanda.com/images/javanese-text.png)​
 
-# Lisensi
+## [Javanese Button](https://javanese-textmeshpro.adityarahmanda.com/manual/javanese_button.html)
+Elemen UI berupa tombol yang berisikan elemen teks [**Javanese Text (UI)**](https://javanese-textmeshpro.adityarahmanda.com/manual/javanese_text.html#javanese-text-ui) di dalamnya.
+
+![Preview Javanese Button](https://javanese-textmeshpro.adityarahmanda.com/images/javanese-button.png)​
+
+## [Javanese Input Field](https://javanese-textmeshpro.adityarahmanda.com/manual/javanese_input_field.html)
+Elemen UI berupa *input field* yang mampu menerima masukan teks aksara Jawa.
+
+![Preview Javanese Input Field](https://i.ibb.co/XLVMGQ8/demo-inputfield.gif)
+
+## [Javanese Dropdown](https://javanese-textmeshpro.adityarahmanda.com/manual/javanese_dropdown.html)
+Elemen UI berupa *dropdown* yang mampu menyajikan daftar pilihan beraksara Jawa.
+
+![Preview Javanese Dropdown](https://i.ibb.co/16h1cvv/demo-dropdown.gif)
+
+## [Jendela Transliterator](https://javanese-textmeshpro.adityarahmanda.com/manual/transliterator_window.html)
+Jendela untuk melakukan transliterasi teks Latin-Jawa atau Jawa-Latin pada editor Unity.
+
+![Preview Transliterator Window](https://i.ibb.co/gM2JBPR/demo-jendela-transliterator.gif)
