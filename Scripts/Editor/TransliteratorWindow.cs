@@ -23,8 +23,8 @@ namespace JVTMPro.EditorUtilities
         TextEditor inputTextEditor = null;
 
         bool murda = false;
-        bool ignoreSpace = false;
-        bool dipthong = false;
+        bool ignoreSpace = true;
+        bool dirga = false;
 
         string[] specialChars = new string[] { "Ê", "ê", "ā", "ī", "ū", "ḍ", "ḍh", "ṣ", "ś", "ṭ", "ṭh", "ṇ", "ñ", "ŋ" };
         int specialCharButtonWidth = 30;
@@ -62,8 +62,8 @@ namespace JVTMPro.EditorUtilities
                 EditorGUILayout.LabelField("Transliteration Settings", EditorStyles.boldLabel);
                 
                 murda = EditorGUILayout.Toggle("Murda", murda);
+                dirga = EditorGUILayout.Toggle("Dirga", dirga);
                 ignoreSpace = EditorGUILayout.Toggle("Ignore Space", ignoreSpace);
-                dipthong = EditorGUILayout.Toggle("Diphtong", dipthong);
             
                 EditorGUILayout.Space();
 
@@ -114,7 +114,7 @@ namespace JVTMPro.EditorUtilities
 
             if(GUILayout.Button("Transliterate")) {
                 if(method == Methods.LatinToJava) {
-                    outputText = Transliterator.LatinToJava(inputText);
+                    outputText = Transliterator.LatinToJava(inputText, murda, dirga, ignoreSpace);
                 } else if(method == Methods.JavaToLatin) {
                     outputText = Transliterator.JavaToLatin(inputText);
                 }

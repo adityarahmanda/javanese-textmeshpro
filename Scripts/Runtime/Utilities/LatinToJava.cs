@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 namespace JVTMPro.Utilities
 {
-    /// <summary>
-    /// Description
-    /// </summary>
     public class LatinToJava
     {
-        public Dictionary<string, string> wyanjana = new Dictionary<string, string>() {
+        private Dictionary<string, string> wyanjana = new Dictionary<string, string>() {
             { "b", "ꦧ" },       // ba
             { "c", "ꦕ" },       // ca
             { "d", "ꦢ" },       // da
@@ -207,14 +204,22 @@ namespace JVTMPro.Utilities
             return pada[s];            
         }
 
-        /// <summary>
-        /// Convert latin characters to javanese characters
-        /// </summary>
-        /// <param name="text">The text to be converted</param>
-        /// <param name="murda">If enabled, the first character of ꦤ, ꦏ, ꦠ, ꦱ, ꦥ, ꦘ, ꦒ, ꦧ will be converted into its murda form ꦟ, ꦑ, ꦡ, ꦯ, ꦦ, ꦟ, ꦓ, ꦨ.</param>
-        /// <param name="ignoreSpace">If enabled, space character will not be converted int zero width space</param>
-        /// <param name="diphthong">If enabled, latin diphthong will be converted into javanese dipthong</param>
-        public string Transliterate(string text, bool murda = false, bool ignoreSpace = false, bool diphthong = false) {
+        /// <summary>Mentransliterasikan teks huruf Latin menjadi aksara Jawa</summary>
+        /// <param name="text">Teks yang akan ditransliterasikan</param>
+        /// <param name="murda">
+        /// Saat bernilai true, aksara murda yang khususnya digunakan dalam penulisan nama, gelar, 
+        /// atau tempat dalam penulisan aksara Jawa akan diturutsertakan dalam proses transliterasi.
+        /// </param>
+        /// <param name="dirga">
+        /// Saat bernilai true, vokal rangkap 'ai', 'au', 'aa', 'ii', dan 'uu' akan dikonversikan menjadi 
+        /// sandangan swara dirga.
+        /// </param>
+        /// <param name="ignoreSpace">
+        /// Saat bernilai true, spasi dari kolom masukan akan diabaikan dalam proses transliterasi. 
+        /// Sebaliknya saat bernilai false, spasi akan dikonversikan menjadi zero width space (spasi tak nampak).
+        /// </param>
+        /// <returns>Hasil luaran dari proses transliterasi</returns>
+        public string Transliterate(string text, bool murda = false, bool dirga = false, bool ignoreSpace = true) {
             int length = text.Length;
             List<string> output = new List<string>();
             bool isMurdaAlreadyIncluded = false;
@@ -490,8 +495,8 @@ namespace JVTMPro.Utilities
                         output.Add(GetSandhanganSwara(c));
                     }
 
-                    // Diphthong
-                    if(diphthong && i + 1 < length && IsVowels(text[i + 1])) {
+                    // dirga
+                    if(dirga && i + 1 < length && IsVowels(text[i + 1])) {
                         var c2 = text[i + 1];
 
                         if(IsVowelsA(c) && IsVowelsA(c2)) {

@@ -3,9 +3,6 @@ using System.Collections.Generic;
 
 namespace JVTMPro.Utilities
 {
-    /// <summary>
-    /// Description
-    /// </summary>
     public class JavaToLatin
     {
         private Dictionary<string, string> wyanjana = new Dictionary<string, string>() {
@@ -176,10 +173,9 @@ namespace JVTMPro.Utilities
             return pada.ContainsKey(s);
         }
 
-        /// <summary>
-        /// Convert javanese characters to latin characters
-        /// </summary>
-        /// <param name="text">The text to be converted</param>
+        /// <summary>Mentransliterasikan teks aksara Jawa menjadi huruf Latin</summary>
+        /// <param name="text">Teks yang akan ditransliterasikan</param>
+        /// <returns>Hasil luaran dari proses transliterasi</returns>
         public string Transliterate(string text) {
             var length = text.Length;
             List<string> output = new List<string>();

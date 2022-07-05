@@ -6,8 +6,24 @@ using JVTMPro.EditorUtilities;
 namespace JVTMPro
 {
     /// <summary>
-    /// Description
+    /// Kelas TextMeshPro lanjutan yang mendukung pemrosesan teks beraksara Jawa
     /// </summary>
+    /// <example>
+    /// <code lang="csharp">
+    /// using UnityEngine;
+    /// using JVTMPro;
+    ///
+    /// public class ExampleScript : MonoBehaviour
+    /// {
+    ///    [SerializeField] private JVTextMeshPro sampleText;
+    ///
+    ///     private void Start()
+    ///     {
+    ///         sampleText.text = "꧋ꦮꦗꦶꦏ꧀​ꦏ꧀ꦭꦼꦛꦶꦏ꧀ꦒꦸꦭꦗꦮ꧈ ꦭꦸꦮꦶꦃꦧꦼꦕꦶꦏ꧀ꦱꦶꦁꦥꦿꦱꦗ꧉";
+    ///     }
+    /// }
+    /// </code>
+    /// </example>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(MeshRenderer))]
     [AddComponentMenu("Mesh/Javanese TextMeshPro - Text")]
@@ -35,17 +51,18 @@ namespace JVTMPro
         }
 
         /// <summary>
-        /// A string containing the original javanese text before the displayed text is being fixed
+        /// Teks asli yang tatanan aksara Jawanya masih belum diperbaiki
         /// </summary>
         public string OriginalText
         {
             get { return originalText; }
         }
 
-        [SerializeField]
-        [TextArea(5, 10)]
-        protected string originalText;
+        [SerializeField] [TextArea(5, 10)] protected string originalText;
 
+        /// <summary>
+        /// Lihat <see href="https://docs.unity3d.com/2018.3/Documentation/ScriptReference/MonoBehaviour.Update.html">MonoBehaviour.Update</see>
+        /// </summary>
         protected void Update()
         {
             if (havePropertiesChanged)
@@ -54,6 +71,9 @@ namespace JVTMPro
             }
         }
 
+        /// <summary>
+        /// Lihat <see href="https://docs.unity3d.com/2018.3/Documentation/ScriptReference/MonoBehaviour.Reset.html">MonoBehaviour.Reset</see>
+        /// </summary>
         protected override void Reset()
         {
             base.Reset();
@@ -61,7 +81,7 @@ namespace JVTMPro
         }
 
         /// <summary>
-        /// Update the original javanese text by fixing it so it would be displayed correctly
+        /// Memperbarui teks tertampil dalam game dengan teks asli yang tatanan aksara Jawanya sudah diperbaiki
         /// </summary>
         public void UpdateText()
         {

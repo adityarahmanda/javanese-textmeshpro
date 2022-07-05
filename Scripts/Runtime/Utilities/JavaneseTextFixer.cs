@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JVTMPro.Utilities {
     /// <summary>
-    /// Description
+    /// Perkakas yang digunakan untuk memperbaiki kesalahan rendering teks aksara Jawa
     /// </summary>
     public static class JavaneseTextFixer {
         private static Dictionary<char, char> pasangan = new Dictionary<char, char>() {
@@ -105,9 +105,9 @@ namespace JVTMPro.Utilities {
             'ꦡ', 'ꦢ', 'ꦣ', 'ꦤ', 'ꦧ', 'ꦨ', 'ꦩ', 'ꦫ', 'ꦮ', 'ꦰ', 'ꦙ'
         };
 
-        /// <summary>
-        /// Fix javanese text so it would be displayed correctly in Unity's TextMeshPro
-        /// </summary>
+        /// <summary>Memperbaiki kesalahan rendering teks aksara Jawa</summary>
+        /// <param name="s">String teks yang akan diperbaiki</param>
+        /// <returns>Hasil luaran perbaikan teks</returns>
         public static string Fix(string s)
         {
             var length = s.Length;
