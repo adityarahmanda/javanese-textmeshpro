@@ -31,9 +31,12 @@ namespace JVTMPro
     [HelpURL("https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0")]
     public class JVTextMeshProUGUI : TextMeshProUGUI
     {
-        /// <summary>
-        /// Teks yang tertampil dalam game.
-        /// </summary>
+        // ReSharper disable once InconsistentNaming
+#if TMP_VERSION_2_1_0_OR_NEWER
+        public override string text
+#else
+        public new string text
+#endif
         public override string text
         {
             get { return m_originalText; }
