@@ -10,6 +10,14 @@ namespace JVTMPro.EditorUtilities
         private static JVTMP_Settings s_Instance;
 
         /// <summary>
+        /// Returns the release version of the product.
+        /// </summary>
+        public static string version
+        {
+            get { return "1.0.0"; }
+        }
+
+        /// <summary>
         /// Returns the Default Javanese Unicode Font to be used in Editor.
         /// </summary>
         public static Font defaultEditorFont

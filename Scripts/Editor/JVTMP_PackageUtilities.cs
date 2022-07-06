@@ -10,16 +10,14 @@ namespace JVTMPro.EditorUtilities
         private static string GetPackageFullPath()
         {
             // Check for potential UPM package
-            string packagePath = Path.GetFullPath("Packages/com.unity.javanese-textmeshpro");
-            if (Directory.Exists(packagePath))
-            {
+            string packagePath = Path.GetFullPath("Packages/com.adityarahmanda.javanese-textmeshpro@" + JVTMP_Settings.version);
+            if (Directory.Exists(packagePath)) {
                 return packagePath;
             }
 
             // Search default location for development package
             packagePath = Path.GetFullPath("Packages/JavaneseTextMeshPro");
-            if (Directory.Exists(packagePath))
-            {
+            if (Directory.Exists(packagePath)) {
                 return packagePath;
             }
 
