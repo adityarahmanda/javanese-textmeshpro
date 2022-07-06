@@ -14,7 +14,7 @@ namespace JVTMPro.EditorUtilities
         /// </summary>
         public static string version
         {
-            get { return "1.0.1"; }
+            get { return "1.0.2"; }
         }
 
         /// <summary>

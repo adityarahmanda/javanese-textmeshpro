@@ -37,7 +37,6 @@ namespace JVTMPro
 #else
         public new string text
 #endif
-        public override string text
         {
             get { return m_originalText; }
             set
