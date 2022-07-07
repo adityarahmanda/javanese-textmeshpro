@@ -34,8 +34,6 @@ namespace JVTMPro.EditorUtilities
             // Add support for new prefab mode
             StageUtility.PlaceGameObjectInCurrentStage(go);
 
-            ObjectFactory.AddComponent<JVTextMeshPro>(go);
-
             Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
 
             GameObject contextObject = command.context as GameObject;
