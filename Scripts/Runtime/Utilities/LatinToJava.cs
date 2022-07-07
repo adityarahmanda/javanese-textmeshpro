@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace JVTMPro.Utilities
 {
@@ -233,11 +234,11 @@ namespace JVTMPro.Utilities
                     var c2 = text[i + 1];
                     var c12 = c.ToString() + c2.ToString();
                     
-                    if(IsConsonants(c12)) {
+                    if(IsConsonants(c12) || IsConsonants(char.ToLower(c).ToString() + char.ToLower(c2).ToString())) {
                         i++;
 
-                        if(c12 == c12.ToUpper()) {
-                            c12 = c12.ToLower();
+                        if(char.IsUpper(c) || char.IsUpper(c2)) {
+                            c12 = char.ToLower(c).ToString() + char.ToLower(c2).ToString();
                         }
 
                         if(IsConsonantsSandhanganPanyigeg(c12)) {
@@ -361,9 +362,9 @@ namespace JVTMPro.Utilities
                     }
                 }
                 
-                if(IsConsonants(c) || IsConsonants(Char.ToLower(c))) {
-                    if(c == Char.ToUpper(c)) {
-                        c = Char.ToLower(c);
+                if(IsConsonants(c) || IsConsonants(char.ToLower(c))) {
+                    if(char.IsUpper(c)) {
+                        c = char.ToLower(c);
                     }
 
                     // prevent "tumpuk telu" by adding zero width space
@@ -479,7 +480,7 @@ namespace JVTMPro.Utilities
                         }
                     }            
                     
-                    if(i - 1 >= 0 && IsConsonants(text[i - 1])) {
+                    if(i - 1 >= 0 && (IsConsonants(text[i - 1]) || IsConsonants(char.ToLower(text[i - 1])))) {
                         // check pangkon
                         if(output.Count - 1 >= 0) {
                             var lastOutputChar = output[output.Count - 1];
