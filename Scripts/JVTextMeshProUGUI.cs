@@ -1,12 +1,11 @@
 using TMPro;
 using UnityEngine;
 using JVTMPro.Utilities;
-using JVTMPro.EditorUtilities;
 
 namespace JVTMPro
 {
     /// <summary>
-    /// Kelas TextMeshPro lanjutan yang mendukung pemrosesan teks beraksara Jawa
+    /// Kelas TextMeshProUGUI lanjutan yang mendukung pemrosesan teks beraksara Jawa
     /// </summary>
     /// <example>
     /// <code lang="csharp">
@@ -15,7 +14,7 @@ namespace JVTMPro
     ///
     /// public class ExampleScript : MonoBehaviour
     /// {
-    ///    [SerializeField] private JVTextMeshPro sampleText;
+    ///    [SerializeField] private JVTextMeshProUGUI sampleText;
     ///
     ///     private void Start()
     ///     {
@@ -26,10 +25,10 @@ namespace JVTMPro
     /// </example>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(MeshRenderer))]
-    [AddComponentMenu("Mesh/Javanese TextMeshPro - Text")]
+    [AddComponentMenu("UI/Javanese TextMeshPro - Text (UI)")]
     [ExecuteAlways]
     [HelpURL("https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0")]
-    public class JVTextMeshPro : TextMeshPro
+    public class JVTextMeshProUGUI : TextMeshProUGUI
     {
         // ReSharper disable once InconsistentNaming
 #if TMP_VERSION_2_1_0_OR_NEWER
@@ -71,6 +70,7 @@ namespace JVTMPro
             }
         }
 
+#if UNITY_EDITOR
         /// <summary>
         /// Lihat <see href="https://docs.unity3d.com/2018.3/Documentation/ScriptReference/MonoBehaviour.Reset.html">MonoBehaviour.Reset</see>
         /// </summary>
@@ -79,7 +79,8 @@ namespace JVTMPro
             base.Reset();
             font = JVTMP_Settings.defaultFontAsset;
         }
-
+#endif
+        
         /// <summary>
         /// Memperbarui teks yang tertampil dalam game dengan teks asli yang tatanan aksara Jawanya sudah diperbaiki
         /// </summary>
