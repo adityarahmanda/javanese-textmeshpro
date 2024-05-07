@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using JVTMPro.EditorUtilities;
 
 namespace JVTMPro {
     /// <summary>

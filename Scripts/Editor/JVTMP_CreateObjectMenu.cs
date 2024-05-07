@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿#if UNITY_EDITOR
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -223,3 +224,4 @@ namespace JVTMPro.EditorUtilities
         }
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using UnityEngine;
 using UnityEditor;
 using Unity.EditorCoroutines.Editor;
@@ -174,3 +175,4 @@ namespace JVTMPro.EditorUtilities
         }
     }
 }
+#endif
